@@ -1,1 +1,0 @@
-gcc -Wall -Wextra -std=c99 -O1 -o main main.c -lSDL2 -lSDL2_mixer
