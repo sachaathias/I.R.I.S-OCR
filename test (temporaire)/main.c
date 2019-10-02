@@ -1,14 +1,9 @@
-#include <SDL2/SDL.h>
 #include <stdio.h>
+#include "load_and_binarise.h"
 
 int main()
 {
-	if(0 != SDL_Init(SDL_INIT_VIDEO))
-	{
-		printf("FAIL");
-        	return EXIT_FAILURE;
-	}
-	printf("SUCCESS");
-	SDL_Quit();
-	return EXIT_SUCCESS;
+	char* file = "mario.bmp";
+	save_BMP(file);
+	return 0;
 }
