@@ -14,14 +14,14 @@ void init_sdl()
 }
 
 //return the pixel
-Uint8* pixel_ref(SDL_Surface *surface, unsigned x, unsigned y)
+Uint8* pixel_ref(SDL_Surface *surface, int x, int y)
 {
 	int sizePixel = surface->format->BytesPerPixel;
 	return (Uint8 *)surface->pixels + y * surface->pitch + x * sizePixel;
 }
 
 //change datas of the pixel at position (x,y) on the surface with pixel
-void set_pixel_color(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel)
+void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {	
 	Uint8 *p = pixel_ref(surface, x, y);
 
@@ -54,7 +54,7 @@ void set_pixel_color(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel)
 }
 
 //return the datas of the pixel at position (x,y) on the surface
-Uint32 get_pixel(SDL_Surface *surface, unsigned x, unsigned y)
+Uint32 get_pixel(SDL_Surface *surface, int x, int y)
 {
 	Uint8 *p = pixel_ref(surface, x, y);
 
@@ -91,42 +91,50 @@ SDL_Surface* load_image(char* file)
 	return imageSurface;
 }
 
+//Copy image and change the color to black and white
+SDL_Surface* copy_image_bw(SDL_Surface *surface)
+{
+	Uint32 pixel;
+	Uint8 r, g, b;
+	SDL_Surface *copy = NULL;
+	copy = SDL_CreateRGBSurface(0, surface->w, surface->h, surface->format->BitsPerPixel, 0, 0, 0, 0);
+
+	if(copy == NULL)
+	{
+		perror("SDL_CreateRGBSurface");
+		fprintf(stderr, "SDL_CreateRGBSurface : %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+
+	for(int i = 0; i < surface->w; i++)
+	{
+		for(int j = 0; j < surface->h; j++)
+		{
+			pixel = get_pixel(surface, i, j);
+			SDL_GetRGB(pixel, surface->format, &r, &g, &b);
+			Uint32 med = (r + g + b) / 3;
+			
+			if(med > 128)
+				pixel = SDL_MapRGB(surface->format, 255, 255, 255);
+			else
+				pixel = SDL_MapRGB(surface->format, 0, 0, 0);
+			set_pixel(copy, i, j, pixel);
+		}
+	}
+
+	return copy;
+}
 
 
 //************************************//
 //****************TMP*****************//
 //************************************//
-	
-	/*
-	int width = imageSurface->w;
-	int height = imageSurface->h;
-
-	for(int i = 0; i < width; i++)
-	{
-		for(int j = 0; j < height; j++)
-		{
-			Uint32 pixel = get_pixel_color(imageSurface, i, j);
-			Uint8 r, g, b, a;
-			SDL_GetRGBA(pixel, imageSurface->format, &r, &g, &b, &a);
-			
-			Uint32 med = (r + g + b) / 3;
-
-			if(med > 128)
-				pixel = SDL_MapRGBA(imageSurface->format, 255, 255, 255, 1);
-			else
-				pixel = SDL_MapRGBA(imageSurface->format, 0, 0, 0, 1);
-
-			set_pixel_color(imageSurface, i, j, pixel);		
-		}
-	}
-
-	return imageSurface;
-}*/
 
 void save_BMP(char* file)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Surface *surface = load_image(file);
-	SDL_SaveBMP(surface, "test.bmp");
+	SDL_Surface *copy = copy_image_bw(surface);
+	SDL_SaveBMP(copy, "test.bmp");
 	SDL_Quit();
 }
