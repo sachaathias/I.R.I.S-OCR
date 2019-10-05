@@ -3,6 +3,9 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
+
 //Initialize the sdl library for image treatment
 void init_sdl()
 {
@@ -136,7 +139,7 @@ void to_grey(SDL_Surface *surface)
 	}
 }
 
-//Change the color to black and white
+//Change the color to black and white (it is a simple technique but it is one which get better results)
 void to_black_and_white(SDL_Surface *surface)
 {
 	Uint32 pixel;
@@ -148,20 +151,21 @@ void to_black_and_white(SDL_Surface *surface)
 		{
 			pixel = get_pixel(surface, i, j);
 			SDL_GetRGB(pixel, surface->format, &r, &g, &b);
-			Uint32 med = (r + g + b) / 3;
-			
-			if(med > 128)
-				pixel = SDL_MapRGB(surface->format, 255, 255, 255);
-			else
+
+			if(r  < 127)
 				pixel = SDL_MapRGB(surface->format, 0, 0, 0);
+			else
+				pixel = SDL_MapRGB(surface->format, 255, 255, 255);
 			set_pixel(surface, i, j, pixel);
 		}
 	}
 }
 
 
+
 //************************************//
 //****************TMP*****************//
+//*********FOR*PRESENTATION***********//
 //************************************//
 
 void save_BMP(char* file)
@@ -170,7 +174,8 @@ void save_BMP(char* file)
 	SDL_Surface *surface = load_image(file);
 	SDL_Surface *copy = copy_image(surface);
 	to_grey(copy);
+	SDL_SaveBMP(copy, "Grey.bmp");
 	to_black_and_white(copy);
-	SDL_SaveBMP(copy, "test.bmp");
+	SDL_SaveBMP(copy, "Black_and_White.bmp");
 	SDL_Quit();
 }
