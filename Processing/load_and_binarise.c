@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 //Initialize the sdl library for image treatment
 void init_sdl()
@@ -8,7 +9,7 @@ void init_sdl()
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		perror("SDL_Init");
-		fprintf(stderr, "SDL_Init : %s\n", SDL_GetError());
+		fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 }
@@ -80,12 +81,12 @@ Uint32 get_pixel(SDL_Surface *surface, int x, int y)
 SDL_Surface* load_image(char* file)
 {
 	SDL_Surface *imageSurface = NULL;
-	imageSurface = SDL_LoadBMP(file);
+	imageSurface = IMG_Load(file);
 	
 	if(!imageSurface)
 	{
-		perror("SDL_LoadBMP");
-		fprintf(stderr, "SDL_LoadBMP : %s\n", SDL_GetError());
+		perror("IMG_Load");
+		fprintf(stderr, "IMG_Load: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 	return imageSurface;
@@ -102,7 +103,7 @@ SDL_Surface* copy_image_bw(SDL_Surface *surface)
 	if(copy == NULL)
 	{
 		perror("SDL_CreateRGBSurface");
-		fprintf(stderr, "SDL_CreateRGBSurface : %s\n", SDL_GetError());
+		fprintf(stderr, "SDL_CreateRGBSurface: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 

@@ -4,7 +4,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -std=c99 -g
 LDFLAGS =
-LDLIBS = -lSDL2
+LDLIBS = -lSDL -lSDL_image
 
 SRC = main.c \
       load_and_binarise.c
