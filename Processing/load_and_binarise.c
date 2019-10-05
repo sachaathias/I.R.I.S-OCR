@@ -92,11 +92,10 @@ SDL_Surface* load_image(char* file)
 	return imageSurface;
 }
 
-//Copy image and change the color to black and white
-SDL_Surface* copy_image_bw(SDL_Surface *surface)
+//Copy the image
+SDL_Surface* copy_image(SDL_Surface *surface)
 {
 	Uint32 pixel;
-	Uint8 r, g, b;
 	SDL_Surface *copy = NULL;
 	copy = SDL_CreateRGBSurface(0, surface->w, surface->h, surface->format->BitsPerPixel, 0, 0, 0, 0);
 
@@ -112,6 +111,42 @@ SDL_Surface* copy_image_bw(SDL_Surface *surface)
 		for(int j = 0; j < surface->h; j++)
 		{
 			pixel = get_pixel(surface, i, j);
+			set_pixel(copy, i, j, pixel);
+		}
+	}
+	return copy;
+}
+
+//Change the color to nuances of grey
+void to_grey(SDL_Surface *surface)
+{
+	Uint32 pixel;
+	Uint8 r, g, b;
+
+	for(int i = 0; i < surface->w; i++)
+	{
+		for(int j = 0; j < surface->h; j++)
+		{
+			pixel = get_pixel(surface, i, j);
+			SDL_GetRGB(pixel, surface->format, &r, &g, &b);
+			Uint8 grey = 0.299 * r + 0.587 * g + 0.114 * b;
+			pixel = SDL_MapRGB(surface->format, grey, grey, grey);
+			set_pixel(surface, i, j, pixel);
+		}
+	}
+}
+
+//Change the color to black and white
+void to_black_and_white(SDL_Surface *surface)
+{
+	Uint32 pixel;
+	Uint8 r, g, b;
+
+	for(int i = 0; i < surface->w; i++)
+	{
+		for(int j = 0; j < surface->h; j++)
+		{
+			pixel = get_pixel(surface, i, j);
 			SDL_GetRGB(pixel, surface->format, &r, &g, &b);
 			Uint32 med = (r + g + b) / 3;
 			
@@ -119,11 +154,9 @@ SDL_Surface* copy_image_bw(SDL_Surface *surface)
 				pixel = SDL_MapRGB(surface->format, 255, 255, 255);
 			else
 				pixel = SDL_MapRGB(surface->format, 0, 0, 0);
-			set_pixel(copy, i, j, pixel);
+			set_pixel(surface, i, j, pixel);
 		}
 	}
-
-	return copy;
 }
 
 
@@ -135,7 +168,9 @@ void save_BMP(char* file)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Surface *surface = load_image(file);
-	SDL_Surface *copy = copy_image_bw(surface);
+	SDL_Surface *copy = copy_image(surface);
+	to_grey(copy);
+	to_black_and_white(copy);
 	SDL_SaveBMP(copy, "test.bmp");
 	SDL_Quit();
 }
