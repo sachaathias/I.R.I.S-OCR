@@ -1,13 +1,31 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <SDL2/SDL.h>
 
-void set_pixel_color(SDL_Surface *surface, int x, int y, Uint32 pixel)
+//Initialize the sdl library for image treatment
+void init_sdl()
+{
+	if(SDL_Init(SDL_INIT_VIDEO) == -1)
+	{
+		perror("SDL_Init");
+		fprintf(stderr, "SDL_Init : %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+}
+
+//return the pixel
+Uint8* pixel_ref(SDL_Surface *surface, unsigned x, unsigned y)
 {
 	int sizePixel = surface->format->BytesPerPixel;
-	
-	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * sizePixel;
+	return (Uint8 *)surface->pixels + y * surface->pitch + x * sizePixel;
+}
 
-	switch(sizePixel)
+//change datas of the pixel at position (x,y) on the surface with pixel
+void set_pixel_color(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel)
+{	
+	Uint8 *p = pixel_ref(surface, x, y);
+
+	switch(surface->format->BytesPerPixel)
 	{
 		case 1:
 			*p = pixel;
@@ -35,13 +53,12 @@ void set_pixel_color(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	}	
 }
 
-Uint32 get_pixel_color(SDL_Surface *surface, int x, int y)
+//return the datas of the pixel at position (x,y) on the surface
+Uint32 get_pixel(SDL_Surface *surface, unsigned x, unsigned y)
 {
-	int sizePixel = surface->format->BytesPerPixel;
+	Uint8 *p = pixel_ref(surface, x, y);
 
-	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * sizePixel;
-
-	switch(sizePixel)
+	switch(surface->format->BytesPerPixel)
 	{
 		case 1:
 			return *p;
@@ -59,11 +76,28 @@ Uint32 get_pixel_color(SDL_Surface *surface, int x, int y)
 	}
 }
 
-SDL_Surface *load_image(char* file)
+//Load image file and if load success, return it
+SDL_Surface* load_image(char* file)
 {
-//	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Surface *imageSurface = SDL_LoadBMP(file);
+	SDL_Surface *imageSurface = NULL;
+	imageSurface = SDL_LoadBMP(file);
+	
+	if(!imageSurface)
+	{
+		perror("SDL_LoadBMP");
+		fprintf(stderr, "SDL_LoadBMP : %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	return imageSurface;
+}
 
+
+
+//************************************//
+//****************TMP*****************//
+//************************************//
+	
+	/*
 	int width = imageSurface->w;
 	int height = imageSurface->h;
 
@@ -87,12 +121,12 @@ SDL_Surface *load_image(char* file)
 	}
 
 	return imageSurface;
-}
+}*/
 
 void save_BMP(char* file)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Surface *surface = load_image(file);
-	SDL_SaveBMP(surface, file);
+	SDL_SaveBMP(surface, "test.bmp");
 	SDL_Quit();
 }
