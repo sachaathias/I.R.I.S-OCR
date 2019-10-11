@@ -161,6 +161,43 @@ void to_black_and_white(SDL_Surface *surface)
 	}
 }
 
+//Create matrice
+int **create_matrice(int width, int height)
+{
+	int matrice[height][width];
+
+	for(int i = 0; i < width; i++)
+	{
+		for(int j = 0; j < height; j++)
+		{
+			matrice[j][i] = 0;
+		}
+	}
+
+	return matrice;
+}
+
+void image_to_matrice(SDL_Surface *surface, int *matrice)
+{
+	int height = surface->h;
+	int width = surface->w;
+	Uint32 pixel;
+
+	for(int i = 0; i < width; i++)
+	{
+		for(int j = 0; j < height; j++)
+		{
+			pixel = get_pixel(surface, i, j);
+			if(pixel == 0xFFFFFF)
+				matrice[j][i] = 0;
+			else
+				matrice[j][i] = 1;
+		}
+	}
+}
+
+//Transform an image to a matrice (0 if white, 1 if black)
+//...
 
 
 //************************************//
@@ -179,3 +216,4 @@ void save_BMP(char* file)
 	SDL_SaveBMP(copy, "Black_and_White.bmp");
 	SDL_Quit();
 }
+

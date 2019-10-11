@@ -9,5 +9,6 @@ int main(int argc, char** argv)
 		errx(1, "No file specified");
 	char* file = argv[1];
 	save_BMP(file);
+	print_matrice(file);
 	return 0;
 }
