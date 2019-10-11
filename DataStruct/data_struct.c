@@ -1,20 +1,6 @@
 #include <stdio>
+#include "data_struct.h"
 
-
-// Declaration de la structurem file
-typedef struct Element Element;
-struct Element
-
-{
-	    int nombre;
-	    Element *suivant;
-};
-
-typedef struct File File;
-struct File
-{
-	Element *premier;
-};
 
 // Declaration de la methode Enfilage
 
