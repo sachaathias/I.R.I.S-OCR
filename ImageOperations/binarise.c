@@ -32,7 +32,7 @@ void to_black_and_white(SDL_Surface *surface)
 			pixel = get_pixel(surface, i, j);
 			SDL_GetRGB(pixel, surface->format, &r, &g, &b);
 
-			if(r  < 127)
+			if(r  <= 127)
 				pixel = SDL_MapRGB(surface->format, 0, 0, 0);
 			else
 				pixel = SDL_MapRGB(surface->format, 255, 255, 255);
@@ -40,4 +40,3 @@ void to_black_and_white(SDL_Surface *surface)
 		}
 	}
 }
-
