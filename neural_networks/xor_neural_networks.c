@@ -9,8 +9,10 @@
 int training[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
 int anwser[4] = {0, 1, 1, 0};
 
-int weight[6];
-int bias[2];
+float weight[5];
+float bias[2];
+float error[3];
+float output;
 
 float sigmoid(float x)
 {
@@ -40,4 +42,12 @@ void initialize_bias()
 		bias[i] = double(rand()) / (double(RAND_MAX) + 1.0);
 	}
 }
+
+float cost_function(float weight, float bias)
+{
+	return 0;
+
+}
+
+
 
