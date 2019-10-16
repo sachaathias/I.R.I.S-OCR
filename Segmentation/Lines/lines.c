@@ -102,7 +102,7 @@ int main()
 
 	split_eachline(image_surface);
 
-	screen_surface = display_image(image_surface );
+	ldcreen_surface = display_image(image_surface );
 
 	update_surface( screen_surface, image_surface);
 
@@ -124,6 +124,7 @@ int main()
 	to_black_and_white(copy);
 	split_eachline(copy);
 	SDL_Quit();
+	return 0;
 
 }
 
