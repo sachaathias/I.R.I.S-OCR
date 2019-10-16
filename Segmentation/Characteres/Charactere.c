@@ -33,12 +33,15 @@ int is_blank_column(SDL_Surface *image, int index_x, int index_y)
 	return blank;
 }
 
-// Create a red column
-void add_column(SDL_Surface *image, int index_x, int from_y, int to_y)
+// Create a red column on a band between y1 and y2 (2 red lines)
+//   y1 ->   -------------
+//			  A  B  C  D  E
+//   y2 ->   ------------- 
+void add_column(SDL_Surface *image, int index_x, int index_y1, int index_y2)
 {
-	for(int y = from_y; y < to_y; y++)
+	for(int y = index_y1; y < index_y2; y++)
 	{
-		Uint32 pixel = get_pixel(image, x, y);
+		Uint32 pixel = get_pixel(image, index_x, y);
 		pixel = 0xFF0000
 	}
 }
