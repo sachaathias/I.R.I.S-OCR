@@ -14,7 +14,7 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 
 	// Test if each pixel is WHITE on the whole column (until the next RED pixel)
 	int blank = 1; // True
-	Uint32 pixel = get_pixel(image, x, y+1);
+	Uint32 pixel = get_pixel(image, x, y + 1);
 
 	// While the pixel is white we go down and we stop on the first RED pixel 
 	while(pixel != 0xFF0000 && blank == 1) 
