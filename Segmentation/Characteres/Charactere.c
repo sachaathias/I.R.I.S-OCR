@@ -1,94 +1,85 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <err.h>
+#include "Charactere.h"
 
-// Uint32 pixel = get_pixel(image, x, y)
-// x : Lignes
-// y : Columnes
+// x : Lines
+// y : Columns
 
-// Check if a column is all blank
-int is_blank_column(SDL_Surface *image, int index_x, int index_y)
+// Check if a column is all blank (start on a red line)
+// image = SDL file
+// x, y = startpoint's coordonates
+int is_blank_column(SDL_Surface *image, int x, int y)
 {
-	int y = index_y;
-
-	// Test if first pixel is RED : begining on a red line
-	Uint32 pixel = get_pixel(image, index, y);
-	if(pixel != 0xFF0000):
+	// Test if first pixel is RED : begining on a red line	
+	if(get_pixel(image, x, y) != 0xFF0000):
 		errx(0, "Don't begin on a red line");
 
 	// Test if each pixel is WHITE on the whole column (until the next RED pixel)
 	int blank = 1; // True
-	pixel = get_pixel(image, index, y+1);
+	Uint32 pixel = get_pixel(image, x, y+1);
 
-	// While the pixel is white we go down and we stop on the first RED  pixel 
+	// While the pixel is white we go down and we stop on the first RED pixel 
 	while(pixel != 0xFF0000 && blank == 1) 
 	{
 		if(pixel == 0x000000) // BLACK
 			blank = 0;
 
 		y ++;
-		pixel = get_pixel(image, index, y);
+		pixel = get_pixel(image, x, y);
 	}
 
 	return blank;
 }
 
-// Create a red column on a band between y1 and y2 (2 red lines)
-//   y1 ->   -------------
-//			  A  B  C  D  E
-//   y2 ->   ------------- 
-void add_column(SDL_Surface *image, int index_x, int index_y1, int index_y2)
+// Create a red column (start on a red line)
+// image = SDL file
+// x, y = startpoint's coordonates
+void add_column(SDL_Surface *image, int x, int y)
 {
-	for(int y = index_y1; y < index_y2; y++)
+	// Test if first pixel is RED : begining on a red line	
+	if(get_pixel(image, x, y) != 0xFF0000):
+		errx(0, "Don't begin on a red line");
+
+	// While the pixel is inside the image and is not RED
+	while(y < image -> h && get_pixel(image, x, y) != 0xFF0000) 
 	{
-		Uint32 pixel = get_pixel(image, index_x, y);
-		pixel = 0xFF0000
+		set_pixel(image, x, y, 0xFF0000);
 	}
 }
 
-// Add columns on a band between y1 and y2 (2 red lines)
-//   y1 ->   -------------
-//			  A  B  C  D  E
-//   y2 ->   -------------  
-void split_line_in_column(SDL_Surface *image, int index_y1, int index_y2)
+// Add columns on a band between two lines (start on a red line)
+// image = SDL file
+// y = startpoint's coordonate
+void split_band(SDL_Surface *image, int y)
 {
-	int width = image -> width;
 	int x = 0;
-	int y = index_y1;
 
-	while(x < width)
+	while(x < image -> w)
 	{
 		while(is_blank_column(image, x, y) == 1)
 			x++;
 
-		// Add the colum 5 pixel before for a better visibility
-		add_column(image, x - 5, y1, y2);
+		// Add the colum 2 pixel before for a better visibility
+		add_column(image, x - 2, y);
 
 		while(is_blank_column(image, x, y) == 0)
 			x++;
 
-		// Add the colum 5 pixel after for a better visibility
-		add_column(image, x + 5, y1, y2);
+		// Add the colum 2 pixel after for a better visibility
+		add_column(image, x + 2, y);
 
-		x += 5;
+		x += 2;
 	}
 }
 
 
 // Apply the spliting on all lines
-void split_all_column(SDL_Surface *image)
+// image = SDL file
+// indexs = list containing y indexs of all red lines
+void split_all_band(SDL_Surface *image, List indexs)
 {
-	int height = image -> height;
-	x = 0;
-
-	// Follow the left edge of the image
-	for(int y = 0, y < height; y++)
+	for(int index = 0, index < indexs -> list_length(indexs), index++)
 	{
-		// If we meet a RED pixel (y1), run split_line_in_column
-		Uint32 pixel = get_pixel(image, x, y);
-		if(pixel == 0xFF0000)
+		split_band(image, indexs[index]);
 	}
-
 }
 
 
