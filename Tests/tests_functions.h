@@ -10,6 +10,7 @@
 #include "../sdl/sdl_functions.h"
 #include "../Segmentation/Lines/lines.h"
 #include "../Segmentation/Characteres/Charactere.h"
+#include "../Segmdentation/dataStruct.h"
 
 //void save_BMP_test(char* file);
 void display_image_test(char* file);

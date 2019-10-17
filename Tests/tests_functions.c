@@ -18,6 +18,9 @@
 
 void display_image_test(char* file)
 {
+	List *list = NULL;
+	list_create(list);
+
 	init_sdl();
 
 	SDL_Surface *surface = load_image(file);
