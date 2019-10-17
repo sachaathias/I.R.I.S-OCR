@@ -11,7 +11,7 @@
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
 
-void to_grey(SDL_Surface *surface);
-void to_black_and_white(SDL_Surface *surface);
+extern void to_grey(SDL_Surface *surface);
+extern void to_black_and_white(SDL_Surface *surface);
 
 #endif

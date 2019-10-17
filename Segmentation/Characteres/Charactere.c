@@ -1,4 +1,8 @@
 #include "Charactere.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
+#include "../../ImageOperations/binarise.h"
+#include "../../ImageTools/image_tools.h"
 
 // x : Lines
 // y : Columns

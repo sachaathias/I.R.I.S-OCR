@@ -21,12 +21,9 @@ int is_blank_line(SDL_Surface *image, int y)
 	while (( x < _width) && Bool)
 	{
 		pixel = get_pixel(image, x, y);
-
 		if( pixel!= 0xFFFFFF)
 			Bool = 0;
-
 		x++;
-
 	}
 
 	return Bool;
@@ -73,7 +70,7 @@ void split_eachline(SDL_Surface *image)
 
 		// Lower redline 
 		trace(image , lines +1);
-
+		lines ++;
 		// It's for begin from the line
 	}
 }
