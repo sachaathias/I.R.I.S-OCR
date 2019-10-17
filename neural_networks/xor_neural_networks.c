@@ -9,14 +9,22 @@
 int training[4][2] = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
 int anwser[4] = {0, 1, 1, 0};
 
-float weight[5];
-float bias[2];
+double weight_hidden[4];
+double weight_output[1];
+float biases[2];
 float error[3];
 float output;
 
+//the sigmoid function
 float sigmoid(float x)
 {
 	return 1/(1 + exp(-x));
+}
+
+//the derivative of the sigmoid function
+float sigmoid_derivative(float x)
+{
+	return exp(-x)/pow((1 + exp(-x), 2));
 }
 
 //initialize random weights 
@@ -39,9 +47,11 @@ void initialize_bias()
 	srand(time(NULL));
 	for (int i = 0; i < 2; i++)
 	{
-		bias[i] = double(rand()) / (double(RAND_MAX) + 1.0);
+		biases[i] = double(rand()) / (double(RAND_MAX) + 1.0);
 	}
 }
+
+
 
 float cost_function(float weight, float bias)
 {
