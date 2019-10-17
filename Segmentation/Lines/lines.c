@@ -7,41 +7,41 @@
 // y : Columnes
 
 // Check if a line is all blank
-int is_blank_line(SDL_Surface *image, int x)
+int is_blank_line(SDL_Surface *image, int y)
 {
 
 	int _width = image -> w;
-	int index = 0;
+	int x = 0;
 	// The boolean that the function return
 	int Bool = 1;
 	// The first pixel of the image
-	Uint32 pixel = get_pixel(image,x,index);
+	Uint32 pixel = get_pixel(image, x, y);
 
 	// We cross the line
-	while (( index < _width) && (pixel == 0xFFFFFF))
+	while (( x < _width) && Bool)
 	{
-		pixel = get_pixel(image, x, index);
-		index ++;
-	}
+		pixel = get_pixel(image, x, y);
 
-	// Check if pixel isn't white 
-	// Bool set as false if pixel isn't
-	if( pixel!= 0xFFFFFF)
-		Bool = 0;
+		if( pixel!= 0xFFFFFF)
+			Bool = 0;
+
+		x++;
+
+	}
 
 	return Bool;
 }
 
 //Trace a red line
-void trace(SDL_Surface *image, int x)
+void trace(SDL_Surface *image, int y)
 {
 	int _width = image -> w;
-	Uint32 red = 0xFF0000;
+	Uint32 red = 0x0000FF;
 
 	for (int index = 0; index < _width; index ++) 
 	{
 		//Change value pixel color of a pixel
-		set_pixel(image, x, index, red);
+		set_pixel(image,index,y, red);
 	}
 }
 
@@ -51,28 +51,30 @@ void split_eachline(SDL_Surface *image)
 	int _height = image -> h;
 	int lines = 0;
 
-	while(lines < _height)
+	while(lines < _height - 2)
 	{
 		// Case : We are outside a line
-		while(is_blank_line(image, lines) == 1)
+		while((lines < _height-2) &&
+				(is_blank_line(image, lines) == 1))
 		{
 			lines++;
 		}
 
 		// Upper redline
-		trace(image, lines - 5);
-
+		trace(image, lines-1);
+		
+		
 		// Case : we are inside a line
-		while(is_blank_line(image, lines) == 0)
+		while(lines < _height-2 && 
+			is_blank_line(image, lines) == 0)
 		{
 			lines++;
 		}
 
 		// Lower redline 
-		trace(image , lines + 5);
+		trace(image , lines +1);
 
 		// It's for begin from the line
-		lines += 5;
 	}
 }
 

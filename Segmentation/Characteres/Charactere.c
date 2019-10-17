@@ -9,7 +9,7 @@
 int is_blank_column(SDL_Surface *image, int x, int y)
 {
 	// Test if first pixel is RED : begining on a red line	
-	if(get_pixel(image, x, y) != 0xFF0000):
+	if(get_pixel(image, x, y) != 0x0000FF):
 		errx(0, "Don't begin on a red line");
 
 	// Test if each pixel is WHITE on the whole column (until the next RED pixel)
@@ -17,7 +17,7 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 	Uint32 pixel = get_pixel(image, x, y + 1);
 
 	// While the pixel is white we go down and we stop on the first RED pixel 
-	while(pixel != 0xFF0000 && blank == 1) 
+	while(pixel != 0x0000FF && blank == 1) 
 	{
 		if(pixel == 0x000000) // BLACK
 			blank = 0;
@@ -35,13 +35,13 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 void add_column(SDL_Surface *image, int x, int y)
 {
 	// Test if first pixel is RED : begining on a red line	
-	if(get_pixel(image, x, y) != 0xFF0000):
+	if(get_pixel(image, x, y) != 0x0000FF):
 		errx(0, "Don't begin on a red line");
 
 	// While the pixel is inside the image and is not RED
-	while(y < image -> h && get_pixel(image, x, y) != 0xFF0000) 
+	while(y < image -> h && get_pixel(image, x, y) != 0x0000FF) 
 	{
-		set_pixel(image, x, y, 0xFF0000);
+		set_pixel(image, x, y, 0x0000FF);
 	}
 }
 
@@ -74,12 +74,16 @@ void split_band(SDL_Surface *image, int y)
 // Apply the spliting on all lines
 // image = SDL file
 // indexs = list containing y indexs of all red lines
-void split_all_band(SDL_Surface *image, List indexs)
+void split_all_band(SDL_Surface *image)
 {
-	for(int index = 0, index < indexs -> list_length(indexs), index++)
+	int y = 0;
+
+	while(y < image -> h)
 	{
-		split_band(image, indexs[index]);
-	}
+		if(get_pixel(image, 1, y)
+		{
+			
+
 }
 
 

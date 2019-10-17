@@ -31,7 +31,15 @@ void display_image_test(char* file)
 	to_black_and_white(surface);
 	update_surface(screen, surface);
 	wait_for_keypressed();
+	
+	split_eachline(surface);
+	update_surface(screen, surface);
+	wait_for_keypressed();
 
+/*	split_all_band(surface);
+	update_surface(screen, surface);
+	wait_for_keypressed();
+*/
 	SDL_FreeSurface(surface);
 	SDL_FreeSurface(screen);
 

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
-#include "dataStruct.h"
+//#include "dataStruct.h"
 
 // SDL
 #include "SDL/SDL.h"
