@@ -10,7 +10,9 @@ SRC = main.c \
       ImageOperations/binarise.c \
 	  ImageTools/image_tools.c \
 	  sdl/sdl_functions.c\
-	  Tests/tests_functions.c
+	  Tests/tests_functions.c\
+	  Segmentation/Lines/lines.c
+	  
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
 

@@ -1,10 +1,4 @@
-#include <err.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include "../../ImageOperations/binarise.h"
-#include "../../ImageOperations/binarise.c"
-#include "../../ImageTools/image_tools.h"
-#include "../../ImageTools/image_tools.c"
+#include "lines.h"
 
 
 
@@ -82,51 +76,7 @@ void split_eachline(SDL_Surface *image)
 	}
 }
 
-void init_sdl()
-{
-    // Init only the video part.
-    // If it fails, die with an error message.
-    if(SDL_Init(SDL_INIT_VIDEO) == -1)
-        errx(1,"Could not initialize SDL: %s.\n", SDL_GetError());
-}
 
-int main()
-{
-	/*
-	SDL_Surface* image_surface;
-	SDL_Surface* screen_surface;
-
-	init_sdl();
-
-	image_surface = load_image("my_image.jpg");
-
-	split_eachline(image_surface);
-
-	ldcreen_surface = display_image(image_surface );
-
-	update_surface( screen_surface, image_surface);
-
-	// Free the image surface.
-	SDL_FreeSurface(image_surface);
-	//Free the screen surface.
-	SDL_FreeSurface(screen_surface);
-	*/
-
-
-
-
-
-	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Surface *surface = load_image("my_image.jpg");
-	SDL_Surface *copy = copy_image(surface);
-	to_grey(copy);
-	display(copy, "Images/Grey.bmp");
-	to_black_and_white(copy);
-	split_eachline(copy);
-	SDL_Quit();
-	return 0;
-
-}
 
 
 
