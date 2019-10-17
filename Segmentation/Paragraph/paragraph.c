@@ -1,9 +1,9 @@
-#include "Paragraphe.h"
+#include "paragraph.h"
 
 // Test if the whole column is blank
 // image = SDL file
 // x = startpoint's coordonate
-int is_blank_column(SDL_Surface *image, int x)
+int Is_blank_column(SDL_Surface *image, int x)
 {
 	int y = 0;
 
@@ -26,11 +26,11 @@ int is_blank_column(SDL_Surface *image, int x)
 // Create a blue column 
 // image = SDL file
 // x = startpoint's coordonate
-void add_column(SDL_Surface *image, int x)
+void Add_column(SDL_Surface *image, int x)
 {
-	for(int y = 0, y < image -> h, y++)
+	for(int y = 0; y < image -> h;  y++)
 	{
-		set_pixel(image, x, y, 0x000FFF);
+		set_pixel(image, x, y, 0x000FF);
 	}
 }
 
@@ -46,21 +46,21 @@ void square(SDL_Surface *image)
 
 	// Left edge
 	x = 0;
-	while(is_blank_column(image, x) == 1)
+	while(Is_blank_column(image, x) == 1)
 	{
 		x++;
 	}
 
-	add_column(image, x - 2);
+	Add_column(image, x - 2);
 
 	// Right edge
 	x = width - 1;
-	while(is_blank_column(image, x) == 1)
+	while(Is_blank_column(image, x) == 1)
 	{
 		x--;
 	}
 
-	add_column(image, x + 2);
+	Add_column(image, x + 2);
 
 	// Top edge
 	y = 0;

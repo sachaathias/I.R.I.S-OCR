@@ -64,7 +64,4 @@ int list_length(List *list)
      }
     return length;
 }
-int main()
-{
-	return 0;
-}
+

@@ -43,10 +43,12 @@ void trace(SDL_Surface *image, int y)
 }
 
 
-void split_eachline(SDL_Surface *image)
+void split_eachline(SDL_Surface *image, int *array[])
 {
 	int _height = image -> h;
 	int lines = 0;
+
+	int count = 0;
 
 	while(lines < _height - 2)
 	{
@@ -59,6 +61,9 @@ void split_eachline(SDL_Surface *image)
 
 		// Upper redline
 		trace(image, lines-1);
+		// save the index of a red line 
+		array[count] = lines -1;
+		count++;
 		
 		
 		// Case : we are inside a line
@@ -68,9 +73,13 @@ void split_eachline(SDL_Surface *image)
 			lines++;
 		}
 
-		// Lower redline 
-		trace(image , lines +1);
 		lines ++;
+		// Lower redline 
+		trace(image , lines);
+		//save index of a red line
+		array[count] = lines;
+		lines ++;
+		count++;
 		// It's for begin from the line
 	}
 }

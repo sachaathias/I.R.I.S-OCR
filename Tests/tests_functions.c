@@ -18,14 +18,12 @@
 
 void display_image_test(char* file)
 {
-	List *list = NULL;
-	list_create(list);
-
 	init_sdl();
 
 	SDL_Surface *surface = load_image(file);
 	SDL_Surface *screen = display_image(surface);
 	wait_for_keypressed();
+
 
 	to_grey(surface);
 	update_surface(screen, surface);
@@ -34,10 +32,21 @@ void display_image_test(char* file)
 	to_black_and_white(surface);
 	update_surface(screen, surface);
 	wait_for_keypressed();
-	
-	split_eachline(surface);
+
+	//init values
+	int height = surface -> h;
+	int width  = surface -> w;
+
+	// Array that contain every red line's index
+	int array[height*width];
+	// Array's pointeur
+	int *tableau = array;
+
+	split_eachline(surface, tableau);
 	update_surface(screen, surface);
 	wait_for_keypressed();
+
+	square(surface);
 
 /*	split_all_band(surface);
 	update_surface(screen, surface);

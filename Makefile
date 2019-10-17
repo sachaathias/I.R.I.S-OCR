@@ -12,8 +12,9 @@ SRC = main.c \
 	  sdl/sdl_functions.c\
 	  Tests/tests_functions.c\
 	  Segmentation/Lines/lines.c\
-	  Segmentation/Characteres.c\
-	  Segmentation/dataStruct.c
+	  Segmentation/Characteres/Charactere.c\
+	  Segmentation/dataStruct.c\
+	  Segmentation/Paragraph/paragraph.c\
 	  
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
