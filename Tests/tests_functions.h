@@ -12,6 +12,8 @@
 #include "../Segmentation/Characteres/Charactere.h"
 #include "../Segmentation/dataStruct.h"
 #include "../Segmentation/Paragraph/paragraph.h"
+#include "../Segmentation/Crop/crop.h"
+
 
 //void save_BMP_test(char* file);
 void display_image_test(char* file);

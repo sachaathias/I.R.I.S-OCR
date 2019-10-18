@@ -41,7 +41,7 @@ void display_image_test(char* file)
 	// Array that contain every red line's index
 	// Array's pointeur
 	size_t len = height*width;
-	int *tableau = calloc(len, sizeof(int));
+	//int *tableau = calloc(len, sizeof(int));
 
 	int *corner = calloc(4, sizeof(int));
 
@@ -58,6 +58,7 @@ void display_image_test(char* file)
 	
 	SDL_Surface *crop_surface = crop_picture(surface,corner[0], corner[2], corner[1]- corner[0], corner[3] - corner[2]);
 	screen = display_image(crop_surface);
+	update_surface(screen, surface);
 
 
 
