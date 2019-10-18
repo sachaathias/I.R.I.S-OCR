@@ -20,17 +20,17 @@ void display_image_test(char* file)
 {
 	init_sdl();
 
-	SDL_Surface *surface = load_image(file);
-	SDL_Surface *screen = display_image(surface);
+	SDL_Surface* surface = load_image(file);
+	//SDL_Surface *screen = display_image(surface);
 	//wait_for_keypressed();
 
 
-	to_grey(surface);
-	update_surface(screen, surface);
+	//to_grey(surface);
+	//update_surface(screen, surface);
 	//wait_for_keypressed();
 
-	to_black_and_white(surface);
-	update_surface(screen, surface);
+	//to_black_and_white(surface);
+	//update_surface(screen, surface);
 	//wait_for_keypressed();
 
 	//init values
@@ -41,24 +41,31 @@ void display_image_test(char* file)
 	// Array that contain every red line's index
 	// Array's pointeur
 	size_t len = height*width;
-	//int *tableau = calloc(len, sizeof(int));
+	int *tableau = calloc(len, sizeof(int));
 
-	int *corner = calloc(4, sizeof(int));
+	int* corner = calloc(4, sizeof(int));
 
 	// Make a square around the block text
-	square(surface);
-	update_surface(screen, surface);
-	wait_for_keypressed();
+	square(surface, corner) ;
+	//update_surface(screen, surface);
+	//wait_for_keypressed();
 	
 	//CROP
 	// corner[0] = x.left
-	// corner[1] = x.right
-	// corner[2] = y.top
-	// corner[3] = y.bottom
+	//corner[1] = x.right
+	//corner[2] = y.top
+	//corner[3] = y.bottom
 	
-	SDL_Surface *crop_surface = crop_picture(surface,corner[0], corner[2], corner[1]- corner[0], corner[3] - corner[2]);
-	screen = display_image(crop_surface);
-	update_surface(screen, surface);
+	//crop_picture(*surface, corner[0], //x
+	//	corner[2], //y
+	//	corner[1]- corner[0],
+	//	corner[3] - corner[2]);	
+	//SDL_Surface* image = load_image(file);
+
+	crop_picture(surface, 300, 100,300,100);
+	wait_for_keypressed();
+	//update_surface(screen, surface);
+	printf("c4est la demert\n");
 
 
 
@@ -72,10 +79,11 @@ void display_image_test(char* file)
 	split_all_band(surface, tableau);
 	update_surface(screen, surface);
 	*/
-	wait_for_keypressed();
+
+	//wait_for_keypressed();
 
 	SDL_FreeSurface(surface);
-	SDL_FreeSurface(screen);
+	//SDL_FreeSurface(screen);
 
 	SDL_Quit();
 }

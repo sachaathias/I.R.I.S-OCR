@@ -40,7 +40,7 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 // color = color of the pixel
 void add_column(SDL_Surface *image, int x, int y, Uint32 color)
 {
-	printf("%d  %d\n",x, y);
+	//printf("%d  %d\n",x, y);
 	// Test if first pixel is RED : begining on a red line	
 	if(get_pixel(image, x, y) != 0x0000FF)
 		errx(0, "add colonn pas sur un pixel rouge");

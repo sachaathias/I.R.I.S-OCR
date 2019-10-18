@@ -14,7 +14,7 @@
 
 // FUNCTIONS
 
-SDL_Surface* crop_picture(SDL_Surface* image, int x, int y,
+void crop_picture(SDL_Surface* image, int x, int y,
 		int width, int height);
 
 #endif

@@ -73,7 +73,7 @@ void Add_line(SDL_Surface *image, int x, int y)
 }
 
 // Create a blue square around the block of texte
-void isquare(SDL_Surface *image, int *tableau[])
+void square(SDL_Surface *image, int* tableau[])
 {
 	int width = image -> w;
 	int height = image -> h;
