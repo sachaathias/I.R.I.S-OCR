@@ -1,31 +1,38 @@
 //class Network
 struct Network{
-	uint layers;
-	float weights[5];
-	float bias[2];
-	int size;
+	//number of neurons in a layer
+	double *neurons;
+	//number of layers in network
+	int *layers;
+	//hidden layer weights and biases
+	double *weights_hidden;
+	double *biases_hidden;
+	//output layer weights and biases
+	double *weights_output;
+	double *biases_output;
 
 
 }
 
-void Network_init(Network* self, int size)
+void InitWeights()
 {
-	
+
+
 }
 
-Network* Network_create(Network* self, int size)
+Network* Initialize_network(Network* self)
 {
 	Network* result = (Network*) malloc(sizeof(Network));
 	Network_init(result, size);
 	return result;
 }
 
-void Network_reset(Network* self);
+void Network__reset(Network* self);
 
-void Point__destroy(Network* point) {
-  if (point) {
-     Point__reset(point);
-     free(point);
+void Network__destroy(Network* network) {
+  if (network) {
+     Network__reset(network);
+     free(network);
   }
 }
 
