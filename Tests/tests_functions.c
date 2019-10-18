@@ -41,15 +41,21 @@ void display_image_test(char* file)
 	// Array that contain every red line's index
 	// Array's pointeur
 	size_t len = height*width;
-	int *tableau = calloc( len, sizeof(int));
+	int *tableau = calloc(len, sizeof(int));
 
+	int *corner = calloc(4, sizeof(int));
+
+	// Make a square around the block text
+	//square(surface);
+	update_surface(screen, surface);
+	wait_for_keypressed();
+
+	// Split lines
 	split_eachline(surface, tableau);
 	update_surface(screen, surface);
-	//wait_for_keypressed();
+	wait_for_keypressed();
 
-	//square(surface);
-	//
-
+	// Split Words and Characteres
 	split_all_band(surface, tableau);
 	update_surface(screen, surface);
 	wait_for_keypressed();

@@ -15,6 +15,7 @@ SRC = main.c \
 	  Segmentation/Characteres/Charactere.c\
 	  Segmentation/dataStruct.c\
 	  Segmentation/Paragraph/paragraph.c\
+	  Segmentation/Crop/crop.c
 	  
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
