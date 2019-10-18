@@ -78,9 +78,12 @@ void split_band(SDL_Surface *image, int y)
 
 		x++;
 
-		if(space > 3)
+		if(space > 5)
+		{
 			// Space word : Green Column
-			add_column(image, x-1, y, 0x00FF00);
+			add_column(image, x-2, y, 0x00FF00);
+			add_column(image, x-1, y, 0x0000FF);
+		}
 		else
 			// Space char : Red Column
 		    add_column(image, x-1, y, 0x0000FF);
@@ -91,9 +94,9 @@ void split_band(SDL_Surface *image, int y)
 
 
 		// Add the colum 2 pixel after for a better visibility
-		add_column(image, x + 1, y, 0x0000FF);
+		add_column(image, x+1, y, 0x0000FF);
 
-		x += 1;
+		x ++;
 	}
 }
 
