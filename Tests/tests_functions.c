@@ -47,12 +47,12 @@ void display_image_test(char* file)
 	update_surface(screen, surface);
 	wait_for_keypressed();
 
-	square(surface);
+	//square(surface);
 
-/*	split_all_band(surface);
+	/*split_all_band(surface, tableau);
 	update_surface(screen, surface);
-	wait_for_keypressed();
-*/
+	wait_for_keypressed();*/
+
 	SDL_FreeSurface(surface);
 	SDL_FreeSurface(screen);
 
