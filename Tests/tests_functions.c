@@ -46,10 +46,22 @@ void display_image_test(char* file)
 	int *corner = calloc(4, sizeof(int));
 
 	// Make a square around the block text
-	//square(surface);
+	square(surface);
 	update_surface(screen, surface);
 	wait_for_keypressed();
+	
+	//CROP
+	// corner[0] = x.left
+	// corner[1] = x.right
+	// corner[2] = y.top
+	// corner[3] = y.bottom
+	
+	SDL_Surface *crop_surface = crop_picture(surface,corner[0], corner[2], corner[1]- corner[0], corner[3] - corner[2]);
+	screen = display_image(crop_surface);
 
+
+
+	/*
 	// Split lines
 	split_eachline(surface, tableau);
 	update_surface(screen, surface);
@@ -58,6 +70,7 @@ void display_image_test(char* file)
 	// Split Words and Characteres
 	split_all_band(surface, tableau);
 	update_surface(screen, surface);
+	*/
 	wait_for_keypressed();
 
 	SDL_FreeSurface(surface);
