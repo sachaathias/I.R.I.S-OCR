@@ -14,7 +14,7 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 {
 	// Test if first pixel is RED : begining on a red line
 	if(get_pixel(image, x, y) != 0x0000FF)
-		errx(0, "Don't begin on a red line");
+		errx(0, "Is blqnk  est pas suir un pixel rouge");
 
 	// Test if each pixel is WHITE on the whole column (until the next RED pixel)
 	int blank = 1; // True
@@ -26,7 +26,8 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 		if(pixel == 0x000000) // BLACK
 			blank = 0;
 
-		y ++;
+		y++;
+
 		pixel = get_pixel(image, x, y);
 	}
 
@@ -39,14 +40,19 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 // color = color of the pixel
 void add_column(SDL_Surface *image, int x, int y, Uint32 color)
 {
+	printf("%d  %d\n",x, y);
 	// Test if first pixel is RED : begining on a red line	
 	if(get_pixel(image, x, y) != 0x0000FF)
-		errx(0, "Don't begin on a red line");
+		errx(0, "add colonn pas sur un pixel rouge");
+
+	y++;
 
 	// While the pixel is inside the image and is not RED
-	while(y < image -> h && get_pixel(image, x, y) != 0x0000FF) 
+	while(y < image -> h-1 && get_pixel(image, x, y) != 0x0000FF) 
+	{
 		set_pixel(image, x, y, color);
-	
+		y++;
+	}
 }
 
 // Add columns on a band between two lines (start on a red line)
@@ -58,32 +64,31 @@ void split_band(SDL_Surface *image, int y)
 	int x = 0;
 	
 
-	while(x < width - 2)
+	while(x < width - 30)
 	{
 		// If this variable goes beyond 3 pixel, this is a word space
 		// Else this is a char space
 		int space = 0;
 
-		while(x < width-1 && is_blank_column(image, x, y) == 1)
+		while(x < width-5 && is_blank_column(image, x, y) == 1)
 		{
 			x++;
 			space++;
 		}
 
 		x++;
-	
-		
+
 		if(space > 3)
 			// Space word : Green Column
-			add_column(image, x, y, 0x00FF00);
+			add_column(image, x-1, y, 0x00FF00);
 		else
 			// Space char : Red Column
-		    add_column(image, x, y, 0x0000FF);
+		    add_column(image, x-1, y, 0x0000FF);
+			
 
 		while(x < width-1 && is_blank_column(image, x, y) == 0)
 			x++;
 
-		x++;
 
 		// Add the colum 2 pixel after for a better visibility
 		add_column(image, x + 1, y, 0x0000FF);
@@ -98,12 +103,14 @@ void split_band(SDL_Surface *image, int y)
 // indexs = list containing y indexs of all red lines
 void split_all_band(SDL_Surface *image, int *array)
 {
-	int index_y = 0;
-	while(index < image -> w * image -> h && array[index_y] != 0)
+	for(int index = 0; index < image -> h-6; index+=2)
 	{
-		split_band(image, index_y);
-		printf("%d\n", index_y);
-		index_y++;
+		if(array[index] !=0 )
+		{
+			split_band(image, array[index]);
+		}
+		else
+			break;
 	}
 }
 

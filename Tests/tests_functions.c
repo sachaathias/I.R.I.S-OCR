@@ -22,36 +22,37 @@ void display_image_test(char* file)
 
 	SDL_Surface *surface = load_image(file);
 	SDL_Surface *screen = display_image(surface);
-	wait_for_keypressed();
+	//wait_for_keypressed();
 
 
 	to_grey(surface);
 	update_surface(screen, surface);
-	wait_for_keypressed();
+	//wait_for_keypressed();
 
 	to_black_and_white(surface);
 	update_surface(screen, surface);
-	wait_for_keypressed();
+	//wait_for_keypressed();
 
 	//init values
+	//
 	int height = surface -> h;
 	int width  = surface -> w;
 
 	// Array that contain every red line's index
-	int array[height*width];
 	// Array's pointeur
-	int *tableau = array;
+	size_t len = height*width;
+	int *tableau = calloc( len, sizeof(int));
 
 	split_eachline(surface, tableau);
+	update_surface(screen, surface);
+	//wait_for_keypressed();
+
+	//square(surface);
+	//
+
 	split_all_band(surface, tableau);
 	update_surface(screen, surface);
 	wait_for_keypressed();
-
-	//square(surface);
-
-	/*split_all_band(surface, tableau);
-	update_surface(screen, surface);
-	wait_for_keypressed();*/
 
 	SDL_FreeSurface(surface);
 	SDL_FreeSurface(screen);
