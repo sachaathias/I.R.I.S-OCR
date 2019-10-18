@@ -43,6 +43,7 @@ void display_image_test(char* file)
 	int *tableau = array;
 
 	split_eachline(surface, tableau);
+	split_all_band(surface, tableau);
 	update_surface(screen, surface);
 	wait_for_keypressed();
 

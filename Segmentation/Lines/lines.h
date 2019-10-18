@@ -12,6 +12,6 @@
 
 int is_blank_line(SDL_Surface *image, int x);
 void trace(SDL_Surface *image, int x);
-void split_eachline(SDL_Surface *image, int *array[]);
+void split_eachline(SDL_Surface *image, int *array);
 
 #endif
