@@ -104,21 +104,26 @@ void Init_value(struct Network *self)
   {
 	  for(int j = 0; j < (*self).hidden; j++)
 	  {
-		*((*self).weight_hidden + ( h+i * (*self).hidden)) = Random();
+		*((*self).weight_hidden + (j+i * (*self).hidden)) = Random();
+		*((*self).dweight_hidden + (j+i * (*self).hidden))=0.0;
 	  }
   }
 
   for(int i = 0; i < (*self).hidden; ++i)
   {
-	  *((*self).weight_output + i) = Random;
-	  *((*self).biases_hidden + i) = Random;
+	  *((*self).weight_output + i) = Random();
+	  *((*self).dweight_output + i) = 0.0;
+	  *((*self).biases_hidden + i) = Random();
+	  *((*self).dbiases_hidden + i) = 0.0;
   }
+  (*self).dbiases_output = 0.0;
 }
 
 float feedforward(struct Network *self)
 {
 	for(int i = 0; i < (*self).weight_hidden; i++)
 	{
+
 
 	
 }
