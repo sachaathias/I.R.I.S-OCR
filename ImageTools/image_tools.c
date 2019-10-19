@@ -155,3 +155,19 @@ void update_surface(SDL_Surface* screen, SDL_Surface* image)
 
     SDL_UpdateRect(screen, 0, 0, image->w, image->h);
 }
+
+
+void reverseByte(SDL_Surface* surface)
+{
+	Uint32 pixel;
+
+	for (int i = 0 ; i < surface -> w; i++)
+	{
+		for (int j = 0; j< surface -> h; j++)
+		{
+			pixel = get_pixel(surface, i, j);
+			pixel = SDL_Swap32(pixel);
+			set_pixel(surface, i, j, pixel);
+		}
+	}
+}

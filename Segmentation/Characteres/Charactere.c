@@ -108,12 +108,10 @@ void split_all_band(SDL_Surface *image, int *array)
 {
 	for(int index = 0; index < image -> h-6; index+=2)
 	{
-		if(array[index] !=0 )
-		{
-			split_band(image, array[index]);
-		}
-		else
+		if(array[index] ==0 && index > 10 )
 			break;
+		else
+			split_band(image, array[index]);
 	}
 }
 

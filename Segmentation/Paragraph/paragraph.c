@@ -73,7 +73,7 @@ void Add_line(SDL_Surface *image, int x, int y)
 }
 
 // Create a blue square around the block of texte
-void square(SDL_Surface *image, int* tableau[])
+void square(SDL_Surface *image, int tableau[])
 {
 	int width = image -> w;
 	int height = image -> h;
@@ -120,7 +120,7 @@ void square(SDL_Surface *image, int* tableau[])
 	Add_line(image, x_left, y_bottom);
 
 	// Add the 4 corners's coordonates in the table
-	tableau[0] =(int*) x_left;
+	tableau[0] = x_left;
 	tableau[1] = x_right;
 	tableau[2] = y_top;
 	tableau[3] = y_bottom;

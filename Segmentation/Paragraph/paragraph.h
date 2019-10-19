@@ -18,7 +18,7 @@ int Is_blank_column(SDL_Surface *image, int x);
 int Is_blank_line(SDL_Surface *image, int x, int y);
 void Add_column(SDL_Surface *image, int x);
 void Add_line(SDL_Surface *image, int x, int y);
-void square(SDL_Surface *image, int* tableau[]);
+void square(SDL_Surface *image, int tableau[]);
 
 // OTHER FUNCTIONS
 

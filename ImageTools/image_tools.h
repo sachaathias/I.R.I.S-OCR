@@ -15,5 +15,5 @@ void save_BMP(SDL_Surface *surface, char* file);
 SDL_Surface* display_image(SDL_Surface *img);
 extern void wait_for_keypressed();
 void update_surface(SDL_Surface* screen, SDL_Surface* image);
-
+void reverseByte(SDL_Surface* surface);
 #endif
