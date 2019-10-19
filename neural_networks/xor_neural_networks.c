@@ -17,31 +17,31 @@ float feedforward();
 
 struct Network
 {
-	//number of inputs and number of neurons in hidden layer
-	int inputs;
-	int hidden;
-	//arrays of weights and biases
-	double *weight_hidden;
-	double *weight_output;
-	double *biases_hidden;
-	double bias_output;
-	//output of hidden layer
-	double *output_hidden;
-	//error rate and output of the network
-	double error;
-	double output;
-	//delta of weights
-	double *dweight_hidden;
-	double *dweight_output;
-	//delta of biases
-	double *dbiases_hidden;
-	double dbias_output;
-	//delta output
-	double doutput;
-	//training data(inputs)
-	int *training;
-	//network goal anwser
-	int *anwser;
+    //number of inputs and number of neurons in hidden layer
+    int inputs;
+    int hidden;
+    //arrays of weights and biases
+    double *weight_hidden;
+    double *weight_output;
+    double *biases_hidden;
+    double bias_output;
+    //output of hidden layer
+    double *output_hidden;
+    //error rate and output of the network
+    double error;
+    double output;
+    //delta of weights
+    double *dweight_hidden;
+    double *dweight_output;
+    //delta of biases
+    double *dbiases_hidden;
+    double dbias_output;
+    //delta output
+    double doutput;
+    //training data(inputs)
+    int *training;
+    //network goal anwser
+    int *anwser;
 }
 
 /*----------------Tool functions--------------*/
@@ -71,7 +71,7 @@ struct Initialize_network()
 {
 	struct Network self;
 	self.inputs = 2;
-	self.hidden = 3;
+	self.hidden = 2;
 	self.weight_hidden = malloc(sizeof(double)*self.inputs*self.hidden);
 	self.weight_output = malloc(sizeof(double)*self.hidden);
 	self.biases_hidden = malloc(sizeof(double)*self.hidden);
@@ -83,6 +83,7 @@ struct Initialize_network()
 	self.anwser = malloc(sizeof(int)*4);
 	return self;
 }
+
 
 void Init_value(struct Network *self)
 {
@@ -104,31 +105,37 @@ void Init_value(struct Network *self)
 	{
 		for(int j = 0; j < (*self).hidden; j++)
 		{
-			*((*self).weight_hidden + (j+i * (*self).hidden)) = Random();
-			*((*self).dweight_hidden + (j+i * (*self).hidden))=0.0;
+		    *((*self).weight_hidden + (j+i * (*self).hidden)) 
+			= Random();
+		    *((*self).dweight_hidden + (j+i * (*self).hidden))=0.0;
 		}
 	}
 
 	for(int i = 0; i < (*self).hidden; ++i)
 	{
-		*((*self).weight_output + i) = Random();
-		*((*self).dweight_output + i) = 0.0;
-		*((*self).biases_hidden + i) = Random();
-		*((*self).dbiases_hidden + i) = 0.0;
+	    *((*self).weight_output + i) = Random();
+	    *((*self).dweight_output + i) = 0.0;
+	    *((*self).biases_hidden + i) = Random();
+	    *((*self).dbiases_hidden + i) = 0.0;
 	}
 	(*self).dbiases_output = 0.0;
 }
 
-float feedforward(struct Network *self)
+/*----------------Forward Propagation---------------*/
+
+float feedforward(struct Network *self, int p)
 {
+    *((*self).output_hidden) = *((*self).training + 2 * p) *
+	*((*self).weight_hidden) + *((self).training + 2 * p + 1) * 
+	*((self).weight_hidden + 1);
+    *((*self).output_hidden + 1) = *((*self).training + 2 * p) *
+	*((*self).weight_hidden) + *((self).training + 2 *p +1) *
+	*((self).weight_hidden + 1);
+    output = *((self).output_hidden) * *((*self).weight_output) +
+	*((self).output_hidden) * *((*self).weight_output + 1);
+    return output;
 
-	for(int i = 0; i < (*self).weight_hidden; i++)
-	{
-		*((*self).weight_hidden + i) * *((*self).training + i/)
-
-
-
-	}
+}
 
 
 
