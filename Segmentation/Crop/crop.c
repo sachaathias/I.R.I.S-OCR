@@ -8,12 +8,15 @@
 
 void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char str[])
 {
+	// Create a virtual rectangle
 	SDL_Rect b ={x, y, width, height};
 	SDL_UnlockSurface(image);
+	// Create a new picture
 	SDL_Surface *bb = SDL_CreateRGBSurface(0, 
 			width, 
 			height, 
 			image->format->BitsPerPixel, 0, 0, 0, 0);
+	// Create a copy of our picture 
 	SDL_UnlockSurface(bb);
 	SDL_BlitSurface(image,&b,bb,NULL);
 	SDL_LockSurface(bb);
@@ -52,3 +55,47 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 	}
 	return i; 
 }
+
+int crop_Letters(SDL_Surface* lines)
+{
+	int width  = lines -> w;
+	int height = lines -> h;
+
+	int x = 0;
+
+	int firstColumn;
+	int secondColumn;
+	char str[100000000];
+
+	int i = 0;
+
+	while( x < width )
+	{
+		while( is_blank_column(lines, x, 0))
+		{
+			x ++;
+		}
+		
+		firstColumn = x;
+		x++;
+
+		while (!is_blank_column(lines, x, 0))
+		{
+			x++;
+		}
+		secondColumn = x;
+
+		sprintf(str,"letter%d.bmp",i);
+		crop_picture(lines,
+				firstColumn, // x
+				0,           // y
+				secondColumn - firstColumn, // width
+				height,       // height
+				str);
+		i++;
+	}
+	return i;
+}
+
+
+
