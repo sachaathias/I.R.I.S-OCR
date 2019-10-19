@@ -8,11 +8,12 @@
 //prototypes
 struct Network;
 double Random();
-float sigmoid(float x);
-float sigmoid_derivative(float x);
-struct Initalize_network();
-void Init_value(struct Network *self);
-float feedforward();
+double Sigmoid(double x);
+double Sigmoid_Derivative(double x);
+struct Initalize_Network();
+void Init_Value(struct Network *self);
+void FeedForward(struct Network *self, int p);
+void ErrorRate(double output);
 
 
 struct Network
@@ -53,13 +54,13 @@ double Random()
 }
 
 //the sigmoid function
-float sigmoid(float x)
+double Sigmoid(double x)
 {
 	return 1/(1 + exp(-x));
 }
 
 //the derivative of the sigmoid function
-float sigmoid_derivative(float x)
+double Sigmoid_Derivative(double x)
 {
 	return exp(-x)/pow((1 + exp(-x), 2));
 }
@@ -67,7 +68,7 @@ float sigmoid_derivative(float x)
 /*----------------Initialize Network-----------*/
 
 //initialize the struct and allocate the memory
-struct Initialize_network()
+struct Initialize_Network()
 {
 	struct Network self;
 	self.inputs = 2;
@@ -85,7 +86,7 @@ struct Initialize_network()
 }
 
 
-void Init_value(struct Network *self)
+void Init_Value(struct Network *self)
 {
 	*((*self).training) = 0;
 	*((*self).training +1) = 0;
@@ -123,17 +124,24 @@ void Init_value(struct Network *self)
 
 /*----------------Forward Propagation---------------*/
 
-float feedforward(struct Network *self, int p)
+void FeedForward(struct Network *self, int p)
 {
-    *((*self).output_hidden) = *((*self).training + 2 * p) *
-	*((*self).weight_hidden) + *((self).training + 2 * p + 1) * 
-	*((self).weight_hidden + 1);
-    *((*self).output_hidden + 1) = *((*self).training + 2 * p) *
-	*((*self).weight_hidden) + *((self).training + 2 *p +1) *
-	*((self).weight_hidden + 1);
-    output = *((self).output_hidden) * *((*self).weight_output) +
-	*((self).output_hidden) * *((*self).weight_output + 1);
-    return output;
+    *((*self).output_hidden) = Sigmoid(*((*self).training + 2 * p) *
+	*((*self).weight_hidden) + *((*self).training + 2 * p + 1) * 
+	*((*self).weight_hidden + 1));
+    *((*self).output_hidden + 1) = Sigmoid(*((*self).training + 2 * p) *
+	*((*self).weight_hidden) + *((*self).training + 2 *p +1) *
+	*((*self).weight_hidden + 1));
+    (*self).output = Sigmoid(*((*self).output_hidden) * *((*self).weight_output) +
+	*((*self).output_hidden) * *((*self).weight_output + 1));
+}
+
+void ErrorRate(struct Network *self);
+
+/*----------------BackPropagation-------------------*/
+
+void BackwardPass(struct Network *self)
+{
 
 }
 
