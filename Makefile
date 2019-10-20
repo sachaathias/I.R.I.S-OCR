@@ -2,7 +2,7 @@
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -std=c99 -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -std=c99 -g #-fsanitize=address
 LDFLAGS = #-fsanitize=address
 LDLIBS = -lSDL -lSDL_image
 
