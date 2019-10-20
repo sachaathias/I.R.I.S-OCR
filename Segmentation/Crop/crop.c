@@ -19,9 +19,7 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
 	// Create a copy of our picture 
 	SDL_UnlockSurface(bb);
 	SDL_BlitSurface(image,&b,bb,NULL);
-	SDL_LockSurface(bb);
 	//reverseByte(bb);
-	SDL_LockSurface(image);
 	SDL_SaveBMP(bb,str);
 	printf("%s\n",str);
 }

@@ -2,4 +2,5 @@ To compile our prject:
 	make
 
 To run our project:
-	./main <path_of_image>
+	./main  -xor (to run XOR neural network)
+		-img_trt <image_path> (to run binarisation and segmentation)
