@@ -79,12 +79,11 @@ SDL_Surface* load_image(char* file)
 }
 
 //Copy the image
-SDL_Surface* copy_image(SDL_Surface *surface)
+/*SDL_Surface* copy_image(SDL_Surface *surface)
 {
 	Uint32 pixel;
-	SDL_Surface *copy = NULL;
+	SDL_Surface *copy;
 	copy = SDL_CreateRGBSurface(0, surface->w, surface->h, surface->format->BitsPerPixel, 0, 0, 0, 0);
-
 	if(copy == NULL)
 	{
 		perror("SDL_CreateRGBSurface");
@@ -101,9 +100,74 @@ SDL_Surface* copy_image(SDL_Surface *surface)
 		}
 	}
 	return copy;
-}
+}*/
 
 void save_BMP(SDL_Surface *surface, char* file)
 {
 	SDL_SaveBMP(surface, file);
+}
+
+SDL_Surface* display_image(SDL_Surface *img)
+{
+    SDL_Surface *screen;
+
+    // Set the window to the same size as the image
+    screen = SDL_SetVideoMode(img->w, img->h, 0, SDL_SWSURFACE|SDL_ANYFORMAT);
+    if (screen == NULL)
+    {
+        // error management
+        errx(1, "Couldn't set %dx%d video mode: %s\n",
+                img->w, img->h, SDL_GetError());
+    }
+
+    // Blit onto the screen surface
+    if(SDL_BlitSurface(img, NULL, screen, NULL) < 0)
+        warnx("BlitSurface error: %s\n", SDL_GetError());
+
+    // Update the screen
+    SDL_UpdateRect(screen, 0, 0, img->w, img->h);
+
+    // return the screen for further uses
+    return screen;
+}
+
+void wait_for_keypressed()
+{
+    SDL_Event event;
+
+    // Wait for a key to be down.
+    do
+    {
+        SDL_PollEvent(&event);
+    } while(event.type != SDL_KEYDOWN);
+
+    // Wait for a key to be up.
+    do
+    {
+        SDL_PollEvent(&event);
+    } while(event.type != SDL_KEYUP);
+}
+
+void update_surface(SDL_Surface* screen, SDL_Surface* image)
+{
+    if (SDL_BlitSurface(image, NULL, screen, NULL) < 0)
+        warnx("BlitSurface error: %s\n", SDL_GetError());
+
+    SDL_UpdateRect(screen, 0, 0, image->w, image->h);
+}
+
+
+void reverseByte(SDL_Surface* surface)
+{
+	Uint32 pixel;
+
+	for (int i = 0 ; i < surface -> w; i++)
+	{
+		for (int j = 0; j< surface -> h; j++)
+		{
+			pixel = get_pixel(surface, i, j);
+			pixel = SDL_Swap32(pixel);
+			set_pixel(surface, i, j, pixel);
+		}
+	}
 }

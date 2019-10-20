@@ -8,6 +8,6 @@ int main(int argc, char** argv)
 	if(argc != 2)
 		errx(1, "No file specified");
 	char* file = argv[1];
-	save_BMP_test(file);
+	display_image_test(file);
 	return 0;
 }

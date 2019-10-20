@@ -1,1 +1,5 @@
-gcc -Wall -Wextra -std=c99 -O1 -o main *.c -lSDL2
+To compile our prject:
+	make
+
+To run our project:
+	./main <nom_de_l'image>
