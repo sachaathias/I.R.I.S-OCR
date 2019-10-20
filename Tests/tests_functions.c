@@ -103,15 +103,15 @@ void display_image_test(char* file)
 	int number_picture = crop_Lines(image, tableau, lenght);
 	wait_for_keypressed();
 
-	SDL_Surface* Lines;
+	SDL_Surface* Lines; 
 	char str[30];
 	// Show each line previously saved
-	int count_letter = 0; 
-	for( int count = 0; count < number_picture -2; count++)
+	// int count_letter = 0; 
+	for( int count = 0; count < number_picture ;count++)
 	{
 		sprintf(str,"line%d.bmp",count);
 		Lines = load_image(str);
-		//crop_Letters(Lines);
+		//crop_Letters(&Lines);
 		scree = display_image(Lines);
 		update_surface(screen, image);
 		wait_for_keypressed();

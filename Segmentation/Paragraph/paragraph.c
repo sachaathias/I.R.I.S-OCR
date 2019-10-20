@@ -85,7 +85,7 @@ void square(SDL_Surface *image, int tableau[])
 
 	// Left edge
 	x_left = 0;
-	while(Is_blank_column(image, x_left) == 1)
+	while(x_left < width && Is_blank_column(image, x_left) == 1)
 	{
 		x_left++;
 	}
@@ -94,7 +94,7 @@ void square(SDL_Surface *image, int tableau[])
 
 	// Right edge
 	x_right = width - 1;
-	while(Is_blank_column(image, x_right) == 1)
+	while(x_right >= 0 && Is_blank_column(image, x_right) == 1)
 	{
 		x_right--;
 	}
@@ -103,7 +103,7 @@ void square(SDL_Surface *image, int tableau[])
 
 	// Top edge
 	y_top = 0;
-	while(Is_blank_line(image, x_left, y_top))
+	while(y_top < height && Is_blank_line(image, x_left, y_top))
 	{
 		y_top++;
 	}
@@ -112,7 +112,7 @@ void square(SDL_Surface *image, int tableau[])
 
 	// Top edge
 	y_bottom = height - 1;
-	while(Is_blank_line(image, x_left, y_bottom))
+	while(y_bottom >=0 && Is_blank_line(image, x_left, y_bottom))
 	{
 		y_bottom--;
 	}

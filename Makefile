@@ -2,8 +2,8 @@
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -std=c99 -g
-LDFLAGS =
+CFLAGS = -Wall -Wextra -std=c99 -g #-fsanitize=address
+LDFLAGS = #-fsanitize=address
 LDLIBS = -lSDL -lSDL_image
 
 SRC = main.c \
