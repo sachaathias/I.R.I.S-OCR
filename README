@@ -2,4 +2,4 @@ To compile our prject:
 	make
 
 To run our project:
-	./main <nom_de_l'image>
+	./main <path_of_image>

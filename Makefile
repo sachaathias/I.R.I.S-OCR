@@ -1,10 +1,9 @@
-#Makefile
 
 CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -std=c99 -g #-fsanitize=address
 LDFLAGS = #-fsanitize=address
-LDLIBS = -lSDL -lSDL_image
+LDLIBS = -lSDL -lSDL_image -lm
 
 SRC = main.c \
       ImageOperations/binarise.c \
@@ -15,8 +14,9 @@ SRC = main.c \
 	  Segmentation/Characteres/Charactere.c\
 	  Segmentation/dataStruct.c\
 	  Segmentation/Paragraph/paragraph.c\
-	  Segmentation/Crop/crop.c
-	  
+	  Segmentation/Crop/crop.c\
+	  XOR/nn_xor.c
+
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
 
@@ -30,4 +30,3 @@ clean:
 	rm -f $(OBJ) $(DEP) main
 	rm -f *.bmp
 
-#END
