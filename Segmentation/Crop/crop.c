@@ -54,9 +54,9 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 	return i; 
 }
 
-int crop_Letters(SDL_Surface** liness)
+int crop_Letters(char* str_)
 {
-	SDL_Surface* lines = *liness;
+	SDL_Surface* lines =load_image(str_);
 	int width  = lines -> w;
 	int height = lines -> h;
 

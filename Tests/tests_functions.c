@@ -93,11 +93,13 @@ void display_image_test(char* file)
 	}
 
 	update_surface(screen, image);
+	SDL_SaveBMP(image,"eachlines.bmp");
 	wait_for_keypressed();
 
 	// Split Words and Characteres
 	split_all_band(image, tableau);
 	update_surface(screen, image);
+	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
 	// Save each line in files
 	int number_picture = crop_Lines(image, tableau, lenght);
@@ -107,11 +109,12 @@ void display_image_test(char* file)
 	char str[30];
 	// Show each line previously saved
 	// int count_letter = 0; 
+	char* str_ = "line0.bmp";
 	for( int count = 0; count < number_picture ;count++)
 	{
 		sprintf(str,"line%d.bmp",count);
 		Lines = load_image(str);
-		//crop_Letters(&Lines);
+		crop_Letters(str_);
 		scree = display_image(Lines);
 		update_surface(screen, image);
 		wait_for_keypressed();
