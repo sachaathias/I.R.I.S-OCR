@@ -14,10 +14,10 @@
 #include "../../ImageOperations/binarise.h"
 #include "../../ImageTools/image_tools.h"
 // FUNCTIONS
-extern int is_blank_column(SDL_Surface *image, int x, int y);
+extern int is_blank_column(SDL_Surface *image, int x, int y, int s);
 extern void add_column(SDL_Surface *image, int x, int y, Uint32 color);
-void split_band(SDL_Surface *image, int y);
-void split_all_band(SDL_Surface *image, int *array);
+void split_band(SDL_Surface *image, int y, int s);
+void split_all_band(SDL_Surface *image, int *array, int s);
 
 #endif
 

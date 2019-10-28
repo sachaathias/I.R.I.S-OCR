@@ -10,7 +10,8 @@
 // Check if a column is all blank (start on a red line)
 // image = SDL file
 // x, y = startpoint's coordonates
-int is_blank_column(SDL_Surface *image, int x, int y)
+// s = si le nombre de pixel noir ne dépasse pas ce seuil, alors la colonne est blanche
+int is_blank_column(SDL_Surface *image, int x, int y, int s)
 {
 	// Test if first pixel is RED : begining on a red line
 	if(get_pixel(image, x, y) != 0x0000FF)
@@ -20,10 +21,14 @@ int is_blank_column(SDL_Surface *image, int x, int y)
 	int blank = 1; // True
 	Uint32 pixel = get_pixel(image, x, y + 1);
 
+	int c = 0;
 	// While the pixel is white we go down and we stop on the first RED pixel 
 	while(y < image -> h && pixel != 0x0000FF && blank == 1) 
 	{
 		if(pixel == 0x000000) // BLACK
+			c++;
+
+		if(c > s)
 			blank = 0;
 
 		y++;
@@ -58,11 +63,11 @@ void add_column(SDL_Surface *image, int x, int y, Uint32 color)
 // Add columns on a band between two lines (start on a red line)
 // image = SDL file
 // y = startpoint's coordonate
-void split_band(SDL_Surface *image, int y)
+void split_band(SDL_Surface *image, int y, int s)
 {
 	int width = image -> w;
 	int x = 0;
-	
+
 
 	while(x < width - 30)
 	{
@@ -70,7 +75,7 @@ void split_band(SDL_Surface *image, int y)
 		// Else this is a char space
 		int space = 0;
 
-		while(x < width-5 && is_blank_column(image, x, y) == 1)
+		while(x < width-5 && is_blank_column(image, x, y, s) == 1)
 		{
 			x++;
 			space++;
@@ -86,10 +91,10 @@ void split_band(SDL_Surface *image, int y)
 		}
 		else
 			// Space char : Red Column
-		    add_column(image, x-1, y, 0x0000FF);
-			
+			add_column(image, x-1, y, 0x0000FF);
 
-		while(x < width-1 && is_blank_column(image, x, y) == 0)
+
+		while(x < width-1 && is_blank_column(image, x, y, s) == 0)
 			x++;
 
 
@@ -103,15 +108,15 @@ void split_band(SDL_Surface *image, int y)
 
 // Apply the spliting on all lines
 // image = SDL file
-// indexs = list containing y indexs of all red lines
-void split_all_band(SDL_Surface *image, int *array)
+// array = list containing y indexs of all red lines
+void split_all_band(SDL_Surface *image, int *array, int s)
 {
 	for(int index = 0; index < image -> h-6; index+=2)
 	{
 		if(array[index] ==0 && index > 10 )
 			break;
 		else
-			split_band(image, array[index]);
+			split_band(image, array[index], s);
 	}
 }
 

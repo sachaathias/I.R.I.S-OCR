@@ -54,7 +54,7 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 	return i; 
 }
 
-int crop_Letters(char* str_)
+int crop_Letters(char* str_, int s)
 {
 	SDL_Surface* lines =load_image(str_);
 	int width  = lines -> w;
@@ -70,7 +70,7 @@ int crop_Letters(char* str_)
 
 	while( x < width )
 	{
-		while( is_blank_column(lines, x, 0))
+		while( is_blank_column(lines, x, 0, s))
 		{
 			x ++;
 		}
@@ -78,7 +78,7 @@ int crop_Letters(char* str_)
 		firstColumn = x;
 		x++;
 
-		while (!is_blank_column(lines, x, 0))
+		while (!is_blank_column(lines, x, 0, s))
 		{
 			x++;
 		}

@@ -97,7 +97,7 @@ void display_image_test(char* file)
 	wait_for_keypressed();
 
 	// Split Words and Characteres
-	split_all_band(image, tableau);
+	split_all_band(image, tableau, 0);
 	update_surface(screen, image);
 	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
@@ -114,7 +114,7 @@ void display_image_test(char* file)
 	{
 		sprintf(str,"line%d.bmp",count);
 		Lines = load_image(str);
-		crop_Letters(str_);
+		crop_Letters(str_, 0);
 		scree = display_image(Lines);
 		update_surface(screen, image);
 		wait_for_keypressed();
