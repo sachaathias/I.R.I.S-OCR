@@ -26,7 +26,7 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
 
 
 
-int crop_Lines(SDL_Surface* image, int array[],int len,int s)
+int crop_Lines(SDL_Surface* image, int array[],int len)
 {
 	int Upper_line;
 	int Bottom_line;
@@ -50,12 +50,12 @@ int crop_Lines(SDL_Surface* image, int array[],int len,int s)
 		printf("croped");
 		crop_picture( image, 0,Upper_line, Width, Height,str);
 		i++;
-		crop_Letters(str,s);
+		crop_Letters(str);
 	}
 	return i; 
 }
 
-int crop_Letters(char* str_, int s)
+int crop_Letters(char* str_)
 {
 	printf("Hello");
 	SDL_Surface* lines =load_image(str_);
@@ -72,7 +72,7 @@ int crop_Letters(char* str_, int s)
 
 	while( x < width )
 	{
-		while( is_blank_column(lines, x, 0, s))
+		while( is_blank_column(lines, x, 0))
 		{
 			x ++;
 		}
@@ -80,7 +80,7 @@ int crop_Letters(char* str_, int s)
 		firstColumn = x;
 		x++;
 
-		while (!is_blank_column(lines, x, 0, s))
+		while (!is_blank_column(lines, x, 0))
 		{
 			x++;
 		}

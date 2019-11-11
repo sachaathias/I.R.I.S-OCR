@@ -17,7 +17,7 @@
 
 void crop_picture(SDL_Surface* image, int x, int y,
 		int width, int height, char str[]);
-int crop_Lines(SDL_Surface* image, int array[], int len,int s);
-int crop_Letters(char* str_, int s);
+int crop_Lines(SDL_Surface* image, int array[], int len);
+int crop_Letters(char* str_);
 
 #endif

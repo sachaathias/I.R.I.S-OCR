@@ -97,7 +97,7 @@ void display_image_test(char* file)
 	wait_for_keypressed();
 
 	// Split Words and Characteres
-	split_all_band(image, tableau, 0);
+	split_all_band(image, tableau);
 	update_surface(screen, image);
 	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
