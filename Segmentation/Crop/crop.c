@@ -26,13 +26,13 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
 
 
 
-int crop_Lines(SDL_Surface* image, int array[],int len)
+int crop_Lines(SDL_Surface* image, int array[],int len,int s)
 {
 	int Upper_line;
 	int Bottom_line;
 	int Height;
 	int Width = image -> w;
-	char str[12];
+	char str[]= "line.bmp";
 
 	int i = 0;
 	// Cross the array for getting each red lines's coordinates
@@ -46,16 +46,18 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 
 		Height = Bottom_line - Upper_line;
 
-		sprintf(str,"line%d.bmp",i);
-		i++;
+		//sprintf(str,"line%d.bmp",i);
 		printf("croped");
 		crop_picture( image, 0,Upper_line, Width, Height,str);
+		i++;
+		crop_Letters(str,s);
 	}
 	return i; 
 }
 
 int crop_Letters(char* str_, int s)
 {
+	printf("Hello");
 	SDL_Surface* lines =load_image(str_);
 	int width  = lines -> w;
 	int height = lines -> h;
@@ -64,7 +66,7 @@ int crop_Letters(char* str_, int s)
 
 	int firstColumn;
 	int secondColumn;
-	char str[100000000];
+	char str[1000];
 
 	int i = 0;
 
@@ -93,6 +95,8 @@ int crop_Letters(char* str_, int s)
 				str);
 		i++;
 	}
+	
+
 	return i;
 }
 

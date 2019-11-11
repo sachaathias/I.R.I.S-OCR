@@ -102,7 +102,7 @@ void display_image_test(char* file)
 	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
 	// Save each line in files
-	int number_picture = crop_Lines(image, tableau, lenght);
+	int number_picture = crop_Lines(image, tableau, lenght,0);
 	wait_for_keypressed();
 
 	SDL_Surface* Lines; 
