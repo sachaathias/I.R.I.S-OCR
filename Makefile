@@ -12,10 +12,10 @@ SRC = main.c \
 	  Tests/tests_functions.c\
 	  Segmentation/Lines/lines.c\
 	  Segmentation/Characteres/Charactere.c\
-	  Segmentation/dataStruct.c\
 	  Segmentation/Paragraph/paragraph.c\
 	  Segmentation/Crop/crop.c\
-	  XOR/nn_xor.c
+	  XOR/nn_xor.c\
+	  Segmentation/ToMatrix/to_matrix.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)

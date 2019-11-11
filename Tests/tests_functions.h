@@ -10,9 +10,9 @@
 #include "../sdl/sdl_functions.h"
 #include "../Segmentation/Lines/lines.h"
 #include "../Segmentation/Characteres/Charactere.h"
-#include "../Segmentation/dataStruct.h"
 #include "../Segmentation/Paragraph/paragraph.h"
 #include "../Segmentation/Crop/crop.h"
+#include "../Segmentation/ToMatrix/to_matrix.h"
 
 
 //void save_BMP_test(char* file);

@@ -104,13 +104,15 @@ void display_image_test(char* file)
 	crop_Lines(image, tableau, lenght);
 	wait_for_keypressed();
 
+    // test matrice
+	SDL_Surface* letter = load_image("letter2.bmp");
+	int array[letter->h*letter->w];
+	to_matrix(letter, array);
+	print_matrix(array, letter->w, letter->h);
+
 
 	// Show each line previously saved
-
 	SDL_FreeSurface(surface);
-
 	SDL_FreeSurface(image);
-
-	
 	SDL_Quit();
 }
