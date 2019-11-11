@@ -48,11 +48,40 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 
 		//sprintf(str,"line%d.bmp",i);
 		printf("croped");
-		crop_picture( image, 0,Upper_line, Width, Height,str);
+		crop_picture( image, 1,Upper_line, Width, Height,str);
 		i++;
 		crop_Letters(str);
 	}
 	return i; 
+}
+int check_column(SDL_Surface *image, int x, Uint32 color )
+{
+	int y = 0;
+	int Bool = 1;
+	Uint32 pixel = get_pixel(image,x,y);
+
+	while(y < image -> h && Bool == 1 )
+	{
+		if (pixel != color )
+			Bool = 0;
+		y++;
+	}
+	return Bool;
+}
+
+int IsLetter(SDL_Surface *image, int x)
+{
+	int y = 0;
+	int Bool = 0;
+	Uint32 pixel = get_pixel(image,x,y);
+
+	while(y < image -> h && Bool == 1 )
+	{
+		if (pixel == 0x000000 )
+			Bool = 1;
+		y++;
+	}
+	return Bool;
 }
 
 int crop_Letters(char* str_)
@@ -72,30 +101,41 @@ int crop_Letters(char* str_)
 
 	while( x < width )
 	{
-		while( is_blank_column(lines, x, 0))
+		while(check_column(lines,x,0xFFFFFF) )
 		{
 			x ++;
 		}
-		
-		firstColumn = x;
-		x++;
 
-		while (!is_blank_column(lines, x, 0))
+		if (check_column(lines,x ,0x00FF00))
 		{
 			x++;
 		}
-		secondColumn = x;
+
+		if (check_column(lines,x,0x0000FF))
+		{
+			firstColumn = x;
+			x++;
+		}
+		while (IsLetter(lines, x))
+		{
+			x++;
+		}
+		
+		if(check_column(lines,x,0x0000FF))
+		{
+			secondColumn = x;
+		}
 
 		sprintf(str,"letter%d.bmp",i);
 		crop_picture(lines,
 				firstColumn, // x
 				0,           // y
 				secondColumn - firstColumn, // width
-				height,       // height
+				height-1,       // height
 				str);
 		i++;
 	}
-	
+
 
 	return i;
 }
