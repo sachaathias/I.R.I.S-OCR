@@ -106,7 +106,6 @@ void display_image_test(char* file)
 	wait_for_keypressed();
 
 	SDL_Surface* Lines; 
-	char str[30];
 	// Show each line previously saved
 	// int count_letter = 0; 
 	char* str_ = "line0.bmp";
@@ -114,7 +113,6 @@ void display_image_test(char* file)
 	{
 		sprintf(str,"line%d.bmp",count);
 		Lines = load_image(str);
-		crop_Letters(str_, 0);
 		scree = display_image(Lines);
 		update_surface(screen, image);
 		wait_for_keypressed();
