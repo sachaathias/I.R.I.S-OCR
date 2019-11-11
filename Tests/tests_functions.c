@@ -107,8 +107,7 @@ void display_image_test(char* file)
 
 	SDL_Surface* Lines; 
 	// Show each line previously saved
-	// int count_letter = 0; 
-	char* str_ = "line0.bmp";
+	char str[12];
 	for( int count = 0; count < number_picture ;count++)
 	{
 		sprintf(str,"line%d.bmp",count);

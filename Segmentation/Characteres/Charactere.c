@@ -71,11 +71,11 @@ void split_band(SDL_Surface *image, int y, int s)
 
 	while(x < width - 30)
 	{
-		// If this variable goes beyond 3 pixel, this is a word space
+		// If this variable goes beyond 5 pixel, this is a word space
 		// Else this is a char space
 		int space = 0;
 
-		while(x < width-5 && is_blank_column(image, x, y, s) == 1)
+		while(x < width-1 && is_blank_column(image, x, y, s) == 1)
 		{
 			x++;
 			space++;
@@ -85,23 +85,27 @@ void split_band(SDL_Surface *image, int y, int s)
 
 		if(space > 5)
 		{
-			// Space word : Green Column
-			add_column(image, x-2, y, 0x00FF00);
-			add_column(image, x-1, y, 0x0000FF);
+			if(space < 20)
+			{
+				// Space word : Green Column
+				add_column(image, x-2, y, 0x00FF00);
+				add_column(image, x-1, y, 0x0000FF);
+			}
 		}
 		else
 			// Space char : Red Column
 			add_column(image, x-1, y, 0x0000FF);
 
+		if(space < 20)
+		{
+			while(x < width-1 && is_blank_column(image, x, y, s) == 0)
+				x++;
 
-		while(x < width-1 && is_blank_column(image, x, y, s) == 0)
-			x++;
+			// Add the colum 2 pixel after for a better visibility
+			add_column(image, x, y, 0x0000FF);
 
-
-		// Add the colum 2 pixel after for a better visibility
-		add_column(image, x+1, y, 0x0000FF);
-
-		x ++;
+			x ++;
+		}
 	}
 }
 
