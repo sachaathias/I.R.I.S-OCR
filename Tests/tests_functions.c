@@ -71,8 +71,7 @@ void display_image_test(char* file)
 	update_surface(screen, surface);
 
 	SDL_Surface* image = load_image("first_cut.bmp");
-	SDL_Surface *scree = display_image(image);
-
+	
 	
 	// Split lines
 	split_eachline(image, tableau);
@@ -102,25 +101,16 @@ void display_image_test(char* file)
 	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
 	// Save each line in files
-	int number_picture = crop_Lines(image, tableau, lenght);
+	crop_Lines(image, tableau, lenght);
 	wait_for_keypressed();
 
-	SDL_Surface* Lines; 
+
 	// Show each line previously saved
-	char str[12];
-	for( int count = 0; count < number_picture ;count++)
-	{
-		sprintf(str,"line%d.bmp",count);
-		Lines = load_image(str);
-		scree = display_image(Lines);
-		update_surface(screen, image);
-		wait_for_keypressed();
-	}
 
 	SDL_FreeSurface(surface);
-	SDL_FreeSurface(scree);
+
 	SDL_FreeSurface(image);
-	SDL_FreeSurface(Lines);
+
 	
 	SDL_Quit();
 }

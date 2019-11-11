@@ -26,7 +26,7 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
 
 
 
-int crop_Lines(SDL_Surface* image, int array[],int len)
+void crop_Lines(SDL_Surface* image, int array[],int len)
 {
 	int Upper_line;
 	int Bottom_line;
@@ -35,6 +35,7 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 	char str[]= "line.bmp";
 
 	int i = 0;
+	int count = 0 ;
 	// Cross the array for getting each red lines's coordinates
 	for (int index = 0; index < len; index++)
 	{
@@ -46,14 +47,14 @@ int crop_Lines(SDL_Surface* image, int array[],int len)
 
 		Height = Bottom_line - Upper_line;
 
-	//sprintf(str,"line%d.bmp",i);
+		//sprintf(str,"line%d.bmp",i);
 		printf("croped");
 		crop_picture( image, 0,Upper_line+1, Width, Height-1,str);
 		i++;
-		crop_Letters(str);
+		count += crop_Letters(str, count);
 	}
-	return i; 
 }
+
 int check_pixel(SDL_Surface *image,int x)
 {
 	int y = 0;
@@ -66,9 +67,9 @@ int check_pixel(SDL_Surface *image,int x)
 }
 
 
-int crop_Letters(char* str_)
+int crop_Letters(char* str_,int count)
 {
-	printf("Hello");
+	
 	SDL_Surface* lines =load_image(str_);
 	int width  = lines -> w;
 	int height = lines -> h;
@@ -79,7 +80,7 @@ int crop_Letters(char* str_)
 	int secondColumn;
 	char str[1000];
 
-	int i = 0;
+	int i = count;
 
 	while( x < width )
 	{
