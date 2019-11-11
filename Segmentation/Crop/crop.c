@@ -102,10 +102,10 @@ int crop_Letters(char* str_,int count)
 		{
 			sprintf(str,"letter%d.bmp",i);
 			crop_picture(lines,
-					firstColumn, // x
+					firstColumn +1, // x
 					1,           // y
-					secondColumn - firstColumn+1, // width
-					height,       // height
+					secondColumn - firstColumn-1, // width
+					height-1,       // height
 					str);
 			i++;
 		}
