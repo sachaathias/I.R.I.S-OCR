@@ -101,11 +101,12 @@ void display_image_test(char* file)
 	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
 	// Save each line in files
-	crop_Lines(image, tableau, lenght);
+	int count;
+	crop_Lines(image, tableau, lenght, &count);
 	wait_for_keypressed();
 
     // test matrice
-	SDL_Surface* letter = load_image("letter290.bmp");
+	SDL_Surface* letter = load_image("letter9.bmp");
 
 	struct matrix *m = newMatrix(letter->h,letter->w);
 
