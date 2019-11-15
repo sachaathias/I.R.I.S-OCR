@@ -90,11 +90,7 @@ void display_image_test(char* file)
 	wait_for_keypressed();
 
     // test matrice
-<<<<<<< Updated upstream
 	SDL_Surface* letter = load_image("letter9.bmp");
-=======
-	SDL_Surface* letter = load_image("Images/line.png");
->>>>>>> Stashed changes
 
 	struct matrix *m = newMatrix(letter->h,letter->w);
 
@@ -102,7 +98,7 @@ void display_image_test(char* file)
 	{
 		for(int j = 0; j < letter->w; j++)
 		{
-			Uint32 pixel = get_pixel(letter,i,j);
+			Uint32 pixel = get_pixel(letter,j,i);
 			
 			if(pixel == 0xFFFFFF)
 				setElement(m , i, j, (double) 0);

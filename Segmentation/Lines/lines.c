@@ -60,9 +60,9 @@ void split_eachline(SDL_Surface *image, int *array)
 		}
 
 		// Upper redline
-		trace(image, lines);
+		trace(image, lines-1);
 		//save the index of a red line 
-		array[count] = lines;
+		array[count] = lines-1;
 		count++;
 		
 		
@@ -73,12 +73,11 @@ void split_eachline(SDL_Surface *image, int *array)
 			lines++;
 		}
 
-		lines ++;
 		// Lower redline 
-		trace(image , lines);
+		trace(image , lines+1);
 		//save index of a red line
-		array[count] = lines;
-		lines ++;
+		array[count] = lines+1;
+		lines +=3;
 		count++;
 	}
 }

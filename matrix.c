@@ -126,10 +126,10 @@ int printMatrix(struct matrix * mtx) {
       //  - either a - if negative or a space if positive
       //  - at least 3 spaces before the .
       //  - precision to the hundredths place
-      printf("%4d", (int)ELEM(mtx, row, col));
+      printf("%d ", (int)ELEM(mtx, row, col));
     }
     // separate rows by newlines
-    printf("\n\n");
+    printf("\n");
   }
   return 0;
 }
