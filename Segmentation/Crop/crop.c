@@ -35,7 +35,6 @@ void crop_Lines(SDL_Surface* image, int array[],int len, int *count)
 	char str[]= "line.bmp";
 
 	int i = 0;
-	*count= 0 ;
 	// Cross the array for getting each red lines's coordinates
 	for (int index = 0; index < len; index++)
 	{

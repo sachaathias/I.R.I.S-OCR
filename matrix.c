@@ -1,10 +1,5 @@
 #include "matrix.h"
 
-typedef struct matrix {
-  int rows;
-  int cols;
-  double *data;
-} matrix;
 
 /* Creates a ``rows by cols'' matrix with all values 0.  
  * Returns NULL if rows <= 0 or cols <= 0 and otherwise a

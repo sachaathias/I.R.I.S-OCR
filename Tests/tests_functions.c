@@ -34,14 +34,7 @@ void display_image_test(char* file)
 	update_surface(screen, surface);
 	wait_for_keypressed();
 	SDL_FreeSurface(screen);
-	
-	//CROP
-	// corner[0] = x.left
-	//corner[1] = x.right
-	//corner[2] = y.top
-	//corner[3] = y.bottom
-	
-		
+
 	int Upper_X = corner[0]+1;
 	int Upper_Y = corner[2]+1;
 	int Width   = corner[1]-corner[0]-1;
@@ -84,32 +77,48 @@ void display_image_test(char* file)
 	update_surface(screen, image);
 	SDL_SaveBMP(image,"eachCharacteres.bmp");
 
-	// Save each line in files
-	int count;
-	crop_Lines(image, tableau, lenght, &count);
+	int count = 0;//the variable count how many letter there are inside 
+	// the picture
+	int *p = &count;
+	// ---Save each letter -----
+	crop_Lines(image, tableau, lenght, p);
 	wait_for_keypressed();
 
-    // test matrice
-	SDL_Surface* letter = load_image("letter9.bmp");
 
-	struct matrix *m = newMatrix(letter->h,letter->w);
 
-	for(int i = 0; i < letter->h; i++)
+	// ------ Picture To Matrix --------
+	int nbr_of_letter = *p;
+
+	int c = 1;
+	SDL_Surface* letter;
+	char Name[1000];
+	while(c < nbr_of_letter)
 	{
-		for(int j = 0; j < letter->w; j++)
+		sprintf(Name,"letter%d.bmp",c);
+		letter = load_image(Name);
+		struct matrix *data = newMatrix(letter->h,letter->w);
+		for(int i = 0; i < letter->h; i++)
 		{
-			Uint32 pixel = get_pixel(letter,j,i);
+			for(int j = 0; j < letter->w; j++)
+			{
+				Uint32 pixel = get_pixel(letter,j,i);
 			
-			if(pixel == 0xFFFFFF)
-				setElement(m , i, j, (double) 0);
-			else
-				setElement(m , i, j, (double) 1);
+				if(pixel == 0xFFFFFF)
+					setElement(data , i, j, (double) 0);
+				else
+					setElement(data , i, j, (double) 1);
+			}
 		}
+		printMatrix(data);
+
+		// ENVOI AU RESEAU DE NEURONE
+		printf("letter %d/%d \n",c,nbr_of_letter);
+		c++;
+		free(data);
+		SDL_FreeSurface(letter);
 	}
-
-	printMatrix(m);
-
-	// Show each line previously saved
+	// free all pointer 
+	free(p);
 	SDL_FreeSurface(surface);
 	SDL_FreeSurface(image);
 	SDL_Quit();

@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct matrix{
+	int rows;
+	int cols;
+	double *data;
+}matrix;
 struct matrix * newMatrix(int rows, int cols);
 int deleteMatrix(struct matrix * mtx);
 
