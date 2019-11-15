@@ -15,7 +15,8 @@ SRC = main.c \
 	  Segmentation/Paragraph/paragraph.c\
 	  Segmentation/Crop/crop.c\
 	  XOR/nn_xor.c\
-	  Segmentation/ToMatrix/to_matrix.c
+	  Segmentation/ToMatrix/to_matrix.c\
+	  matrix.c
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)

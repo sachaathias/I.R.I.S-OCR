@@ -105,11 +105,24 @@ void display_image_test(char* file)
 	wait_for_keypressed();
 
     // test matrice
-	SDL_Surface* letter = load_image("letter12.bmp");
-	int array[letter->h*letter->w];
-	to_matrix(letter, array);
-	print_matrix(array, letter->w, letter->h);
+	SDL_Surface* letter = load_image("letter290.bmp");
 
+	struct matrix *m = newMatrix(letter->h,letter->w);
+
+	for(int i = 0; i < letter->h; i++)
+	{
+		for(int j = 0; j < letter->w; j++)
+		{
+			Uint32 pixel = get_pixel(letter,i,j);
+			
+			if(pixel == 0xFFFFFF)
+				setElement(m , i, j, (double) 0);
+			else
+				setElement(m , i, j, (double) 1);
+		}
+	}
+
+	printMatrix(m);
 
 	// Show each line previously saved
 	SDL_FreeSurface(surface);
