@@ -1,21 +1,5 @@
 #include "tests_functions.h"
 
-/*void save_BMP_test(char* file)
-{
-	init_sdl();
-
-	SDL_Surface *surface = load_image(file);
-	SDL_Surface *copy = copy_image(surface);
-	SDL_FreeSurface(surface);
-	to_grey(copy);
-	SDL_SaveBMP(copy, "Images/Grey.bmp");
-	to_black_and_white(copy);
-	SDL_SaveBMP(copy, "Images/Black_and_White.bmp");
-	SDL_FreeSurface(copy);
-
-	SDL_Quit();
-}*/
-
 void display_image_test(char* file)
 {
 	init_sdl();
@@ -106,7 +90,11 @@ void display_image_test(char* file)
 	wait_for_keypressed();
 
     // test matrice
+<<<<<<< Updated upstream
 	SDL_Surface* letter = load_image("letter9.bmp");
+=======
+	SDL_Surface* letter = load_image("Images/line.png");
+>>>>>>> Stashed changes
 
 	struct matrix *m = newMatrix(letter->h,letter->w);
 
