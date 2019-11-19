@@ -6,13 +6,14 @@
 #include <time.h>
 #include <math.h>
 #include <err.h>
+#include "../matrix.h"
 
 #define WIDTH_MATRIX 29
 #define HEIGHT_MATRIX 29
-#define HIDDEN_N 300
+#define HIDDEN_N 210
 #define OUTPUTS 52
 
-typedef struct 
+typedef struct
 {
     size_t nb_input;
     size_t nb_hidden;
@@ -33,12 +34,12 @@ typedef struct
 
     double* cost_array;
     double cost;
-    
-    double learning_rate;    
+
+    double learning_rate;
 } neural_net;
 
 neural_net init_net();
 void init_value(neural_net *net);
-void neural_network(neural_net *net, char* file);
+void neural_network(neural_net *net, matrix* mat, char c);
 
 #endif

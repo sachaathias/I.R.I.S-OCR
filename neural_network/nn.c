@@ -5,70 +5,6 @@ double random()
     return (double)rand()/(double)RAND_MAX;
 }
 
-void print_matrix(int* m)
-{
-    for(size_t i = 0; i < WIDTH_MATRIX; i++)
-    {
-        for(size_t j = 0; j < HEIGHT_MATRIX; j++)
-        {
-            printf("%c", (char)m[j + i * WIDTH_MATRIX]);
-        }
-        printf("\n");
-    }
-}
-
-/*int* file_to_matrix(char* f)
-{
-    FILE* file = NULL;
-    file = fopen(f, "r");
-
-    if(file != NULL)
-    {
-        int* m = malloc(sizeof(int)*WIDTH_MATRIX*HEIGHT_MATRIX);
-        for(int i = 0; i < WIDTH_MATRIX; i++)
-        {
-            for (int j = 0; j < HEIGHT_MATRIX; j++)
-            {
-                int n = fgetc(file) - 48;
-                printf("n = %d\n", n);
-                m[j + i * WIDTH_MATRIX] = n;
-            }
-            fgetc(file);   
-        }
-        fclose(file);
-        print_matrix(m);
-        return m;
-    }
-    else
-    {
-        errx(1, "File is NULL");
-    }
-}*/
-
-void file_to_matrix(char* f, int *m)
-{
-    FILE* file = NULL;
-    file = fopen(f, "r");
-
-    if(file != NULL)
-    {
-        for(int i = 0; i < WIDTH_MATRIX; i++)
-        {
-            for (int j = 0; j < HEIGHT_MATRIX; j++)
-            {
-                *(m + (j + i * WIDTH_MATRIX)) = fgetc(file);
-            }
-            fgetc(file);   
-        }
-        fclose(file);
-        print_matrix(m);
-    }
-    else
-    {
-        errx(1, "File is NULL");
-    }
-}
-
 neural_net init_net()
 {
     neural_net net;
@@ -117,14 +53,14 @@ void init_value(neural_net *net)
             if(h == 0)
                 net->bias_output[o] = random();
         }
-    } 
+    }
 }
 
-void set_input(neural_net* net, int* input)
+void set_input(neural_net* net, double* input)
 {
     for(size_t i = 0; i < net->nb_input; i++)
     {
-        net->input_layer[i] = (double)input[i];
+        net->input_layer[i] = input[i];
     }
 }
 
@@ -189,16 +125,6 @@ void cost(neural_net *net)
     net->cost = total_cost;
 }
 
-void verify(neural_net* net)
-{
-    double sum_outputs = 0.0;
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        sum_outputs += net->output_activation[o];
-    }
-    printf("Sum results softmax: %f\n", sum_outputs); 
-}
-
 void softmax(neural_net* net)
 {
     double sum_exp = 0.0;
@@ -211,7 +137,6 @@ void softmax(neural_net* net)
     {
         net->output_activation[o] = exp(net->output_logits[o]) / sum_exp;
     }
-    verify(net);
 }
 
 char forward(neural_net* net)
@@ -241,13 +166,9 @@ char forward(neural_net* net)
     return get_result(net);
 }
 
-void neural_network(neural_net *net, char* file)
+void neural_network(neural_net *net, matrix* mat, char c)
 {
-    char c = file[6];
-    int* input = malloc(sizeof(int)*WIDTH_MATRIX*HEIGHT_MATRIX);
-    file_to_matrix(file, input);
-
-    set_input(net, input);
+    set_input(net, mat->data);
     set_goal(net, c);
 
     char r = forward(net);
