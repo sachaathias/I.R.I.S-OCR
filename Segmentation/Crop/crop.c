@@ -31,19 +31,19 @@ SDL_Surface* square_picture(SDL_Surface* image, int n)
 
 
 		int square_center = n / 2;
-		int h = image -> h;
-		int w = image -> w;
+		int h = image->h;
+		int w = image->w;
 
 		// Find the point where we can copy in square
-		int x = square_center - h / 2;
-		int y = square_center - w / 2;
+		int x = square_center - w / 2;
+		int y = square_center - h / 2;
 
 		// Copy in square on the center
 		for(int i = 0; i < h; i++)
 		{
 			for(int j = 0; j < w; j++)
 			{
-				set_pixel(square, x + i, y + j, get_pixel(image, i, j));
+				set_pixel(square, x + j, y + i, get_pixel(image, j, i));
 			}
 		}
 

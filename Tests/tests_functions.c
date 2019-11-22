@@ -96,19 +96,21 @@ void display_image_test(char* file)
 	{
 		sprintf(Name,"letter%d.bmp",c);
 		letter = load_image(Name);
-		SDL_Surface* square = square_picture(letter, 60);
-		screen = display_image(square);
-		struct matrix *data = newMatrix(square->h,square->w);
-		for(int i = 0; i < square->h; i++)
+		SDL_Surface* square = square_picture(letter, 30);
+		SDL_Surface *new = rotozoomSurface(square, 0, 2.0, 0);
+		//screen = display_image(new);
+		//wait_for_keypressed();
+		struct matrix *data = newMatrix(new->h,new->w);
+		for(int i = 0; i < new->h; i++)
 		{
-			for(int j = 0; j < square->w; j++)
+			for(int j = 0; j < new->w; j++)
 			{
-				Uint32 pixel = get_pixel(square,j,i);
+				Uint32 pixel = get_pixel(new,j,i);
 			
-				if(pixel == 0xFFFFFF)
-					setElement(data , i, j, (double) 0);
-				else
+				if(pixel == 0x000000)
 					setElement(data , i, j, (double) 1);
+				else
+					setElement(data , i, j, (double) 0);
 			}
 		}
 		printMatrix(data);

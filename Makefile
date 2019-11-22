@@ -3,7 +3,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror -std=c99 -g #-fsanitize=address
 LDFLAGS = #-fsanitize=address
-LDLIBS = -lSDL -lSDL_image -lm
+LDLIBS = -lSDL -lSDL_image -lm -lSDL_gfx
 
 SRC = main.c \
       ImageOperations/binarise.c \

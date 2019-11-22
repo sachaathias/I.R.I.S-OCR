@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_rotozoom.h>
 #include "../ImageOperations/binarise.h"
 #include "../ImageTools/image_tools.h"
 #include "../sdl/sdl_functions.h"
@@ -13,7 +14,6 @@
 #include "../Segmentation/Paragraph/paragraph.h"
 #include "../Segmentation/Crop/crop.h"
 #include "../matrix.h"
-
 
 
 
