@@ -15,6 +15,7 @@
 
 // FUNCTIONS
 
+SDL_Surface* square_picture(SDL_Surface* image, int n);
 void crop_picture(SDL_Surface* image, int x, int y,
 		int width, int height, char str[]);
 void crop_Lines(SDL_Surface* image, int array[], int len,int *count);

@@ -6,7 +6,7 @@
 // h = the height of the rectangle
 
 // This function transform a picture to a square picture of dimension n
-SDL_Surface *square_picture(SDL_Surface* image, int n)
+SDL_Surface* square_picture(SDL_Surface* image, int n)
 {
 	// test if we can fill the square picture of length n
 	if(image->h >= n || image->w >= n)
@@ -43,7 +43,7 @@ SDL_Surface *square_picture(SDL_Surface* image, int n)
 		{
 			for(int j = 0; j < w; j++)
 			{
-				set_pixel(square, x + i, y, get_pixel(image, i, j));
+				set_pixel(square, x + i, y + j, get_pixel(image, i, j));
 			}
 		}
 

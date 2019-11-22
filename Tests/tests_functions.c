@@ -96,12 +96,14 @@ void display_image_test(char* file)
 	{
 		sprintf(Name,"letter%d.bmp",c);
 		letter = load_image(Name);
-		struct matrix *data = newMatrix(letter->h,letter->w);
-		for(int i = 0; i < letter->h; i++)
+		SDL_Surface* square = square_picture(letter, 60);
+		screen = display_image(square);
+		struct matrix *data = newMatrix(square->h,square->w);
+		for(int i = 0; i < square->h; i++)
 		{
-			for(int j = 0; j < letter->w; j++)
+			for(int j = 0; j < square->w; j++)
 			{
-				Uint32 pixel = get_pixel(letter,j,i);
+				Uint32 pixel = get_pixel(square,j,i);
 			
 				if(pixel == 0xFFFFFF)
 					setElement(data , i, j, (double) 0);
