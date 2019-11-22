@@ -5,6 +5,51 @@
 // w = the width of the rectangle
 // h = the height of the rectangle
 
+// This function transform a picture to a square picture of dimension n
+SDL_Surface *square_picture(SDL_Surface* image, int n)
+{
+	// test if we can fill the square picture of length n
+	if(image->h >= n || image->w >= n)
+	{
+		printf("Error, n is too small\n");
+		return image;
+	}
+	else
+	{
+		// Create the new picture of length n
+		SDL_Surface *square = SDL_CreateRGBSurface(0, n, n,
+				image->format->BitsPerPixel, 0, 0, 0, 0);
+
+		// Fill the new picture with 0
+		for(int i = 0; i < n; i++)
+		{
+			for(int j = 0; j < n; j++)
+			{
+				set_pixel(square, i, j, 0xFFFFFF);
+			}
+		}
+
+
+		int square_center = n / 2;
+		int h = image -> h;
+		int w = image -> w;
+
+		// Find the point where we can copy in square
+		int x = square_center - h / 2;
+		int y = square_center - w / 2;
+
+		// Copy in square on the center
+		for(int i = 0; i < h; i++)
+		{
+			for(int j = 0; j < w; j++)
+			{
+				set_pixel(square, x + i, y, get_pixel(image, i, j));
+			}
+		}
+
+		return square;
+	}
+}
 
 void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char str[])
 {
@@ -107,6 +152,8 @@ void crop_Letters(char* str_,int *count)
 		}
 	}
 }
+
+
 
 
 
