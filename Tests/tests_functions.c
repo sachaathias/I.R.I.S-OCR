@@ -92,7 +92,7 @@ void display_image_test(char* file)
 	int c = 1;
 	SDL_Surface* letter;
 	char Name[1000];
-	while(c < nbr_of_letter)
+	while(c < nbr_of_letter-10)
 	{
 		sprintf(Name,"letter%d.bmp",c);
 		letter = load_image(Name);
@@ -117,10 +117,12 @@ void display_image_test(char* file)
 		printf("letter %d/%d \n",c,nbr_of_letter);
 		c++;
 		free(data);
-		SDL_FreeSurface(letter);
 	}
-	// free all pointer 
+	// free all pointer
+	free(corner);
+	free(tableau);
 	free(p);
+	SDL_FreeSurface(letter);
 	SDL_FreeSurface(surface);
 	SDL_FreeSurface(image);
 	SDL_Quit();
