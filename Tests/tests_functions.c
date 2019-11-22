@@ -109,9 +109,11 @@ void display_image_test(char* file)
 					setElement(data , i, j, (double) 1);
 			}
 		}
-		printMatrix(data);
+		struct matrix *square = squareMatrix(data, 30);
 
-		// ENVOI AU RESEAU DE NEURONE
+		printMatrix(square);
+
+		//ENVOI AU RESEAU DE NEURONE
 		printf("letter %d/%d \n",c,nbr_of_letter);
 		c++;
 		free(data);

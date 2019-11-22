@@ -18,6 +18,7 @@ int deleteMatrix(struct matrix * mtx);
   mtx->data[(col-1) * mtx->rows + (row-1)]
 
 struct matrix * copyMatrix(struct matrix * mtx);
+struct matrix * squareMatrix(struct matrix * m, int n);
 int setElement(struct matrix * mtx, int row, int col, double val);
 int getElement(struct matrix * mtx, int row, int col, double * val);
 int nRows(struct matrix * mtx, int * n);

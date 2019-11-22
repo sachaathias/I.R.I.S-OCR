@@ -1,6 +1,5 @@
 #include "matrix.h"
 
-
 /* Creates a ``rows by cols'' matrix with all values 0.  
  * Returns NULL if rows <= 0 or cols <= 0 and otherwise a
  * pointer to the new matrix.
@@ -25,6 +24,51 @@ struct matrix *newMatrix(int rows, int cols) {
 
   return m;
 }
+
+// This function transform a matrix to a square matrix of dimension n 
+struct matrix * squareMatrix(struct matrix * m, int n)
+{
+	// Test if we can fill the square matrix of length n
+	if(m->rows > n || m ->cols > n)
+	{
+		printf("ERROR");
+		return 0;
+	}
+	else
+	{
+		struct matrix *square = newMatrix(n, n);
+		int square_center = n / 2;
+
+		int h = m->rows;
+		int w = m->cols;
+
+		// Fill square with 0
+		for(int i = 0; i < n; i++)
+		{
+			for(int j = 0; j < n; j++)
+			{
+				setElement(square, i, j, (double)0);
+			}
+		}
+
+		// Find the point where we can copy m in square
+		int x = square_center - h/2;
+		int y = square_center - w/2;
+
+		// Copy m in square on the center
+		for(int i_s = x, i_m = 0; i_s < n ||  i_m < h ; i_s++, i_m++)
+		{
+			for(int j_s = y,  j_m = 0; j_s < n || j_m < w; j_s++, j_m++)
+			{
+				setElement(square, i_s, j_s, ELEM(m, i_m,  j_m));
+			}
+		}
+
+		return square;
+	}
+}
+
+
 
 /* Deletes a matrix.  Returns 0 if successful and -1 if mtx 
  * is NULL.
@@ -61,7 +105,7 @@ struct matrix * copyMatrix(struct matrix * mtx) {
  * successful, -1 if mtx is NULL, and -2 if row or col are
  * outside of the dimensions of mtx.
  */
-int setElement(struct matrix * mtx, int row, int col, double val) 
+int setElement(struct matrix * mtx, int row, int col, double val)
 {
   if (!mtx) return -1;
   assert (mtx->data);
