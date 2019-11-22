@@ -5,6 +5,18 @@ double random()
     return (double)rand()/(double)RAND_MAX;
 }
 
+//Return a constant for softmax function to avoid nan
+double const_softmax(neural_net *net)
+{
+    double max = 0;
+    for(size_t i = 0; i < net->nb_output; i++)
+    {
+        if(net->output_logits[i] > max)
+            max = net->output_logits[i];
+    }
+    return -max;
+}
+
 neural_net init_net()
 {
     neural_net net;
@@ -23,6 +35,9 @@ neural_net init_net()
 
     net.bias_hidden = malloc(sizeof(double)*net.nb_hidden);
     net.bias_output = malloc(sizeof(double)*net.nb_output);
+
+    net.delta_output = malloc(sizeof(double)*net.nb_output);
+    net.delta_hidden = malloc(sizeof(double)*net.nb_hidden);
 
     net.goal = malloc(sizeof(double)*net.nb_output);
 
@@ -47,11 +62,15 @@ void init_value(neural_net *net)
     for (size_t h = 0; h < net->nb_hidden; h++)
     {
         net->bias_hidden[h] = random();
+        net->delta_hidden[h] = 0.0;
         for(size_t o = 0; o < net->nb_output; o++)
         {
             net->weight_hidden_output[o + h * net->nb_output] = random();
             if(h == 0)
+            {
                 net->bias_output[o] = random();
+                net->delta_output[o] = 0.0;
+            }
         }
     }
 }
@@ -108,8 +127,8 @@ char get_result(neural_net *net)
         c = posMax + 97 - 26;
     return c;
 }
-
-void cost(neural_net *net)
+/*
+void cost(neural_net *net)//Quadratique
 {
     double output, goal, cost;
     double total_cost = 0.0
@@ -124,24 +143,55 @@ void cost(neural_net *net)
     }
     net->cost = total_cost;
 }
+*/
+
+void print_output_layers(neural_net *net)
+{
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        printf("%f -- %f | %f\n", net->goal[o], net->output_activation[o], net->output_logits[o]);
+    }
+}
+
+//Cross entropy loss
+void cost(neural_net *net)
+{
+    double sum = 0.0;
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        sum += (net->goal[o] * log(net->output_activation[o] + exp(-8)));
+    }
+    net->cost = -sum;
+}
 
 void softmax(neural_net* net)
 {
     double sum_exp = 0.0;
+    double cst = const_softmax(net);
 
     for(size_t o = 0; o < net->nb_output; o++)
     {
-        sum_exp += exp(net->output_logits[o]);
+        sum_exp += exp(net->output_logits[o] + cst);
     }
     for(size_t o = 0; o < net->nb_output; o++)
     {
-        net->output_activation[o] = exp(net->output_logits[o]) / sum_exp;
+        net->output_activation[o] = exp(net->output_logits[o] + cst) / sum_exp;
     }
 }
 
+double relu(double n)
+{
+    if(n < 0)
+        return 0;
+    return n;
+}
+
+//Forward propagation
 char forward(neural_net* net)
 {
     double sum;
+
+    //Input to hidden layer
     for(size_t h = 0; h < net->nb_input; h++)
     {
         sum =  net->bias_hidden[h];
@@ -149,8 +199,10 @@ char forward(neural_net* net)
         {
             sum += net->input_layer[i] * net->weight_input_hidden[h + i * net->nb_hidden];
         }
-        net->hidden_layer[h] = sum;
+        net->hidden_layer[h] = relu(sum);
     }
+
+    //Hidden to output (logits) layer
     for(size_t o = 0; o < net->nb_output; o++)
     {
         sum = net->bias_output[o];
@@ -166,12 +218,31 @@ char forward(neural_net* net)
     return get_result(net);
 }
 
+void backward(neural_net *net)
+{
+    //Output to hidden
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        double delta = net->output_activation[o] - net->goal[o];
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            net->weight_hidden_output[o + h * net->nb_output] -=
+                (delta * net->hidden_layer[h] * net->learning_rate);
+        }
+        net->bias_output[o] -= delta;
+        net->delta_output[o] = delta;
+    }
+    
+}
+
 void neural_network(neural_net *net, matrix* mat, char c)
 {
     set_input(net, mat->data);
     set_goal(net, c);
 
     char r = forward(net);
+    backward(net);
+    print_output_layers(net);
     printf("Result: %c | Expected: %c\nCost: %f\n", r, c, net->cost);
 }
 

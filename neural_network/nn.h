@@ -10,7 +10,7 @@
 
 #define WIDTH_MATRIX 29
 #define HEIGHT_MATRIX 29
-#define HIDDEN_N 210
+#define HIDDEN_N 250//210
 #define OUTPUTS 52
 
 typedef struct
@@ -29,6 +29,9 @@ typedef struct
 
     double* bias_hidden;
     double* bias_output;
+
+    double* delta_output;
+    double* delta_hidden;
 
     double* goal;
 
