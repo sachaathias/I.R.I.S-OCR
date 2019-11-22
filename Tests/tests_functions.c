@@ -92,7 +92,7 @@ void display_image_test(char* file)
 	int c = 1;
 	SDL_Surface* letter;
 	char Name[1000];
-	while(c < nbr_of_letter-10)
+	while(c < nbr_of_letter)
 	{
 		sprintf(Name,"letter%d.bmp",c);
 		letter = load_image(Name);
@@ -109,21 +109,19 @@ void display_image_test(char* file)
 					setElement(data , i, j, (double) 1);
 			}
 		}
-		struct matrix *square = squareMatrix(data, 30);
+		printMatrix(data);
 
-		printMatrix(square);
-
-		//ENVOI AU RESEAU DE NEURONE
+		// ENVOI AU RESEAU DE NEURONE
 		printf("letter %d/%d \n",c,nbr_of_letter);
 		c++;
 		free(data);
 	}
 	// free all pointer
-	free(corner);
-	free(tableau);
-	free(p);
-	SDL_FreeSurface(letter);
-	SDL_FreeSurface(surface);
-	SDL_FreeSurface(image);
-	SDL_Quit();
+	//free(corner);
+	//free(tableau);
+	//free(p);
+	//SDL_FreeSurface(letter);
+	//SDL_FreeSurface(surface);
+	//SDL_FreeSurface(image);
+	//SDL_Quit();
 }
