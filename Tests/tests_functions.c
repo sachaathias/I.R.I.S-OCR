@@ -96,8 +96,7 @@ void display_image_test(char* file)
 	{
 		sprintf(Name,"letter%d.bmp",c);
 		letter = load_image(Name);
-		SDL_Surface* square = square_picture(letter, 30);
-		SDL_Surface *new = rotozoomSurface(square, 0, 2.0, 0);
+		SDL_Surface* new = square_picture(letter, 60);
 		//screen = display_image(new);
 		//wait_for_keypressed();
 		struct matrix *data = newMatrix(new->h,new->w);
