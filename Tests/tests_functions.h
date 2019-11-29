@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include "SDL/SDL_image.h"
 #include <SDL/SDL_rotozoom.h>
+#include <unistd.h>
 #include "../ImageOperations/binarise.h"
 #include "../ImageTools/image_tools.h"
 #include "../sdl/sdl_functions.h"
