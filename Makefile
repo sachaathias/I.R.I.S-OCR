@@ -1,9 +1,8 @@
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -std=c99 -g #-fsanitize=address
-LDFLAGS =  -I/usr/include/sdl
-LDLIBS = `pkg-config --cflags --libs sdl` -lSDL -lSDL_image -lm -lSDL_gfx
+CFLAGS = -Wall -Wextra -Werror -std=c99 -g -I/usr/include/SDL#-fsanitize=address
+LDLIBS =-lSDL -lSDL_image -lm -lSDL_gfx
 
 SRC = main.c \
       ImageOperations/binarise.c \
