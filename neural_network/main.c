@@ -1,6 +1,9 @@
 #include "nn.h"
 #include "train_tools.h"
 
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+
 int main()
 {
     srand(time(NULL));
@@ -8,7 +11,7 @@ int main()
     double* matrix = malloc(sizeof(double)*29*29);
 
     load_weight_bias(net);
-    for(size_t i = 0; i < 10000; i++)
+    for(size_t i = 0; i < 100000; i++)
     {
         char goal = get_random_matrix(matrix);
         char output = forward(net, matrix, goal);
@@ -17,7 +20,10 @@ int main()
         update_weights(net);
         if(i % 100 == 0)
         {
-            printf("%c --> %c | COST : %f\n", goal, output, net->cost);
+            if(goal == output)
+                printf("%s%c --> %c | COST : %f\n", GREEN, goal, output, net->cost);
+            else
+                printf("%s%c --> %c | COST : %f\n", RED, goal, output, net->cost);
         }            
     }
     save_weight_bias(net);

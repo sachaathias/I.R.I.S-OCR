@@ -71,9 +71,9 @@ void update_weights(neural_net* net)
     {
         for(size_t i = 0; i < net->nb_input; i++)
         {
-            net->w_IH[i * net->nb_hidden + h] += eta * net->delta_b_H[h] * net->input[i]
-                                                + net->alpha * net->delta_w_IH[i * net->nb_hidden + h];
-            net->delta_w_IH[i * net->nb_hidden + h] = eta * net->delta_b_H[h] * net->input[i];
+            net->w_IH[i * net->nb_hidden + h] += eta * net->delta_b_H[h] * net->input[i];
+                                                //- net->alpha * net->delta_w_IH[i * net->nb_hidden + h];
+            //net->delta_w_IH[i * net->nb_hidden + h] = eta * net->delta_b_H[h] * net->input[i];
         }
     }
 
@@ -81,9 +81,9 @@ void update_weights(neural_net* net)
     {
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->w_HO[h * net->nb_output + o] += eta * net->delta_b_O[o] * net->hidden[h]
-                                                + net->alpha *net->delta_w_HO[h * net->nb_output + o];
-            net->delta_w_HO[h * net->nb_output + o] = eta * net->delta_b_O[o] * net->hidden[h];
+            net->w_HO[h * net->nb_output + o] += eta * net->delta_b_O[o] * net->hidden[h];
+                                                //- net->alpha *net->delta_w_HO[h * net->nb_output + o];
+            //net->delta_w_HO[h * net->nb_output + o] = eta * net->delta_b_O[o] * net->hidden[h];
         }
     }
 }

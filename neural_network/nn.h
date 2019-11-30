@@ -10,11 +10,8 @@
 #include "tools.h"
 
 #define NB_INPUT 29*29
-#define NB_HIDDEN 150
+#define NB_HIDDEN 20
 #define NB_OUTPUT 52
-
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
 
 typedef struct
 {
