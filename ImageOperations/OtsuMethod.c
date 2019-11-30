@@ -6,7 +6,8 @@ unsigned long *get_histogram(SDL_Surface* grey_image, unsigned long *histo)
 				for(int i = 0; i < grey_image->h; i++)
 								for(int j = 0; j < grey_image->w; j++)
 								{
-												Uint8 pixel = get_pixel(grey_image,i,j);
+												Uint8 pixel = get_pixel(grey_image,j,i);
+												printf("yes");
 												if(histo[pixel] < 4294967295)
 																histo[pixel] += 1;
 								}
@@ -54,9 +55,9 @@ void Binarize(SDL_Surface* image,Uint8 threshold)
 								{
 												Uint8 pixel = get_pixel(image,i,j);
 												if(pixel > threshold)
-															set_pixel(image,i,j,0xFFFFFF);
+															set_pixel(image,j,i,0xFFFFFF);
 												else
-															set_pixel(image,i,j,0x000000);
+															set_pixel(image,j,i,0x000000);
 								}
 				}
 }
@@ -72,14 +73,4 @@ void Otsu(SDL_Surface* image)
 				Binarize(image,threshold);
 				free(histo);
 }
-
-
-
-
-
-
-
-
-
-
 

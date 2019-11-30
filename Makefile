@@ -1,8 +1,10 @@
 
-CC = gcc
+CC = gcc -g
+
+CPPFLAGS =`pkg-config --cflags sdl` `pkg config --cflags gtk+-3.0`
 
 CFLAGS = -Wall -Wextra -Werror -std=c99 -g -I/usr/include/SDL#-fsanitize=address
-LDLIBS =-lSDL -lSDL_image -lm -lSDL_gfx
+LDLIBS =-lSDL -lSDL_image -lm -lSDL_gfx `pkg config--libs gtk+-3.0`
 
 SRC = main.c \
       ImageOperations/binarise.c \
@@ -13,7 +15,6 @@ SRC = main.c \
 	  Segmentation/Characteres/Charactere.c\
 	  Segmentation/Paragraph/paragraph.c\
 	  Segmentation/Crop/crop.c\
-	  XOR/nn_xor.c\
 	  matrix.c\
 		ImageOperations/OtsuMethod.c \
 

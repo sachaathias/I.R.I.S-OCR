@@ -9,6 +9,7 @@
 #include <SDL/SDL_rotozoom.h>
 #include <unistd.h>
 #include "../ImageOperations/binarise.h"
+#include "../ImageOperations/OtsuMethod.h"
 #include "../ImageTools/image_tools.h"
 #include "../sdl/sdl_functions.h"
 #include "../Segmentation/Lines/lines.h"
@@ -16,7 +17,6 @@
 #include "../Segmentation/Paragraph/paragraph.h"
 #include "../Segmentation/Crop/crop.h"
 #include "../matrix.h"
-
 
 
 //void save_BMP_test(char* file);

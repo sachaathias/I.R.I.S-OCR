@@ -13,7 +13,8 @@ void display_image_test(char* file)
 	update_surface(screen, surface);
 	wait_for_keypressed();
 
-	to_black_and_white(surface);
+	//to_black_and_white(surface);
+	Otsu(surface);
 	update_surface(screen, surface);
 	wait_for_keypressed();
 
