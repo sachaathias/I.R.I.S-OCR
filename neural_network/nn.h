@@ -9,7 +9,7 @@
 #include "../matrix.h"
 #include "tools.h"
 
-#define NB_INPUT 29*29
+#define NB_INPUT 28*28
 #define NB_HIDDEN 20
 #define NB_OUTPUT 52
 

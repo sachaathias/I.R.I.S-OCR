@@ -8,7 +8,7 @@ int main()
 {
     srand(time(NULL));
     neural_net* net = init_net();
-    double* matrix = malloc(sizeof(double)*29*29);
+    double* matrix = malloc(sizeof(double)*28*28);
 
     load_weight_bias(net);
     for(size_t i = 0; i < 100000; i++)

@@ -1,115 +1,115 @@
 #include "train_tools.h"
 
-#define LEN 7//25//103
-#define WIDTH 29
-#define HEIGHT 29
+#define LEN 1//103
+#define WIDTH 28
+#define HEIGHT 28
 
 char files[][13] =
 {
-    "Train/a0.txt",
-    "Train/a1.txt",
-    "Train/a2.txt",
-    "Train/a3.txt",
-    "Train/b0.txt",
-    "Train/b1.txt",
-    "Train/b2.txt",
-    "Train/b3.txt",
-    /*"Train/c0.txt",
-    //"Train/c1.txt",
-    //"Train/c2.txt",
-    //"Train/c3.txt",
-    "Train/d0.txt",
-    //"Train/d1.txt",
-    //"Train/d2.txt",
-    //"Train/d3.txt",
-    "Train/e0.txt",
-    //"Train/e1.txt",
-    //"Train/e2.txt",
-    //"Train/e3.txt",
-    "Train/f0.txt",
-    //"Train/f1.txt",
-    //"Train/f2.txt",
-    //"Train/f3.txt",
-    "Train/g0.txt",
-    //"Train/g1.txt",
-    //"Train/g2.txt",
-    //"Train/g3.txt",
-    "Train/h0.txt",
-    //"Train/h1.txt",
-    //"Train/h2.txt",
-    //"Train/h3.txt",
-    "Train/i0.txt",
-    //"Train/i1.txt",
-    //"Train/i2.txt",
-    //"Train/i3.txt",
-    "Train/j0.txt",
-    //"Train/j1.txt",
-    //"Train/j2.txt",
-    //"Train/j3.txt",
-    "Train/k0.txt",
-    //"Train/k1.txt",
-    //"Train/k2.txt",
-    //"Train/k3.txt",
-    "Train/l0.txt",
-    //"Train/l1.txt",
-    //"Train/l2.txt",
-    //"Train/l3.txt",
-    "Train/m0.txt",
-    //"Train/m1.txt",
-    //"Train/m2.txt",
-    //"Train/m3.txt",
-    "Train/n0.txt",
-    //"Train/n1.txt",
-    //"Train/n2.txt",
-    //"Train/n3.txt",
-    "Train/o0.txt",
-    //"Train/o1.txt",
-    //"Train/o2.txt",
-    //"Train/o3.txt",
-    "Train/p0.txt",
-    //"Train/p1.txt",
-    //"Train/p2.txt",
-    //"Train/p3.txt",
-    "Train/q0.txt",
-    //"Train/q1.txt",
-    //"Train/q2.txt",
-    //"Train/q3.txt",
-    "Train/r0.txt",
-    //"Train/r1.txt",
-    //"Train/r2.txt",
-    //"Train/r3.txt",
-    "Train/s0.txt",
-    //"Train/s1.txt",
-    //"Train/s2.txt",
-    //"Train/s3.txt",
-    "Train/t0.txt",
-    //"Train/t1.txt",
-    //"Train/t2.txt",
-    //"Train/t3.txt",
-    "Train/u0.txt",
-    //"Train/u1.txt",
-    //"Train/u2.txt",
-    //"Train/u3.txt",
-    "Train/v0.txt",
-    //"Train/v1.txt",
-    //"Train/v2.txt",
-    //"Train/v3.txt",
-    "Train/w0.txt",
-    //"Train/w1.txt",
-    //"Train/w2.txt",
-    //"Train/w3.txt",
-    "Train/x0.txt",
-    //"Train/x1.txt",
-    //"Train/x2.txt",
-    //"Train/x3.txt",
-    "Train/y0.txt",
-    //"Train/y1.txt",
-    //"Train/y2.txt",
-    //"Train/y3.txt",
-    "Train/z0.txt",
-    //"Train/z1.txt",
-    //"Train/z2.txt",
-    //"Train/z3.txt"*/
+    "/a0.txt",
+    /*"/a1.txt",
+    "/a2.txt",
+    "/a3.txt",*/
+    "/b0.txt"//,
+    /*"/b1.txt",
+    "/b2.txt",
+    "/b3.txt",
+    "/c0.txt",
+    "/c1.txt",
+    "/c2.txt",
+    "/c3.txt",
+    "/d0.txt",
+    "/d1.txt",
+    "/d2.txt",
+    "/d3.txt",
+    "/e0.txt",
+    "/e1.txt",
+    "/e2.txt",
+    "/e3.txt",
+    "/f0.txt",
+    "/f1.txt",
+    "/f2.txt",
+    "/f3.txt",
+    "/g0.txt",
+    "/g1.txt",
+    "/g2.txt",
+    "/g3.txt",
+    "/h0.txt",
+    "/h1.txt",
+    "/h2.txt",
+    "/h3.txt",
+    "/i0.txt",
+    "/i1.txt",
+    "/i2.txt",
+    "/i3.txt",
+    "/j0.txt",
+    "/j1.txt",
+    "/j2.txt",
+    "/j3.txt",
+    "/k0.txt",
+    "/k1.txt",
+    "/k2.txt",
+    "/k3.txt",
+    "/l0.txt",
+    "/l1.txt",
+    "/l2.txt",
+    "/l3.txt",
+    "/m0.txt",
+    "/m1.txt",
+    "/m2.txt",
+    "/m3.txt",
+    "/n0.txt",
+    "/n1.txt",
+    "/n2.txt",
+    "/n3.txt",
+    "/o0.txt",
+    "/o1.txt",
+    "/o2.txt",
+    "/o3.txt",
+    "/p0.txt",
+    "/p1.txt",
+    "/p2.txt",
+    "/p3.txt",
+    "/q0.txt",
+    "/q1.txt",
+    "/q2.txt",
+    "/q3.txt",
+    "/r0.txt",
+    "/r1.txt",
+    "/r2.txt",
+    "/r3.txt",
+    "/s0.txt",
+    "/s1.txt",
+    "/s2.txt",
+    "/s3.txt",
+    "/t0.txt",
+    "/t1.txt",
+    "/t2.txt",
+    "/t3.txt",
+    "/u0.txt",
+    "/u1.txt",
+    "/u2.txt",
+    "/u3.txt",
+    "/v0.txt",
+    "/v1.txt",
+    "/v2.txt",
+    "/v3.txt",
+    "/w0.txt",
+    "/w1.txt",
+    "/w2.txt",
+    "/w3.txt",
+    "/x0.txt",
+    "/x1.txt",
+    "/x2.txt",
+    "/x3.txt",
+    "/y0.txt",
+    "/y1.txt",
+    "/y2.txt",
+    "/y3.txt",
+    "/z0.txt",
+    "/z1.txt",
+    "/z2.txt",
+    "/z3.txt"*/
 };
 
 void file_to_matrix(char* f, double *m)
@@ -119,11 +119,11 @@ void file_to_matrix(char* f, double *m)
 
     if(file != NULL)
     {
-        for(int i = 0; i < 29; i++)
+        for(int i = 0; i < HEIGHT; i++)
         {
-            for (int j = 0; j < 29; j++)
+            for (int j = 0; j < WIDTH; j++)
             {
-                *(m + (j + i * 29)) = (double)fgetc(file);
+                *(m + (j + i * WIDTH)) = (double)fgetc(file);
             }
             fgetc(file);
         }
@@ -138,13 +138,8 @@ void file_to_matrix(char* f, double *m)
 char get_random_matrix(double* matrix)
 {
     char* file = files[(int)random(0, LEN)];
-    file_to_matrix(file, matrix);
-    return file[6];
-}
-
-char get_matrix(double* matrix, size_t i)
-{
-    char* file = files[i%LEN];
-    file_to_matrix(file, matrix);
-    return file[6];
+    char* f = malloc(sizeof(char)*8);
+    sprintf(f, "%c%s", file[1], file);
+    file_to_matrix(f, matrix);
+    return f[0];
 }
