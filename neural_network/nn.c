@@ -1,248 +1,232 @@
 #include "nn.h"
 
-double random()
+//Create and initialize a neural net and return it
+neural_net* init_net()
 {
-    return (double)rand()/(double)RAND_MAX;
-}
+    neural_net *net = malloc(sizeof(neural_net));
+    net->nb_input = NB_INPUT;
+    net->nb_hidden = NB_HIDDEN;
+    net->nb_output = NB_OUTPUT;
 
-//Return a constant for softmax function to avoid nan
-double const_softmax(neural_net *net)
-{
-    double max = 0;
-    for(size_t i = 0; i < net->nb_output; i++)
+    net->cost = 0.0;
+    net->learning_rate = 0.5;
+    net->alpha = 0.9;
+
+    for(size_t i = 0; i < net->nb_input; i++)
     {
-        if(net->output_logits[i] > max)
-            max = net->output_logits[i];
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            net->w_IH[i * net->nb_hidden + h] = random(-1, 1);
+            net->delta_w_IH[i * net->nb_hidden + h] = 0.0;
+        }
     }
-    return -max;
-}
 
-neural_net init_net()
-{
-    neural_net net;
+    for(size_t h = 0; h < net->nb_hidden; h++)
+    {
+        for(size_t o = 0; o < net->nb_output; o++)
+        {
+            net->w_HO[h * net->nb_output + o] = random(-1, 1);
+            net->delta_w_HO[h * net->nb_output + o] = 0.0;
+        }
+        net->b_H[h] = random(-1, 1);
+        net->delta_b_H[h] = 0.0;
+    }
 
-    net.nb_input = WIDTH_MATRIX*HEIGHT_MATRIX;
-    net.nb_hidden = HIDDEN_N;
-    net.nb_output = OUTPUTS;
-
-    net.input_layer = malloc(sizeof(double)*net.nb_input);
-    net.hidden_layer = malloc(sizeof(double)*net.nb_hidden);
-    net.output_logits = malloc(sizeof(double)*net.nb_output);
-    net.output_activation = malloc(sizeof(double)*net.nb_output);
-
-    net.weight_input_hidden = malloc(sizeof(double)*net.nb_input*net.nb_hidden);
-    net.weight_hidden_output = malloc(sizeof(double)*net.nb_hidden*net.nb_output);
-
-    net.bias_hidden = malloc(sizeof(double)*net.nb_hidden);
-    net.bias_output = malloc(sizeof(double)*net.nb_output);
-
-    net.delta_output = malloc(sizeof(double)*net.nb_output);
-    net.delta_hidden = malloc(sizeof(double)*net.nb_hidden);
-
-    net.goal = malloc(sizeof(double)*net.nb_output);
-
-    net.cost_array = malloc(sizeof(double)*net.nb_output);
-    net.cost = 0.0;
-
-    net.learning_rate = 0.05;
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        net->b_O[o] = random(-1, 1);
+        net->delta_b_O[o] = 0.0;
+    }
 
     return net;
 }
 
-void init_value(neural_net *net)
+//Forward propagation
+//tab[i][j] --> i ligne / j colonne
+char forward(neural_net* net, double* input, char expected)
 {
-    for(size_t i = 0; i < net->nb_input; i++)
+    copy(input, net->input, net->nb_input);
+    make_goal_matrix(net->goal, net->nb_output, expected);
+
+    dot(net->input, net->nb_input, net->w_IH,\
+        net->nb_hidden, net->b_H, net->hidden);
+
+    do_sigmoid(net->hidden, net->nb_hidden);
+
+    dot(net->hidden, net->nb_hidden, net->w_HO,\
+        net->nb_output, net->b_O, net->output);
+
+    do_sigmoid(net->output, net->nb_output);
+
+    net->cost = cost(net->output, net->goal, net->nb_output);
+
+    return get_result(net->output, net->nb_output);
+}
+
+void update_weights(neural_net* net)
+{
+    double eta = net->learning_rate;
+
+    for(size_t h = 0; h < net->nb_hidden; h++)
     {
-        for(size_t h = 0; h < net->nb_hidden; h++)
+        for(size_t i = 0; i < net->nb_input; i++)
         {
-            net->weight_input_hidden[h + i * net->nb_hidden] = random();
+            net->w_IH[i * net->nb_hidden + h] += eta * net->delta_b_H[h] * net->input[i]
+                                                + net->alpha * net->delta_w_IH[i * net->nb_hidden + h];
+            net->delta_w_IH[i * net->nb_hidden + h] = eta * net->delta_b_H[h] * net->input[i];
         }
     }
 
-    for (size_t h = 0; h < net->nb_hidden; h++)
+    for(size_t o = 0; o < net->nb_output; o++)
     {
-        net->bias_hidden[h] = random();
-        net->delta_hidden[h] = 0.0;
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            net->w_HO[h * net->nb_output + o] += eta * net->delta_b_O[o] * net->hidden[h]
+                                                + net->alpha *net->delta_w_HO[h * net->nb_output + o];
+            net->delta_w_HO[h * net->nb_output + o] = eta * net->delta_b_O[o] * net->hidden[h];
+        }
+    }
+}
+
+void update_biases(neural_net* net)
+{
+    double eta = net->learning_rate;
+
+    for(size_t h = 0; h < net->nb_hidden; h++)
+    {
+        net->b_H[h] += eta * net->delta_b_H[h];
+    }
+
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        net->b_O[o] += eta * net->delta_b_O[o];
+    }
+}
+
+void backward(neural_net* net)
+{
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        net->delta_b_O[o] = cost_derivative(net->output[o], net->goal[o]) * sigmoid_prime(net->output[o]);
+    }
+
+    double sum;
+    for(size_t h = 0; h < net->nb_hidden; h++)
+    {
+        sum = 0.0;
         for(size_t o = 0; o < net->nb_output; o++)
         {
-            net->weight_hidden_output[o + h * net->nb_output] = random();
-            if(h == 0)
+            sum += (net->delta_b_O[o] * net->w_HO[h * net->nb_output + o]);
+        }
+        net->delta_b_H[h] = (sum * sigmoid_prime(net->hidden[h]));
+    }
+}
+
+void load_weight_bias(neural_net* net)
+{
+    /*
+    WEIGHT_INPUT_HIDDEN
+    WEIGHT_HIDDEN_OUTPUT
+    BIAS_HIDDEN
+    BIAS_OUTPUT
+    */
+    FILE* file = NULL;
+    file = fopen("netvalue.nn", "r");
+
+    if(file != NULL)
+    {
+        char str[MAX_SIZE_LINE] = "";
+        //WEIGHT_INPUT_HIDDEN
+        for(size_t i = 0; i < net->nb_input; i++)
+        {
+            for(size_t h = 0; h < net->nb_hidden; h++)
             {
-                net->bias_output[o] = random();
-                net->delta_output[o] = 0.0;
+                fgets(str, MAX_SIZE_LINE, file);
+                *(net->w_IH + (h + i * net->nb_hidden)) = atof(str);
             }
         }
-    }
-}
 
-void set_input(neural_net* net, double* input)
-{
-    for(size_t i = 0; i < net->nb_input; i++)
-    {
-        net->input_layer[i] = input[i];
-    }
-}
-
-double* goal_array(neural_net *net, char c)
-{
-    double* goal = calloc(net->nb_output, sizeof(double));
-
-    if(c >= 'A' && c <= 'Z')
-        *(goal + (int)c - 65) = 1;
-    else if(c >= 'a' && c <= 'z')
-        *(goal + (int)c - 97 + 26) = 1;
-    return goal;
-}
-
-void set_goal(neural_net* net, char c)
-{
-    double* goal = goal_array(net, c);
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        net->goal[o] = (double)goal[o];
-    }
-}
-
-char get_result(neural_net *net)
-{
-    double max = 0;
-    int posMax = 0;
-
-    //Get Max value
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        if(max < net->output_activation[o])
-        {
-            max = net->output_activation[o];
-            posMax = o;
-        }
-    }
-
-    char c;
-    //Upper
-    if(posMax <= 25)
-        c = posMax + 65;
-    //Lower
-    else if(posMax > 25 && posMax <= 51)
-        c = posMax + 97 - 26;
-    return c;
-}
-/*
-void cost(neural_net *net)//Quadratique
-{
-    double output, goal, cost;
-    double total_cost = 0.0
-    ;
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        output = net->output_activation[o];
-        goal = net->goal[o];
-        cost = (output - goal) * (output - goal);
-        net->cost_array[o] = cost;
-        total_cost += cost;
-    }
-    net->cost = total_cost;
-}
-*/
-
-void print_output_layers(neural_net *net)
-{
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        printf("%f -- %f | %f\n", net->goal[o], net->output_activation[o], net->output_logits[o]);
-    }
-}
-
-//Cross entropy loss
-void cost(neural_net *net)
-{
-    double sum = 0.0;
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        sum += (net->goal[o] * log(net->output_activation[o] + exp(-8)));
-    }
-    net->cost = -sum;
-}
-
-void softmax(neural_net* net)
-{
-    double sum_exp = 0.0;
-    double cst = const_softmax(net);
-
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        sum_exp += exp(net->output_logits[o] + cst);
-    }
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        net->output_activation[o] = exp(net->output_logits[o] + cst) / sum_exp;
-    }
-}
-
-double relu(double n)
-{
-    if(n < 0)
-        return 0;
-    return n;
-}
-
-//Forward propagation
-char forward(neural_net* net)
-{
-    double sum;
-
-    //Input to hidden layer
-    for(size_t h = 0; h < net->nb_input; h++)
-    {
-        sum =  net->bias_hidden[h];
-        for(size_t i = 0; i < net->nb_hidden; i++)
-        {
-            sum += net->input_layer[i] * net->weight_input_hidden[h + i * net->nb_hidden];
-        }
-        net->hidden_layer[h] = relu(sum);
-    }
-
-    //Hidden to output (logits) layer
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        sum = net->bias_output[o];
-        for (size_t h = 0; h < net->nb_hidden; h++)
-        {
-            sum += net->hidden_layer[h] * net->weight_hidden_output[o + h * net->nb_output];
-        }
-        net->output_logits[o] = sum;
-    }
-    softmax(net);
-    cost(net);
-
-    return get_result(net);
-}
-
-void backward(neural_net *net)
-{
-    //Output to hidden
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        double delta = net->output_activation[o] - net->goal[o];
+        //WEIGHT_HIDDEN_OUTPUT
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->weight_hidden_output[o + h * net->nb_output] -=
-                (delta * net->hidden_layer[h] * net->learning_rate);
+            for(size_t o = 0; o < net->nb_output; o++)
+            {
+                fgets(str, MAX_SIZE_LINE, file);
+                *(net->w_HO + (o + h * net->nb_output)) = atof(str);
+            }
         }
-        net->bias_output[o] -= delta;
-        net->delta_output[o] = delta;
+
+        //BIAS_HIDDEN
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            fgets(str, MAX_SIZE_LINE, file);
+            *(net->b_H + h) = atof(str);
+        }
+
+        //BIAS_OUTPUT
+        for(size_t o = 0; o < net->nb_output; o++)
+        {
+            fgets(str, MAX_SIZE_LINE, file);
+            *(net->b_O + o) = atof(str);
+        }        
+
+        fclose(file);
     }
-    
+    /*else
+    {
+        errx(1, "File is NULL");
+    }*/
 }
 
-void neural_network(neural_net *net, matrix* mat, char c)
+void save_weight_bias(neural_net* net)
 {
-    set_input(net, mat->data);
-    set_goal(net, c);
+    /*
+    WEIGHT_INPUT_HIDDEN
+    WEIGHT_HIDDEN_OUTPUT
+    BIAS_HIDDEN
+    BIAS_OUTPUT
+    */
+    FILE* file = NULL;
+    file = fopen("netvalue.nn", "w");
 
-    char r = forward(net);
-    backward(net);
-    print_output_layers(net);
-    printf("Result: %c | Expected: %c\nCost: %f\n", r, c, net->cost);
+    if(file != NULL)
+    {
+        //WEIGHT_INPUT_HIDDEN
+        for(size_t i = 0; i < net->nb_input; i++)
+        {
+            for(size_t h = 0; h < net->nb_hidden; h++)
+            {
+                fprintf(file, "%f\n", *(net->w_IH + (h + i * net->nb_hidden)));
+            }
+        }
+
+        //WEIGHT_HIDDEN_OUTPUT
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            for(size_t o = 0; o < net->nb_output; o++)
+            {
+                fprintf(file, "%f\n", *(net->w_HO + (o + h * net->nb_output)));
+            }            
+        }
+
+        //BIAS_HIDDEN
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            fprintf(file, "%f\n", *(net->b_H + h));
+        }
+
+        //BIAS_OUTPUT
+        for(size_t o = 0; o < net->nb_output; o++)
+        {
+            fprintf(file, "%f", *(net->b_O + o));
+            if(o < net->nb_output - 1)
+                fprintf(file, "\n");
+        }        
+
+        fclose(file);
+    }
+    else
+    {
+        errx(1, "File is NULL");
+    }    
 }
-

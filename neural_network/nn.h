@@ -7,11 +7,14 @@
 #include <math.h>
 #include <err.h>
 #include "../matrix.h"
+#include "tools.h"
 
-#define WIDTH_MATRIX 29
-#define HEIGHT_MATRIX 29
-#define HIDDEN_N 250//210
-#define OUTPUTS 52
+#define NB_INPUT 29*29
+#define NB_HIDDEN 150
+#define NB_OUTPUT 52
+
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
 
 typedef struct
 {
@@ -19,30 +22,35 @@ typedef struct
     size_t nb_hidden;
     size_t nb_output;
 
-    double* input_layer;
-    double* hidden_layer;
-    double* output_logits;
-    double* output_activation;
+    double input[NB_INPUT];
+    double hidden[NB_HIDDEN];
+    double output[NB_OUTPUT];
 
-    double* weight_input_hidden;
-    double* weight_hidden_output;
+    double w_IH[NB_INPUT * NB_HIDDEN];
+    double w_HO[NB_HIDDEN * NB_OUTPUT];
 
-    double* bias_hidden;
-    double* bias_output;
+    double b_H[NB_HIDDEN];
+    double b_O[NB_OUTPUT];
 
-    double* delta_output;
-    double* delta_hidden;
+    double delta_w_IH[NB_INPUT * NB_HIDDEN];
+    double delta_w_HO[NB_HIDDEN * NB_OUTPUT];
 
-    double* goal;
+    double delta_b_H[NB_HIDDEN];
+    double delta_b_O[NB_OUTPUT];
 
-    double* cost_array;
+    double goal[NB_OUTPUT];
+
     double cost;
-
     double learning_rate;
+    double alpha;
 } neural_net;
 
-neural_net init_net();
-void init_value(neural_net *net);
-void neural_network(neural_net *net, matrix* mat, char c);
+neural_net* init_net();
+char forward(neural_net* net, double* input, char expected);
+void backward(neural_net* net);
+void update_weights(neural_net* net);
+void update_biases(neural_net* net);
+void load_weight_bias(neural_net *net);
+void save_weight_bias(neural_net *net);
 
 #endif
