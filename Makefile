@@ -14,7 +14,9 @@ SRC = main.c \
 	  Segmentation/Paragraph/paragraph.c\
 	  Segmentation/Crop/crop.c\
 	  XOR/nn_xor.c\
-	  matrix.c
+	  matrix.c\
+		ImageOperations/OtsuMethod.c \
+
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
