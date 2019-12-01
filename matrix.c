@@ -25,6 +25,88 @@ struct matrix *newMatrix(int rows, int cols) {
   return m;
 }
 
+struct matrix * scale_up(struct matrix * m, int rows, int cols)
+{
+  struct matrix *scaled = newMatrix(rows, cols);
+
+  int factor_h = rows / m->rows;
+  int factor_w = cols / m->cols;
+
+  int start_h = (rows % m ->rows) / 2;
+  int start_w = (cols % m ->cols) / 2;
+  
+  for (int i = 0; i < h; i++)
+  {
+    for (int j = 0; j < w; j++)
+    {
+      double value = ELEM(m, i,  j);
+
+      if (value > 0)
+      {
+        int k = start_h + i * factor_h;
+        for (; k < start_h + (i + 1) * factor_h; k++)
+        {
+          int l = start_w + j * factor_w;
+          for (; l < start_w + (j + 1) * factor_w; l++)
+          {
+            setElement(scaled, k, l, (double)1);
+          }
+        }
+      }
+      
+    }
+  }
+}
+/*
+struct matrix * scale_down(struct matrix * m, int rows, int cols)
+{
+  struct matrix *scaled = newMatrix(rows, cols);
+  int *scaled_tmp = calloc(rows*cols, sizeof(int));
+
+  int factor_h = rows / m->rows;
+  int factor_w = cols / m->cols;
+
+  int start_h = (rows % m ->rows) / 2;
+  int start_w = (cols % m ->cols) / 2;
+
+  int count = 0;
+  int sum = 0;
+  
+  for (int i = 0; i < h; i++)
+  {
+    for (int j = 0; j < w; j++)
+    {
+      int sum_curr = 0;
+
+      int k = start_h + i * factor_h;
+      for (; k < start_h + (i + 1) * factor_h; k++)
+      {
+        int l = start_w + j * factor_w;
+        for (; l < start_w + (j + 1) * factor_w; l++)
+        {
+          double value = ELEM(m, i,  j);
+
+          if (value > 0)
+            sum_curr++;
+        }
+      }
+      
+      if (sum_curr > 0)
+      {
+        sum += sum_curr;
+        count ++;
+
+        scaled_tmp[i * rows + j] = sum_curr;
+      }
+    }
+  }
+
+  int average = sum / count;
+
+  for (int i = 0; i < rows*cols; i++)
+    if (scaled_tmp[i] >= average)
+      setElement(scaled, , j_s, 
+}*/
 // This function transform a matrix to a square matrix of dimension n 
 struct matrix * squareMatrix(struct matrix * m, int n)
 {
