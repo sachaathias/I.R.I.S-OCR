@@ -35,34 +35,23 @@ void copy(double* src, double* dst, size_t len)
     }
 }
 
-/*//Cross entropy loss
-void cost(neural_net *net)
-{
-    double sum = 0.0;
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        sum += (net->goal[o] * log(net->output_activation[o]));
-    }
-    net->cost = -sum;
-}*/
-
 //Cost (log-likelihood)
 double cost(double* output, double* expected, size_t len)
 {
-    double cost = 0.0;
     for(size_t i = 0; i < len; i++)
     {
-        cost += ((expected[i] - output[i]) * (expected[i] - output[i]));
+        if(expected[i] == 1)
+            return -log(output[i]);
     }
-    return cost / (2*len);
+    return 0;
 }
 
-double cost_derivative(double output, double expected)
+/*double cost_derivative(double output, double expected)
 {
     return (expected - output);
 }
-
-//Sigmoid activation functio
+*/
+//Sigmoid activation function
 static inline double sigmoid(double x)
 {
     return 1.0/(1.0+exp(-x));
@@ -115,7 +104,7 @@ void make_goal_matrix(double* goal, size_t len, char c)
 {
     for(size_t i = 0; i < len; i++)
         goal[i] = 0.0;
-    
+
     if(c >= 'A' && c <= 'Z')
         goal[c - 65] = 1;
     else

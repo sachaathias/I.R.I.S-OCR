@@ -82,9 +82,7 @@ void update_weights(neural_net* net)
     {
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->w_HO[h * net->nb_output + o] += eta * net->delta_b_O[o] * net->hidden[h]
-                                                + net->alpha *net->delta_w_HO[h * net->nb_output + o];
-            net->delta_w_HO[h * net->nb_output + o] = eta * net->delta_b_O[o] * net->hidden[h];
+            net->w_HO[h * net->nb_output + o] += net->delta_w_HO[h * net->nb_output + o];
         }
     }
 }
@@ -100,17 +98,13 @@ void update_biases(neural_net* net)
 
     for(size_t o = 0; o < net->nb_output; o++)
     {
-        net->b_O[o] += eta * net->delta_b_O[o];
+        net->b_O[o] += net->delta_b_O[o];
     }
 }
 
 void backward(neural_net* net)
 {
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        net->delta_b_O[o] = cost_derivative(net->output[o], net->goal[o]) * sigmoid_prime(net->output[o]);
-    }
-
+    double eta = net->learning_rate;
     double sum;
     for(size_t h = 0; h < net->nb_hidden; h++)
     {
@@ -120,6 +114,19 @@ void backward(neural_net* net)
             sum += (net->delta_b_O[o] * net->w_HO[h * net->nb_output + o]);
         }
         net->delta_b_H[h] = (sum * sigmoid_prime(net->hidden[h]));
+    }
+
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        net->delta_b_O[o] = -eta * (net->output[o] - net->goal[o]);
+    }
+
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            net->delta_w_HO[h * net->nb_output + o] = -eta * net->hidden[h] * net->delta_b_O[o];
+        }
     }
 }
 
@@ -169,7 +176,7 @@ void load_weight_bias(neural_net* net)
         {
             fgets(str, MAX_SIZE_LINE, file);
             *(net->b_O + o) = atof(str);
-        }        
+        }
 
         fclose(file);
     }
@@ -207,7 +214,7 @@ void save_weight_bias(neural_net* net)
             for(size_t o = 0; o < net->nb_output; o++)
             {
                 fprintf(file, "%f\n", *(net->w_HO + (o + h * net->nb_output)));
-            }            
+            }
         }
 
         //BIAS_HIDDEN
@@ -222,12 +229,12 @@ void save_weight_bias(neural_net* net)
             fprintf(file, "%f", *(net->b_O + o));
             if(o < net->nb_output - 1)
                 fprintf(file, "\n");
-        }        
+        }
 
         fclose(file);
     }
     else
     {
         errx(1, "File is NULL");
-    }    
+    }
 }

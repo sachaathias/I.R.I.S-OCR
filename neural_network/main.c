@@ -24,7 +24,7 @@ int main()
                 printf("%s%c --> %c | COST : %f\n", GREEN, goal, output, net->cost);
             else
                 printf("%s%c --> %c | COST : %f\n", RED, goal, output, net->cost);
-        }            
+        }
     }
     save_weight_bias(net);
     return 0;
