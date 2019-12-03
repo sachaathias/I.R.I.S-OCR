@@ -35,6 +35,17 @@ void copy(double* src, double* dst, size_t len)
     }
 }
 
+/*//Cross entropy loss
+void cost(neural_net *net)
+{
+    double sum = 0.0;
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        sum += (net->goal[o] * log(net->output_activation[o]));
+    }
+    net->cost = -sum;
+}*/
+
 //Cost (log-likelihood)
 double cost(double* output, double* expected, size_t len)
 {
@@ -69,6 +80,33 @@ void do_sigmoid(double* output, size_t len)
     for(size_t i = 0; i < len; i++)
     {
         output[i] = sigmoid(output[i]);
+    }
+}
+
+//Return a constant for softmax function to avoid nan
+double const_softmax(double* list, size_t len)
+{
+    double max = 0;
+    for(size_t i = 0; i < len; i++)
+    {
+        if(list[i] > max)
+            max = list[i];
+    }
+    return -max;
+}
+
+void softmax(double* list, size_t len)
+{
+    double sum_exp = 0.0;
+    double cst = const_softmax(list, len);
+
+    for(size_t o = 0; o < len; o++)
+    {
+        sum_exp += exp(list[o] + cst);
+    }
+    for(size_t o = 0; o < len; o++)
+    {
+        list[o] = exp(list[o] + cst) / sum_exp;
     }
 }
 

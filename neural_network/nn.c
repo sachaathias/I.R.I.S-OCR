@@ -10,7 +10,7 @@ neural_net* init_net()
 
     net->cost = 0.0;
     net->learning_rate = 0.5;
-    net->alpha = 0.9;
+    net->alpha = 0.6;
 
     for(size_t i = 0; i < net->nb_input; i++)
     {
@@ -56,7 +56,8 @@ char forward(neural_net* net, double* input, char expected)
     dot(net->hidden, net->nb_hidden, net->w_HO,\
         net->nb_output, net->b_O, net->output);
 
-    do_sigmoid(net->output, net->nb_output);
+
+    softmax(net->output, net->nb_output);
 
     net->cost = cost(net->output, net->goal, net->nb_output);
 

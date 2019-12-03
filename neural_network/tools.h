@@ -16,6 +16,7 @@ double cost(double* output, double* expected, size_t len);
 double cost_derivative(double output, double expected);
 void do_sigmoid(double* output, size_t len);
 double sigmoid_prime(double x);
+void softmax(double* list, size_t len);
 void make_goal_matrix(double* goal, size_t len, char c);
 char get_result(double* output_a, size_t len);
 

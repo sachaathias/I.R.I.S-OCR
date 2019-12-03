@@ -1,17 +1,17 @@
 #include "train_tools.h"
 
-#define LEN 1//103
+#define LEN 103
 #define WIDTH 28
 #define HEIGHT 28
 
 char files[][13] =
 {
     "/a0.txt",
-    /*"/a1.txt",
+    "/a1.txt",
     "/a2.txt",
-    "/a3.txt",*/
-    "/b0.txt"//,
-    /*"/b1.txt",
+    "/a3.txt",
+    "/b0.txt",
+    "/b1.txt",
     "/b2.txt",
     "/b3.txt",
     "/c0.txt",
@@ -109,7 +109,7 @@ char files[][13] =
     "/z0.txt",
     "/z1.txt",
     "/z2.txt",
-    "/z3.txt"*/
+    "/z3.txt"
 };
 
 void file_to_matrix(char* f, double *m)
