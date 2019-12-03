@@ -17,8 +17,11 @@ int main(int argc, char** argv)
 	char* error = " * Use \'-xor\' to run XOR neural network\n * Use \'-img_trt <image_path>\' to run\n\tbinarisation and segmentation";
 	if(argc < 2)
 	{
-		printf("Not enough arguments\n%s\n", error);
-		return 1;
+		//printf("Not enough arguments\n%s\n", error);
+
+
+
+		return 0;
 	}
 	else
 	{
