@@ -1,33 +1,51 @@
 #include "tools.h"
 
-//return a random number
 inline double random(int min, int max)
 {
-    if(min == -1 && max == 1)
-    {
-        double r = (double)rand();
-        return pow(-1, r)*(r/(double)RAND_MAX);
-    }
+    if(min == 0 && max == 0)
+        return (double)rand()/((double)RAND_MAX / 2) - 1;
     return (double)(rand() % (max - min + 1) + min);
 }
 
-//output = sum(input*weight) + bias
-void dot(double *input, size_t height_input,\
-         double *weight, size_t height_weight,\
-         double *bias, double *output)
+//#############################################################################
+//################ ACTIVATION FUNCTIONS AND DERIVATIVE ########################
+//#############################################################################
+
+inline double sigmoid(double x)
 {
-    for(size_t i = 0; i < height_weight; i++)
-    {
-        output[i] = bias[i];
-        for(size_t j = 0; j < height_input; j++)
-        {
-            output[i] += input[j] * weight[i * height_input + j];
-        }
-    }
+    return 1.0/(1.0+exp(-x));
 }
 
+inline double sigmoid_prime(double x)
+{
+    return x*(1.0 - x);
+}
+
+//#############################################################################
+//########################### COST FUNCTION ###################################
+//#############################################################################
+
+//Quadratic cost function
+double cost(double* output, double* goal, size_t len)
+{
+    double max = 0;
+    double s = 0;
+
+    for(size_t o = 0; o < len; o++)
+    {
+        if(max < output[o])
+            max = output[o];
+        s += (output[o] - goal[o]) * (output[o] - goal[o]);
+    }
+    return s;
+}
+
+//#############################################################################
+//######################## MATRICE TOOLS FUNCTIONS ############################
+//#############################################################################
+
 //Copy src arrray into dst array
-void copy(double* src, double* dst, size_t len)
+void copy_matrix(double* src, double* dst, size_t len)
 {
     for(size_t i = 0; i < len; i++)
     {
@@ -35,69 +53,43 @@ void copy(double* src, double* dst, size_t len)
     }
 }
 
-//Cost (log-likelihood)
-double cost(double* output, double* expected, size_t len)
+//Add matrix src to dst (they have the same length)
+void add_matrix(double *src, double *dst, size_t len)
 {
     for(size_t i = 0; i < len; i++)
     {
-        if(expected[i] == 1)
-            return -log(output[i]);
+        dst[i] += src[i];
     }
-    return 0;
 }
 
-/*double cost_derivative(double output, double expected)
+//Multiply weight with input into output
+void mul_matrix(double *input, double *weight, double* output,\
+                size_t height_input, size_t height_weight)
 {
-    return (expected - output);
-}
-*/
-//Sigmoid activation function
-static inline double sigmoid(double x)
-{
-    return 1.0/(1.0+exp(-x));
-}
-
-//Derivative of sigmoid
-inline double sigmoid_prime(double x)
-{
-    return x*(1-x);
-}
-
-//Do sigmoid on a list
-void do_sigmoid(double* output, size_t len)
-{
-    for(size_t i = 0; i < len; i++)
+    for(size_t i = 0; i < height_input; i++)
     {
-        output[i] = sigmoid(output[i]);
+        for(size_t h = 0; h < height_weight; h++)
+        {
+            output[h] += input[i] * weight[h * height_input + i];
+        }
     }
 }
 
-//Return a constant for softmax function to avoid nan
-double const_softmax(double* list, size_t len)
+//Transpose src into dst
+/*void transpose_matrix(double *src, size_t width_src, size_t height_src, double *dst)
 {
-    double max = 0;
-    for(size_t i = 0; i < len; i++)
+    for(size_t i = 0; i < width_src; i++)
     {
-        if(list[i] > max)
-            max = list[i];
+        for(size_t j = 0; j < height_src; j++)
+        {
+            dst[i * height_src + j] = src[j * width_src + i];
+        }
     }
-    return -max;
-}
+}*/
 
-void softmax(double* list, size_t len)
-{
-    double sum_exp = 0.0;
-    double cst = const_softmax(list, len);
-
-    for(size_t o = 0; o < len; o++)
-    {
-        sum_exp += exp(list[o] + cst);
-    }
-    for(size_t o = 0; o < len; o++)
-    {
-        list[o] = exp(list[o] + cst) / sum_exp;
-    }
-}
+//#############################################################################
+//###################### GOAL AND RESULT FUNCTIONS ############################
+//#############################################################################
 
 //Create a goal matrix corresponding to the expected output
 void make_goal_matrix(double* goal, size_t len, char c)
@@ -112,17 +104,17 @@ void make_goal_matrix(double* goal, size_t len, char c)
 }
 
 //Return the char which correspond to the output
-char get_result(double* output_a, size_t len)
+char get_result(double* output, size_t len)
 {
     int max = 0;
     double max_value = 0.0;
 
     for(size_t i = 0; i < len; i++)
     {
-        if(output_a[i] > max_value)
+        if(output[i] > max_value)
         {
             max = i;
-            max_value = output_a[i];
+            max_value = output[i];
         }
     }
 

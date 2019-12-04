@@ -1,23 +1,28 @@
 #ifndef TOOLS_H
 #define TOOLS_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
-
-#define MAX_SIZE_LINE 1000
+#include <stdlib.h>
+#include "nn.h"
 
 double random(int min, int max);
-void dot(double *input, size_t height_input,\
-         double *weight, size_t height_weight,\
-         double *bias, double *output);
-void copy(double* src, double* dst, size_t len);
-double cost(double* output, double* expected, size_t len);
-double cost_derivative(double output, double expected);
-void do_sigmoid(double* output, size_t len);
+
+//ACTIVATION FUNCTIONS AND DERIVATIVE
+double sigmoid(double x);
 double sigmoid_prime(double x);
-void softmax(double* list, size_t len);
+
+//COST FUNCTION
+double cost(double* output, double* goal, size_t len);
+
+//MATRICE TOOLS FUNCTIONS
+void copy_matrix(double* src, double* dst, size_t len);
+void add_matrix(double *src, double *dst, size_t len);
+void mul_matrix(double *input, double *weight, double* output,\
+                size_t height_input, size_t height_weight);
+//void transpose_matrix(double *src, size_t width_src, size_t height_src, double *dst);
+
+//GOAL AND RESULT FUNCTIONS
 void make_goal_matrix(double* goal, size_t len, char c);
-char get_result(double* output_a, size_t len);
+char get_result(double* output, size_t len);
 
 #endif
