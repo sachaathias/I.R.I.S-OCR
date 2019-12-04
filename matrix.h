@@ -33,5 +33,7 @@ int isSquare(struct matrix * mtx);
 int isDiagonal(struct matrix * mtx);
 int isUpperTriangular(struct matrix * mtx);
 int diagonal(struct matrix * v, struct matrix * mtx);
+struct matrix * scale_up(struct matrix * m, int rows, int cols);
+struct matrix * scale_down(struct matrix * m, int rows, int cols);
 
 #endif

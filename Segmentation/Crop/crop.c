@@ -69,7 +69,14 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
 	printf("%s\n",str);
 }
 
-
+void add_space(SDL_Surface* image,char str[])
+{
+    SDL_Surface *bb = SDL_CreateRGBSurface(0,
+            20,20,
+            image->format->BitsPerPixel,1, 1,1, 1);
+    SDL_SaveBMP(bb,str);
+    printf("%s\n",str);
+}
 
 void crop_Lines(SDL_Surface* image, int array[],int len, int *count)
 {
@@ -102,10 +109,18 @@ int check_pixel(SDL_Surface *image,int x)
 	int y = 0;
 	int Bool = 1;
 	Uint32 pixel = get_pixel(image,x,y);
-
-	if(pixel != 0x0000FF)
+//if the pixel is different of green or black
+	if(pixel != 0x0000FF && pixel !=0x00FF00)
 		Bool = 0;
 	return Bool;
+}
+
+int IsGreenPixel(SDL_Surface* image,int x,int y)
+{
+    Uint32 pixel = get_pixel(image,x,y);
+    if(pixel != 0x00FF00)
+        return 0;
+    return 1;
 }
 
 
@@ -130,13 +145,20 @@ void crop_Letters(char* str_,int *count)
 		{
 			x ++;
 		}
+    if (IsGreenPixel(lines,x,1))
+    {
+        sprintf(str,"letter%d.bmp",*count);
+        add_space(lines,str);
+        count++;
+        x++;
+        printf("lol\n");
+    }
 		firstColumn = x;
 		x++;
 		while (x < width && !check_pixel(lines,x))
 		{
 			x++;
 		}
-
 		secondColumn = x;
 		x++;
 		if (x < width )

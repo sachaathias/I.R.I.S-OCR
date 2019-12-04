@@ -7,7 +7,6 @@ unsigned long *get_histogram(SDL_Surface* grey_image, unsigned long *histo)
 								for(int j = 0; j < grey_image->w; j++)
 								{
 												Uint8 pixel = get_pixel(grey_image,j,i);
-												printf("yes");
 												if(histo[pixel] < 4294967295)
 																histo[pixel] += 1;
 								}
@@ -53,7 +52,7 @@ void Binarize(SDL_Surface* image,Uint8 threshold)
 				{
 								for(int j = 0; j < image->w; j++)
 								{
-												Uint8 pixel = get_pixel(image,i,j);
+												Uint8 pixel = get_pixel(image,j,i);
 												if(pixel > threshold)
 															set_pixel(image,j,i,0xFFFFFF);
 												else

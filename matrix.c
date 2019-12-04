@@ -32,81 +32,97 @@ struct matrix * scale_up(struct matrix * m, int rows, int cols)
   int factor_h = rows / m->rows;
   int factor_w = cols / m->cols;
 
-  int start_h = (rows % m ->rows) / 2;
-  int start_w = (cols % m ->cols) / 2;
-  
-  for (int i = 0; i < h; i++)
+  int start_h = (rows % m->rows) / 2;
+  int start_w = (cols % m->cols) / 2;
+
+  for (int i = 0; i < m->cols; i++)
   {
-    for (int j = 0; j < w; j++)
+    for (int j = 0; j < m->rows; j++)
     {
       double value = ELEM(m, i,  j);
 
       if (value > 0)
       {
-        int k = start_h + i * factor_h;
-        for (; k < start_h + (i + 1) * factor_h; k++)
+        int k = start_w + i * factor_w;
+        for (; k < start_w + (i + 1) * factor_w; k++)
         {
-          int l = start_w + j * factor_w;
-          for (; l < start_w + (j + 1) * factor_w; l++)
+          int l = start_h + j * factor_h;
+          for (; l < start_h + (j + 1) * factor_h; l++)
           {
             setElement(scaled, k, l, (double)1);
           }
         }
       }
-      
     }
   }
+
+  return scaled;
 }
-/*
+
 struct matrix * scale_down(struct matrix * m, int rows, int cols)
 {
   struct matrix *scaled = newMatrix(rows, cols);
-  int *scaled_tmp = calloc(rows*cols, sizeof(int));
+  struct matrix *scaled_tmp = newMatrix(rows, cols);
 
-  int factor_h = rows / m->rows;
-  int factor_w = cols / m->cols;
+  int factor_h = m->rows / rows;
+  int factor_w = m->cols / cols;
 
-  int start_h = (rows % m ->rows) / 2;
-  int start_w = (cols % m ->cols) / 2;
+  int start_h = (m->rows % rows) / 2;
+  int start_w = (m->cols % cols) / 2;
 
   int count = 0;
   int sum = 0;
-  
-  for (int i = 0; i < h; i++)
+
+  for (int i = 0; i < rows; i++)
   {
-    for (int j = 0; j < w; j++)
+    for (int j = 0; j < cols; j++)
     {
       int sum_curr = 0;
 
       int k = start_h + i * factor_h;
       for (; k < start_h + (i + 1) * factor_h; k++)
       {
+
         int l = start_w + j * factor_w;
         for (; l < start_w + (j + 1) * factor_w; l++)
         {
-          double value = ELEM(m, i,  j);
+          double value = ELEM(m, k, l);
 
           if (value > 0)
             sum_curr++;
         }
       }
-      
+
+
       if (sum_curr > 0)
       {
         sum += sum_curr;
         count ++;
 
-        scaled_tmp[i * rows + j] = sum_curr;
+        setElement(scaled_tmp, i, j, (double)sum_curr);
       }
     }
   }
 
+  //printf("%d / %d\n", sum, count);
   int average = sum / count;
+  //printf("%d\n", average);
 
-  for (int i = 0; i < rows*cols; i++)
-    if (scaled_tmp[i] >= average)
-      setElement(scaled, , j_s, 
-}*/
+  for (int i = 0; i < rows; i++)
+  {
+      for(int j = 0; j < cols; j++)
+      {
+        if (ELEM(scaled_tmp, i, j) >= average)
+        {
+            //printf("loli)ferferfefeffereffrrfrrrrrrrr\n");
+            setElement(scaled, i, j, (double)1);
+        }
+      }
+  }
+
+  return scaled;
+}
+
 // This function transform a matrix to a square matrix of dimension n 
 struct matrix * squareMatrix(struct matrix * m, int n)
 {

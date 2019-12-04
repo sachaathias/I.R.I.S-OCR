@@ -114,7 +114,10 @@ void display_image_test(char* file)
 			}
 		}
 		printMatrix(data);
-
+    struct matrix *ResizePlus = scale_up(data,80,80);
+    printMatrix(ResizePlus);
+    struct matrix *ResizeMoins = scale_down(data,40,40);
+    printMatrix(ResizeMoins);
 		// ENVOI AU RESEAU DE NEURONE
 		printf("letter %d/%d \n",c,nbr_of_letter);
 		c++;

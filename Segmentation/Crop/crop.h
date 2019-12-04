@@ -21,5 +21,7 @@ void crop_picture(SDL_Surface* image, int x, int y,
 void crop_Lines(SDL_Surface* image, int array[], int len,int *count);
 int check_pixel(SDL_Surface *image, int x);
 void crop_Letters(char* str_,int *count);
+void add_space(SDL_Surface* image,char str[]);
+int IsGreenPixel(SDL_Surface* image,int x,int y);
 
 #endif
