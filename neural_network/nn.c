@@ -8,7 +8,7 @@ neural_net* init_net()
     net->nb_output = NB_OUTPUT;
 
     net->cost = 0.0;
-    net->learning_rate = 0.09;
+    net->learning_rate = 0.5;
 
     for(size_t i = 0; i < net->nb_input; i++)
     {
@@ -120,6 +120,8 @@ void backward(neural_net *net)
     for(size_t h = 0; h < net->nb_hidden; h++)
     {
         double sum = 0.0;
+        /*double *trp_w = malloc(sizeof(double) * net->nb_hidden * net->nb_output);
+        transpose_matrix(net->w_HO, net->nb_hidden, net->nb_output, trp_w);*/
         for(size_t o = 0; o < net->nb_output; o++)
         {
             sum += net->delta_b_O[o] * net->w_HO[o * net->nb_hidden + h];
