@@ -1,18 +1,15 @@
-# Makefile
-
 CC = gcc
-CFLAGS = `pkg-config --cflags gtk+-3.0` -Wall -O3
+CFLAGS = `pkg-config --cflags gtk+-3.0`  -O3
 LDLIBS = `pkg-config --libs gtk+-3.0`
+LDFLAGS= $(PTRHREAD) $(GTKLIB) -export-dynamic
 
-EXE = interface
+SRC=interface.c
+OBJ= ${SRC: .c=.o}
+DEP= ${SRC:.c=d}
 
-all: $(EXE)
+all: interface
 
-$(foreach f, $(EXE), $(eval $(f):))
-
-.PHONY: clean
+interface: ${OBJ}
 
 clean:
 	${RM} $(EXE)
-
-# END
