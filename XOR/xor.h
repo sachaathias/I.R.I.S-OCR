@@ -11,9 +11,9 @@
 
 typedef struct
 {
-    int nbI;
-    int nbH;
-    int nbO;
+    size_t nbI;
+    size_t nbH;
+    size_t nbO;
 
     double input[2];
     double hidden[2];
@@ -25,6 +25,9 @@ typedef struct
 
     double b_H[2];
     double b_O[2];
+
+    double delta_O[2];
+    double delta_H[2];
 
     double eta;
 }nn;
