@@ -18,7 +18,14 @@ double sigmoid_prime(double x)
 
 double cost(nn* net)
 {
-    return 0.5 * ((net->goal[0] - net->output[0]) * (net->goal[0] - net->output[0]) + (net->goal[1] - net->output[1]) * (net->goal[1] - net->output[1]));
+    double cost = 0.0;
+
+    for(size_t o = 0; o < net->nbO; o++)
+    {
+        cost += pow(net->goal[o] - net->output[o], 2);
+    }
+    return 0.5 * cost;
+    //return 0.5 * ((net->goal[0] - net->output[0]) * (net->goal[0] - net->output[0]) + (net->goal[1] - net->output[1]) * (net->goal[1] - net->output[1]));
 }
 
 nn* init()
