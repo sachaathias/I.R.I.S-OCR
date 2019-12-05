@@ -1,17 +1,17 @@
 #include "xor.h"
 
-double random()
+static inline double random()
 {
     return (double)rand()/(double)RAND_MAX;
     //return (double)rand()/((double)RAND_MAX / 2) - 1;
 }
 
-double sigmoid(double x)
+static inline double sigmoid(double x)
 {
     return 1.0/(1.0+exp(-x));
 }
 
-double sigmoid_prime(double x)
+static inline double sigmoid_prime(double x)
 {
     return x*(1-x);
 }
