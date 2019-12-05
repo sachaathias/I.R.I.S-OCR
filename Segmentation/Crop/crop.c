@@ -8,65 +8,98 @@
 // This function transform a picture to a square picture of dimension n
 SDL_Surface* square_picture(SDL_Surface* image, int n)
 {
-	// test if we can fill the square picture of length n
-	if(image->h >= n || image->w >= n)
-	{
-		printf("Error, n is too small\n");
-		return image;
-	}
-	else
-	{
-		// Create the new picture of length n
-		SDL_Surface *square = SDL_CreateRGBSurface(0, n, n,
-				image->format->BitsPerPixel, 0, 0, 0, 0);
+    // test if we can fill the square picture of length n
+    if(image->h >= n || image->w >= n)
+    {
+        printf("Error, n is too small\n");
+        return image;
+    }
+    else
+    {
+        // Create the new picture of length n
+        SDL_Surface *square = SDL_CreateRGBSurface(0, n, n,
+                image->format->BitsPerPixel, 0, 0, 0, 0);
 
-		// Fill the new picture with 0
-		for(int i = 0; i < n; i++)
-		{
-			for(int j = 0; j < n; j++)
-			{
-				set_pixel(square, i, j, 0xFFFFFF);
-			}
-		}
+        // Fill the new picture with 0
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                set_pixel(square, i, j, 0xFFFFFF);
+            }
+        }
 
 
-		int square_center = n / 2;
-		int h = image->h;
-		int w = image->w;
+        int square_center = n / 2;
+        int h = image->h;
+        int w = image->w;
 
-		// Find the point where we can copy in square
-		int x = square_center - w / 2;
-		int y = square_center - h / 2;
+        // Find the point where we can copy in square
+        int x = square_center - w / 2;
+        int y = square_center - h / 2;
 
-		// Copy in square on the center
-		for(int i = 0; i < h; i++)
-		{
-			for(int j = 0; j < w; j++)
-			{
-				set_pixel(square, x + j, y + i, get_pixel(image, j, i));
-			}
-		}
+        // Copy in square on the center
+        for(int i = 0; i < h; i++)
+        {
+            for(int j = 0; j < w; j++)
+            {
+                set_pixel(square, x + j, y + i, get_pixel(image, j, i));
+            }
+        }
 
-		return square;
-	}
+        return square;
+    }
+}
+
+void crop_picture4Letters(SDL_Surface* image, int x, int y, int width, int height,char str[])
+{
+    // Create a virtual rectangle
+    SDL_Rect b ={x, y, width, height};
+    SDL_UnlockSurface(image);
+    // Create a new picture 
+    /*
+    if (GetSize(image))
+    { 
+        SDL_Surface *bb = SDL_CreateRGBSurface(0,
+                56,
+                56,
+                image->format->BitsPerPixel,0,0,0,0);
+        SDL_UnlockSurface(bb);
+        ToWhitePicture(bb);
+        SDL_BlitSurface(image,&b,bb,NULL);
+        SDL_Surface *scaled = rotozoomSurface(bb,0,2,1);
+        SDL_SaveBMP(scaled,str);
+    }
+    else
+    {*/
+        // Create a new picture
+        SDL_Surface *bb = SDL_CreateRGBSurface(0,
+                width,
+                height,
+                image->format->BitsPerPixel, 0, 0, 0, 0);
+        // Create a copy of our picture 
+        SDL_UnlockSurface(bb);
+        SDL_BlitSurface(image,&b,bb,NULL);
+        //reverseByte(bb);
+        SDL_SaveBMP(bb,str);
 }
 
 void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char str[])
 {
-	// Create a virtual rectangle
-	SDL_Rect b ={x, y, width, height};
-	SDL_UnlockSurface(image);
-	// Create a new picture
-	SDL_Surface *bb = SDL_CreateRGBSurface(0, 
-			width, 
-			height, 
-			image->format->BitsPerPixel, 0, 0, 0, 0);
-	// Create a copy of our picture 
-	SDL_UnlockSurface(bb);
-	SDL_BlitSurface(image,&b,bb,NULL);
-	//reverseByte(bb);
-	SDL_SaveBMP(bb,str);
-	printf("%s\n",str);
+    // Create a virtual rectangle
+    SDL_Rect b ={x, y, width, height};
+    SDL_UnlockSurface(image);
+    // Create a new picture
+    SDL_Surface *bb = SDL_CreateRGBSurface(0, 
+            width, 
+            height, 
+            image->format->BitsPerPixel, 0, 0, 0, 0);
+    // Create a copy of our picture 
+    SDL_UnlockSurface(bb);
+    SDL_BlitSurface(image,&b,bb,NULL);
+    //reverseByte(bb);
+    SDL_SaveBMP(bb,str);
+    printf("%s\n",str);
 }
 
 void add_space(SDL_Surface* image,char str[])
@@ -75,44 +108,44 @@ void add_space(SDL_Surface* image,char str[])
             20,20,
             image->format->BitsPerPixel,1, 1,1, 1);
     SDL_SaveBMP(bb,str);
-    printf("%s\n",str);
+    //printf("%s\n",str);
 }
 
 void crop_Lines(SDL_Surface* image, int array[],int len, int *count)
 {
-	int Upper_line;
-	int Bottom_line;
-	int Height;
-	int Width = image -> w;
-	char str[]= "line.bmp";
+    int Upper_line;
+    int Bottom_line;
+    int Height;
+    int Width = image -> w;
+    char str[]= "line.bmp";
 
-	int i = 0;
-	// Cross the array for getting each red lines's coordinates
-	for (int index = 0; index < len; index++)
-	{
-		if (array[index] == 0 && index > 10 )
-			break;
-		Upper_line = array[index];
-		index ++;
-		Bottom_line =array[index];
+    int i = 0;
+    // Cross the array for getting each red lines's coordinates
+    for (int index = 0; index < len; index++)
+    {
+        if (array[index] == 0 && index > 10 )
+            break;
+        Upper_line = array[index];
+        index ++;
+        Bottom_line =array[index];
 
-		Height = Bottom_line - Upper_line;
+        Height = Bottom_line - Upper_line;
 
-		crop_picture( image, 0,Upper_line+1, Width, Height-1,str);
-		i++;
-		crop_Letters(str,count );
-	}
+        crop_picture( image, 0,Upper_line+1, Width, Height-1,str);
+        i++;
+        crop_Letters(str,count );
+    }
 }
 
 int check_pixel(SDL_Surface *image,int x)
 {
-	int y = 0;
-	int Bool = 1;
-	Uint32 pixel = get_pixel(image,x,y);
-//if the pixel is different of green or black
-	if(pixel != 0x0000FF && pixel !=0x00FF00)
-		Bool = 0;
-	return Bool;
+    int y = 0;
+    int Bool = 1;
+    Uint32 pixel = get_pixel(image,x,y);
+    //if the pixel is different of green or black
+    if(pixel != 0x0000FF && pixel !=0x00FF00)
+        Bool = 0;
+    return Bool;
 }
 
 int IsGreenPixel(SDL_Surface* image,int x,int y)
@@ -126,53 +159,52 @@ int IsGreenPixel(SDL_Surface* image,int x,int y)
 
 void crop_Letters(char* str_,int *count)
 {
-	
-	SDL_Surface* lines =load_image(str_);
-	int width  = lines -> w;
-	int height = lines -> h;
 
-	int x = 0;
+    SDL_Surface* lines =load_image(str_);
+    int width  = lines -> w;
+    int height = lines -> h;
 
-	int firstColumn;
-	int secondColumn;
-	char str[1000];
+    int x = 0;
+
+    int firstColumn;
+    int secondColumn;
+    char str[1000];
 
 
-	while( x < width )
-	{
-
-		while(x < width && !check_pixel(lines,x))
-		{
-			x ++;
-		}
-    if (IsGreenPixel(lines,x,1))
+    while( x < width )
     {
-        sprintf(str,"letter%d.bmp",*count);
-        add_space(lines,str);
-        count++;
+
+        while(x < width && !check_pixel(lines,x))
+        {
+            x ++;
+        }
+        if (IsGreenPixel(lines,x,1))
+        {
+            sprintf(str,"letter%d.bmp",*count);
+            add_space(lines,str);
+            count++;
+            x++;
+        }
+        firstColumn = x;
         x++;
-        printf("lol\n");
+        while (x < width && !check_pixel(lines,x))
+        {
+            x++;
+        }
+        secondColumn = x;
+        x++;
+        if (x < width )
+        {
+            *count+=1;
+            sprintf(str,"letter%d.bmp",*count);
+            crop_picture4Letters(lines,
+                    firstColumn +1 , // x
+                    1,           // y
+                    secondColumn - firstColumn-1, // width
+                    height-1,       // height
+                    str);
+        }
     }
-		firstColumn = x;
-		x++;
-		while (x < width && !check_pixel(lines,x))
-		{
-			x++;
-		}
-		secondColumn = x;
-		x++;
-		if (x < width )
-		{
-			*count+=1;
-			sprintf(str,"letter%d.bmp",*count);
-			crop_picture(lines,
-					firstColumn +1 , // x
-					1,           // y
-					secondColumn - firstColumn-1, // width
-					height-1,       // height
-					str);
-		}
-	}
 }
 
 

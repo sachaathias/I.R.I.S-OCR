@@ -16,4 +16,6 @@ SDL_Surface* display_image(SDL_Surface *img);
 extern void wait_for_keypressed();
 void update_surface(SDL_Surface* screen, SDL_Surface* image);
 void reverseByte(SDL_Surface* surface);
+int  GetSize(SDL_Surface *image);
+void ToWhitePicture(SDL_Surface *image);
 #endif

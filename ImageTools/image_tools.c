@@ -171,3 +171,25 @@ void reverseByte(SDL_Surface* surface)
 		}
 	}
 }
+
+int GetSize(SDL_Surface *image)
+{
+    int Height = image->h;
+    int Width  = image->w;
+
+    if (Height*Width< 56*24)
+        return 0;
+    return 1;
+}
+
+void ToWhitePicture(SDL_Surface *image)
+{
+    for (int x=0; x<image->h ;x++)
+        for (int y=0; y<image->w ;y++)
+        {
+            Uint32 pixel = get_pixel(image,x,y);
+            if(pixel == 0x000000)
+                set_pixel(image,x,y,0xFFFFFF);
+        }
+}
+
