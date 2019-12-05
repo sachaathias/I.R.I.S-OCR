@@ -221,15 +221,16 @@ void xor()
                 result = 0;
             else
                 result = 1;
-            if(result == expected)
-                printf("%s", GREEN);
-            else
-                printf("%s", RED);
 
             printf("(%lf, %lf):\n", net->input[0], net->input[1]);
             printf("0: %lf\n1: %lf\n", net->output[0], net->output[1]);
 
+            if(result == expected)
+                printf("%s", GREEN);
+            else
+                printf("%s", RED);
             printf("--> %i\n", result);
+            printf("%s", DEFAULT);
             printf("COST : %lf\n\n", cost(net));
         }
     }
