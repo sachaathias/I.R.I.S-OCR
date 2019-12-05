@@ -97,9 +97,8 @@ void display_image_test(char* file)
         sprintf(Name,"letter%d.bmp",c);
         letter = load_image(Name);
         //SDL_Surface *Scale = rotozoomSurface(letter,0,1,1);
-        SDL_Surface* new = square_picture(letter,60);
+        SDL_Surface* new = square_picture(letter,70);
         screen = display_image(new);
-        printf("Scaled");
         //wait_for_keypressed();
         struct matrix *data = newMatrix(new->h,new->w);
         for(int i = 0; i < new->h; i++)
@@ -134,4 +133,5 @@ void display_image_test(char* file)
     //SDL_FreeSurface(surface);
     //SDL_FreeSurface(image);
     //SDL_Quit();
+    //system("/home/sacha.athias/afs/IRIS/Remove.sh");
 }
