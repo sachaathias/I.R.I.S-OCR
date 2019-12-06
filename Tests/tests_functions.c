@@ -101,10 +101,13 @@ void display_image_test(char* file)
 	SDL_Surface* letter;
 	char Name[1000];
 
+  char *Result=malloc(nbr_of_letter*sizeof(char));
+  int k =0;
 	// ----- Initialization net -------
 	neural_net *net = init_net_train();
 	while(c < nbr_of_letter)
-	{
+	{ 
+    
 		sprintf(Name,"letter%d.bmp",c);
 		letter = load_image(Name);
 		SDL_Surface* new = square_picture(letter,70);
@@ -130,8 +133,11 @@ void display_image_test(char* file)
 		// ENVOI AU RESEAU DE NEURONE
 		char result = forward(net, ResizeMoins->data, 0);
 
-		printf("Char: %c\n", result);
-		printf("letter %d/%d \n",c,nbr_of_letter);
+    *(Result+k) =result;
+    k++;
+    printf("%s\n",Result);
+		//printf("Char: %c\n", result);
+		//printf("letter %d/%d \n",c,nbr_of_letter);
 		c++;
 		free(data);
 	}
