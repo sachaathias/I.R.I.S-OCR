@@ -14,7 +14,7 @@ neural_net* init_net()
     {
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->w_IH[h * net->nb_input + i] = random(0, 0);
+            net->w_IH[h * net->nb_input + i] = random();
             net->delta_w_IH[h * net->nb_input + i] = 0.0;
         }
     }
@@ -23,16 +23,16 @@ neural_net* init_net()
     {
         for(size_t o = 0; o < net->nb_output; o++)
         {
-            net->w_HO[o * net->nb_hidden + h] = random(0, 0);
+            net->w_HO[o * net->nb_hidden + h] = random();
             net->delta_w_HO[o * net->nb_hidden + h] = 0.0;
         }
-        net->b_H[h] = random(0, 0);
+        net->b_H[h] = random();
         net->delta_H[h] = 0.0;
     }
 
     for(size_t o = 0; o < net->nb_output; o++)
     {
-        net->b_O[o] = random(0, 0);
+        net->b_O[o] = random();
         net->delta_O[o] = 0.0;
     }
 
@@ -47,7 +47,9 @@ char forward(neural_net *net, double *input, char expected)
 {
     //Initialize input and goal (for training)
     copy_matrix(input, net->input, net->nb_input);
-    make_goal_matrix(net->goal, net->nb_output, expected);
+
+    if(expected != 0)
+    	make_goal_matrix(net->goal, net->nb_output, expected);
 
     //Propagation between input and hidden layer
     for(size_t h = 0; h < net->nb_hidden; h++)
@@ -72,7 +74,10 @@ char forward(neural_net *net, double *input, char expected)
     }
 
     //Calculate cost
-    net->cost = cost(net->output, net->goal, net->nb_output);
+    if(expected != 0)
+    	net->cost = cost(net->output, net->goal, net->nb_output);
+    else
+	net->cost = 0;
 
     return get_result(net->output, net->nb_output);
 }
@@ -98,7 +103,7 @@ void backward(neural_net *net)
             net->delta_H[h] += net->delta_O[o] * net->w_HO[o * net->nb_hidden + h];
         }
         net->delta_H[h] *= sigmoid_prime(net->hidden[h]);
-    }        
+    }
 }
 
 void update_weights_bias(neural_net* net)
@@ -148,3 +153,4 @@ void reset_deltas(neural_net *net)
         net->delta_O[o] = 0.0;
     }
 }
+

@@ -1,13 +1,6 @@
-#include "nn.h"
-#include "save.h"
-#include "train_tools.h"
-#include <time.h>
+#include "main_nn.h"
 
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
-#define DEFAULT "\033[0;0m"
-
-int main()
+void train()
 {
     srand(time(NULL));
     neural_net *net = init_net();
@@ -27,7 +20,7 @@ int main()
             else
                 printf("%s%c --> %c | COST : %f\n", RED, goal, output, net->cost);
             printf("%s", DEFAULT);
-        }   
+        }
 
         backward(net);
 
@@ -38,9 +31,16 @@ int main()
         }
         if(epoch % 100000 == 0)
             save_weight_bias(net);
-           
     }
     save_weight_bias(net);
+}
 
-    return 0;
+neural_net *init_net_train()
+{
+	srand(time(NULL));
+	neural_net *net = init_net();
+
+	load_weight_bias(net);
+
+	return net;
 }

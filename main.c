@@ -3,7 +3,7 @@
 #include <err.h>
 #include <string.h>
 #include "Tests/tests_functions.h"
-#include "XOR/nn_xor.h"
+#include "XOR/xor.h"
 
 int main(int argc, char** argv)
 {
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 			char* arg = argv[i];
 			if(strcmp(arg, "-xor") == 0)
 			{
-				XOR();
+				xor();
 			}
 			else if(strcmp(arg, "-img_trt") == 0)
 			{

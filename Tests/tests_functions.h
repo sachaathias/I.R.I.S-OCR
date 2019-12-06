@@ -17,6 +17,8 @@
 #include "../Segmentation/Paragraph/paragraph.h"
 #include "../Segmentation/Crop/crop.h"
 #include "../matrix.h"
+#include "../neural_network/main_nn.h"
+#include "../neural_network/nn.h"
 
 
 //void save_BMP_test(char* file);

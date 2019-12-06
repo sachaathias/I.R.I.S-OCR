@@ -1,11 +1,8 @@
 #include "tools.h"
 
-inline double random(int min, int max)
+inline double random()
 {
-    if(min == 0 && max == 0)
-        return (double)rand()/(double)RAND_MAX;
-        //return (double)rand()/((double)RAND_MAX / 2) - 1;
-    return (double)(rand() % (max - min + 1) + min);
+	return (double)rand()/(double)RAND_MAX;
 }
 
 //#############################################################################

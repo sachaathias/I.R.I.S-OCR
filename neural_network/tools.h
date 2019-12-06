@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdlib.h>
 
-double random(int min, int max);
+double random();
 
 //ACTIVATION FUNCTIONS
 double sigmoid(double x);

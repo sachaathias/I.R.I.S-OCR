@@ -16,7 +16,7 @@ static inline double sigmoid_prime(double x)
     return x*(1-x);
 }
 
-double cost(nn* net)
+double cost_xor(nn* net)
 {
     double cost = 0.0;
 
@@ -25,7 +25,6 @@ double cost(nn* net)
         cost += pow(net->goal[o] - net->output[o], 2);
     }
     return 0.5 * cost;
-    //return 0.5 * ((net->goal[0] - net->output[0]) * (net->goal[0] - net->output[0]) + (net->goal[1] - net->output[1]) * (net->goal[1] - net->output[1]));
 }
 
 nn* init()
@@ -45,11 +44,6 @@ nn* init()
             n->w_IH[h * n->nbI + i] = random();
         }
     }
-    
-    /*n->w_IH[0] = random();
-    n->w_IH[1] = random();
-    n->w_IH[2] = random();
-    n->w_IH[3] = random();*/
 
     for(size_t h = 0; h < n->nbH; h++)
     {
@@ -61,23 +55,11 @@ nn* init()
         }
     }
 
-    /*n->w_HO[0] = random();
-    n->w_HO[1] = random();
-    n->w_HO[2] = random();
-    n->w_HO[3] = random();*/
-
-    /*n->b_H[0] = random();
-    n->b_H[1] = random();*/
-
     for(size_t o = 0; o < n->nbO; o++)
     {
         n->b_O[o] = random();
         n->delta_O[o] = 0.0;
     }
-
-    /*n->b_O[0] = random();
-    n->b_O[1] = random();*/
-
 
     return n;
 }
@@ -140,9 +122,6 @@ void xor()
             net->hidden[h] = sigmoid(net->hidden[h]);
         }
 
-        //net->hidden[0] = sigmoid(net->w_IH[0] * net->input[0] + net->w_IH[1] * net->input[1] + net->b_H[0]);
-        //net->hidden[1] = sigmoid(net->w_IH[2] * net->input[0] + net->w_IH[3] * net->input[1] + net->b_H[1]);
-
         for(size_t o = 0; o < net->nbO; o++)
         {
             net->output[o] = net->b_O[o];
@@ -153,18 +132,12 @@ void xor()
             net->output[o] = sigmoid(net->output[o]);
         }
 
-        //net->output[0] = sigmoid(net->w_HO[0] * net->hidden[0] + net->w_HO[1] * net->hidden[1] + net->b_O[0]);
-        //net->output[1] = sigmoid(net->w_HO[2] * net->hidden[0] + net->w_HO[3] * net->hidden[1] + net->b_O[1]);
+	//BACKWARD PROPAGATION
 
-        //BACKWARD PROPAGATION
-        
         for(size_t o = 0; o < net->nbO; o++)
         {
             net->delta_O[o] = sigmoid_prime(net->output[o]) * (net->goal[o] - net->output[o]);
         }
-
-        //double delta_output_1 = sigmoid_prime(net->output[0]) * (net->goal[0] - net->output[0]);
-        //double delta_output_2 = sigmoid_prime(net->output[1]) * (net->goal[1] - net->output[1]);
 
         for(size_t h = 0; h < net->nbH; h++)
         {
@@ -175,9 +148,6 @@ void xor()
             }
             net->delta_H[h] *= sigmoid_prime(net->hidden[h]);
         }
-
-        //double delta_hidden_1 = sigmoid_prime(net->hidden[0]) * (/*delta_output_1*/net->delta_O[0] * net->w_HO[0] + /*delta_output_2*/net->delta_O[1] * net->w_HO[2]);
-        //double delta_hidden_2 = sigmoid_prime(net->hidden[1]) * (/*delta_output_1*/net->delta_O[0] * net->w_HO[1] + /*delta_output_2*/net->delta_O[1] * net->w_HO[3]);
 
         for(size_t o = 0; o < net->nbO; o++)
         {
@@ -197,23 +167,6 @@ void xor()
             }
         }
 
-        /*net->b_O[0] += net->eta * net->delta_O[0];//delta_output_1;
-        net->b_O[1] += net->eta * net->delta_O[1];//delta_output_2;
-        
-        net->b_H[0] += net->eta * net->delta_H[0];//delta_hidden_1;
-        net->b_H[1] += net->eta * net->delta_H[1];//delta_hidden_2;
-
-        net->w_HO[0] += net->eta * net->hidden[0] * net->delta_O[0];//delta_output_1;
-        net->w_HO[1] += net->eta * net->hidden[1] * net->delta_O[0];//delta_output_1;
-        net->w_HO[2] += net->eta * net->hidden[0] * net->delta_O[1];//delta_output_2;
-        net->w_HO[3] += net->eta * net->hidden[1] * net->delta_O[1];//delta_output_2;
-
-        net->w_IH[0] += net->eta * net->input[0] * net->delta_H[0];//delta_hidden_1;
-        net->w_IH[1] += net->eta * net->input[1] * net->delta_H[0];//delta_hidden_1;
-        net->w_IH[2] += net->eta * net->input[0] * net->delta_H[1];//delta_hidden_2;
-        net->w_IH[3] += net->eta * net->input[1] * net->delta_H[1];//delta_hidden_2;*/
-
-
         if(i >= epoch - 4)
         {
             int result;
@@ -231,7 +184,7 @@ void xor()
                 printf("%s", RED);
             printf("--> %i\n", result);
             printf("%s", DEFAULT);
-            printf("COST : %lf\n\n", cost(net));
+            printf("COST : %lf\n\n", cost_xor(net));
         }
     }
 }
