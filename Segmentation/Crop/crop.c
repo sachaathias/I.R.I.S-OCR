@@ -105,7 +105,7 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
 void add_space(SDL_Surface* image,char str[])
 {
     SDL_Surface *bb = SDL_CreateRGBSurface(0,
-            20,20,
+            28,28,
             image->format->BitsPerPixel,1, 1,1, 1);
     SDL_SaveBMP(bb,str);
     //printf("%s\n",str);
@@ -182,7 +182,7 @@ void crop_Letters(char* str_,int *count)
         {
             sprintf(str,"letter%d.bmp",*count);
             add_space(lines,str);
-            count++;
+            *count += 1;
             x++;
         }
         firstColumn = x;
@@ -195,7 +195,7 @@ void crop_Letters(char* str_,int *count)
         x++;
         if (x < width )
         {
-            *count+=1;
+            *count += 1;
             sprintf(str,"letter%d.bmp",*count);
             crop_picture4Letters(lines,
                     firstColumn +1 , // x

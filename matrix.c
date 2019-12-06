@@ -104,9 +104,13 @@ struct matrix * scale_down(struct matrix * m, int rows, int cols)
     }
   }
 
-  //printf("%d / %d\n", sum, count);
-  int average = sum / count;
-  //printf("%d\n", average);
+  int average;
+  if (count == 0)
+	  average = 0;
+  else
+	  average = sum / count;
+
+
 
   for (int i = 0; i < rows; i++)
   {
