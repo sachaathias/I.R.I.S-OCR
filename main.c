@@ -4,6 +4,7 @@
 #include <string.h>
 #include "Tests/tests_functions.h"
 #include "XOR/xor.h"
+#include "neural_network/main_nn.h"
 
 int main(int argc, char** argv)
 {
@@ -31,6 +32,10 @@ int main(int argc, char** argv)
 			if(strcmp(arg, "-xor") == 0)
 			{
 				xor();
+			}
+			else if(strcmp(arg, "-train") == 0)
+			{
+				train();
 			}
 			else if(strcmp(arg, "-img_trt") == 0)
 			{

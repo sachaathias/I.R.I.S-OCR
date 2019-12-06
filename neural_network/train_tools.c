@@ -34,18 +34,18 @@ void file_to_matrix(char* f, double *m)
 //train_data/[min-maj]/[$letter]/[$letter][0-3].txt
 char get_random_matrix(double* matrix)
 {
-    char* path = malloc(sizeof(char)*25);
+    char* path = malloc(sizeof(char)*38);
     char letter = (char)random_2(0, 51);
 
     if(letter >= 0 && letter <= 25)
     {
         letter = letter + 65;
-        sprintf(path, "train_data/maj/%c/%c%i.txt", letter, letter, (int)random_2(0, 3));
+        sprintf(path, "neural_network/train_data/maj/%c/%c%i.txt", letter, letter, (int)random_2(0, 3));
     }
     else
     {
         letter += 97 - 26;
-        sprintf(path, "train_data/min/%c/%c%i.txt", letter, letter, (int)random_2(0, 3));
+        sprintf(path, "neural_network/train_data/min/%c/%c%i.txt", letter, letter, (int)random_2(0, 3));
     }
     
     file_to_matrix(path, matrix);
