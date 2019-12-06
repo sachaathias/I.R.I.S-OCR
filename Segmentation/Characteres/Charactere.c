@@ -79,9 +79,9 @@ void split_band(SDL_Surface *image, int y)
 
 								x++;
 
-								if(space > 5)
+								if(space > 10)
 								{
-												if(space < 20)
+												if(space < 100)
 												{
 																// Space word : Green Column
 																add_column(image, x-2, y, 0x00FF00);
