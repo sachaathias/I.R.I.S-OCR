@@ -122,9 +122,9 @@ void display_image_test(char* file)
 					setElement(data , i, j, (double) 0);
 			}
 		}
-		printMatrix(data);
+		//printMatrix(data);
 		struct matrix *ResizeMoins = scale_down(data,28,28);
-		printMatrix(ResizeMoins);
+		//printMatrix(ResizeMoins);
 
 
 		// ENVOI AU RESEAU DE NEURONE

@@ -51,38 +51,6 @@ SDL_Surface* square_picture(SDL_Surface* image, int n)
     }
 }
 
-void crop_picture4Letters(SDL_Surface* image, int x, int y, int width, int height,char str[])
-{
-    // Create a virtual rectangle
-    SDL_Rect b ={x, y, width, height};
-    SDL_UnlockSurface(image);
-    // Create a new picture 
-    /*
-    if (GetSize(image))
-    { 
-        SDL_Surface *bb = SDL_CreateRGBSurface(0,
-                56,
-                56,
-                image->format->BitsPerPixel,0,0,0,0);
-        SDL_UnlockSurface(bb);
-        ToWhitePicture(bb);
-        SDL_BlitSurface(image,&b,bb,NULL);
-        SDL_Surface *scaled = rotozoomSurface(bb,0,2,1);
-        SDL_SaveBMP(scaled,str);
-    }
-    else
-    {*/
-        // Create a new picture
-        SDL_Surface *bb = SDL_CreateRGBSurface(0,
-                width,
-                height,
-                image->format->BitsPerPixel, 0, 0, 0, 0);
-        // Create a copy of our picture 
-        SDL_UnlockSurface(bb);
-        SDL_BlitSurface(image,&b,bb,NULL);
-        //reverseByte(bb);
-        SDL_SaveBMP(bb,str);
-}
 
 void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char str[])
 {
@@ -99,7 +67,24 @@ void crop_picture(SDL_Surface* image, int x, int y, int width, int height,char s
     SDL_BlitSurface(image,&b,bb,NULL);
     //reverseByte(bb);
     SDL_SaveBMP(bb,str);
-    printf("%s\n",str);
+
+}
+
+SDL_Surface* crop_pictureLetter(SDL_Surface* image, int x, int y, int width, int height)
+{
+    // Create a virtual rectangle
+    SDL_Rect b ={x, y, width, height};
+    SDL_UnlockSurface(image);
+    // Create a new picture
+    SDL_Surface *bb = SDL_CreateRGBSurface(0, 
+            width, 
+            height, 
+            image->format->BitsPerPixel, 0, 0, 0, 0);
+    // Create a copy of our picture 
+    SDL_UnlockSurface(bb);
+    SDL_BlitSurface(image,&b,bb,NULL);
+    //reverseByte(bb);
+    return bb;
 }
 
 void add_space(SDL_Surface* image,char str[])
@@ -142,19 +127,39 @@ int check_pixel(SDL_Surface *image,int x)
     int y = 0;
     int Bool = 1;
     Uint32 pixel = get_pixel(image,x,y);
-    //if the pixel is different of green or black
-    if(pixel != 0x0000FF && pixel !=0x00FF00)
+    //if the pixel is different of blue
+    if(pixel != 0x0000FF )
         Bool = 0;
     return Bool;
 }
+/*
+   int IsGreenPixel(SDL_Surface* image,int x,int y)
+   int width, int height, char str[]);
+   {
+   Uint32 pixel = get_pixel(image,x,y);
+   if(pixel != 0x00FF00)
+   return 0;
+   return 1;
+   }
+   */
 
-int IsGreenPixel(SDL_Surface* image,int x,int y)
-{
-    Uint32 pixel = get_pixel(image,x,y);
-    if(pixel != 0x00FF00)
-        return 0;
-    return 1;
+int IsWhitePicture(SDL_Surface *Picture) {
+
+    int IsWhite = 1;
+
+    for (int i = 0; i < Picture->h && IsWhite; i++) {
+        for (int j = 0; j < Picture->w && IsWhite; j++) {
+
+            Uint32 pixel = get_pixel(Picture,i,j);
+
+            if (pixel == 0x000000)
+                IsWhite = 0;
+        }
+    }
+
+    return IsWhite;
 }
+
 
 
 void crop_Letters(char* str_,int *count)
@@ -178,36 +183,36 @@ void crop_Letters(char* str_,int *count)
         {
             x ++;
         }
-        if (IsGreenPixel(lines,x,1))
-        {
-            sprintf(str,"letter%d.bmp",*count);
-            add_space(lines,str);
-            *count += 1;
-            x++;
-        }
         firstColumn = x;
         x++;
         while (x < width && !check_pixel(lines,x))
         {
             x++;
         }
+
         secondColumn = x;
         x++;
         if (x < width )
         {
-            *count += 1;
+            *count+=1;
             sprintf(str,"letter%d.bmp",*count);
-            crop_picture4Letters(lines,
+            SDL_Surface *Letter = crop_pictureLetter(lines,
                     firstColumn +1 , // x
                     1,           // y
                     secondColumn - firstColumn-1, // width
-                    height-1,       // height
-                    str);
+                    height-1);       // heigh
+
+            if(!IsWhitePicture(Letter))
+                SDL_SaveBMP(Letter,str);
+            else
+            {
+                *count -=1;
+                printf("WHITE\n");
+            }
+
         }
     }
 }
-
-
 
 
 
