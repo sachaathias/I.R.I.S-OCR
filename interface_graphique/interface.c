@@ -5,6 +5,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include "../Tests/tests_functions.h"
 
 GtkWidget *window_main;
 GtkWidget *btnShowImage;
@@ -16,6 +17,8 @@ GtkWidget *btnSelectFile;
 GtkWidget *textBox;
 GtkWidget *previewImage;
 GtkBuilder *builder;
+
+char* filename;
 
 int main(int argc, char *argv [])
 {
@@ -34,6 +37,8 @@ int main(int argc, char *argv [])
     btnSelectFile = GTK_WIDGET(gtk_builder_get_object(builder, "BT_CHOOSE"));
     btnShowImage = GTK_WIDGET(gtk_builder_get_object(builder, "BT_SHOW"));
 
+    g_object_unref(builder);
+
     gtk_widget_show(window_main);
 
     gtk_main();
@@ -41,21 +46,36 @@ int main(int argc, char *argv [])
     return EXIT_SUCCESS;
 }
 
-void on_btnShowImage_clicked(GtkButton *b)
+void on_BT_START_clicked(GtkButton *b)
 {
-}
-void on_start_clicked(GtkButton* b)
-{
+    display_image_test(filename);
 
 }
+void on_BT_TRAIN_clicked(GtkButton* b)
+{
 
-void on_segmentation_clicked(GtkButton* b)
+}
+
+void on_BT_SEGMENTATION_clicked(GtkButton* b)
 {
 
 
+}
+
+void on_BT_SHOW_clicked(GtkButton* b)
+{
+
+}
+
+void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
+{
+    filename =  gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(f));
+    printf("%s\n", filename);
+    printf("folder name = %s\n", gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(f));
 }
 
 void on_quit_clicked(GtkButton* b)
 {
     gtk_main_quit();
 }
+

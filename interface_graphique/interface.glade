@@ -24,6 +24,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="title" translatable="yes"/>
+            <signal name="file-set" handler="on_BT_CHOOSE_file_set" swapped="no"/>
           </object>
           <packing>
             <property name="x">77</property>
@@ -38,6 +39,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_BT_START_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="x">72</property>
@@ -52,6 +54,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_BT_SEGMENTATION_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="x">300</property>
@@ -66,6 +69,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_BT_TRAIN_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="x">300</property>
@@ -142,6 +146,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_BT_SHOW_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="x">300</property>
