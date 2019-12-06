@@ -8,7 +8,7 @@ neural_net* init_net()
     net->nb_output = NB_OUTPUT;
 
     net->cost = 0.0;
-    net->learning_rate = 0.5;
+    net->eta = 1;
 
     for(size_t i = 0; i < net->nb_input; i++)
     {
@@ -27,13 +27,13 @@ neural_net* init_net()
             net->delta_w_HO[o * net->nb_hidden + h] = 0.0;
         }
         net->b_H[h] = random(0, 0);
-        net->delta_b_H[h] = 0.0;
+        net->delta_H[h] = 0.0;
     }
 
     for(size_t o = 0; o < net->nb_output; o++)
     {
         net->b_O[o] = random(0, 0);
-        net->delta_b_O[o] = 0.0;
+        net->delta_O[o] = 0.0;
     }
 
     return net;
@@ -45,97 +45,106 @@ neural_net* init_net()
 
 char forward(neural_net *net, double *input, char expected)
 {
+    //Initialize input and goal (for training)
     copy_matrix(input, net->input, net->nb_input);
     make_goal_matrix(net->goal, net->nb_output, expected);
 
-    mul_matrix(net->input, net->w_IH, net->hidden, net->nb_input, net->nb_hidden);
-    add_matrix(net->b_H, net->hidden, net->nb_hidden);
-
+    //Propagation between input and hidden layer
     for(size_t h = 0; h < net->nb_hidden; h++)
     {
+        net->hidden[h] = net->b_H[h];
+        for (size_t i = 0; i < net->nb_input; i++)
+        {
+            net->hidden[h] += net->w_IH[h * net->nb_input + i] * net->input[i];
+        }
         net->hidden[h] = sigmoid(net->hidden[h]);
     }
 
-    mul_matrix(net->hidden, net->w_HO, net->output, net->nb_hidden, net->nb_output);
-    add_matrix(net->b_O, net->output, net->nb_output);
-
+    //Propagation between hidden and output layer
     for(size_t o = 0; o < net->nb_output; o++)
     {
+        net->output[o] = net->b_O[o];
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            net->output[o] += net->w_HO[o * net->nb_hidden + h] * net->hidden[h];
+        }
         net->output[o] = sigmoid(net->output[o]);
     }
 
+    //Calculate cost
     net->cost = cost(net->output, net->goal, net->nb_output);
 
     return get_result(net->output, net->nb_output);
 }
 
 //#############################################################################
-//######################## BACKWARD PROPAGATION ###############################
+//############################ BACK PROPAGATION ###############################
 //#############################################################################
 
-//Update all the weights
-void update_weights(neural_net *net)
-{
-    double eta = net->learning_rate;
-    for(size_t i = 0; i < net->nb_input; i++)
-    {
-        for(size_t h = 0; h < net->nb_hidden; h++)
-        {
-            net->w_IH[h * net->nb_input + i] -= eta * net->delta_w_IH[h * net->nb_input + i];
-        }
-    }
-
-    for(size_t h = 0; h < net->nb_hidden; h++)
-    {
-        for(size_t o = 0; o < net->nb_output; o++)
-        {
-            net->w_HO[o * net->nb_output + h] -= eta * net->delta_w_HO[o * net->nb_hidden + h];
-        }
-    }
-}
-
-//Update all the bias
-void update_bias(neural_net *net)
-{
-    double eta = net->learning_rate;
-    for(size_t h = 0; h < net->nb_hidden; h++)
-    {
-        net->b_H[h] -= eta * net->delta_b_H[h];
-    }
-
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        net->b_O[o] -= eta * net->delta_b_O[o];
-    }
-}
-
-//Backpropagation
 void backward(neural_net *net)
 {
+    //Calculate deltas for output layer
     for(size_t o = 0; o < net->nb_output; o++)
     {
-        net->delta_b_O[o] = (net->output[o] - net->goal[o]) * sigmoid_prime(net->output[o]);
+        net->delta_O[o] = sigmoid_prime(net->output[o]) * (net->goal[o] - net->output[o]);
     }
 
+    //Calculate deltas for hidden layer
     for(size_t h = 0; h < net->nb_hidden; h++)
     {
-        double sum = 0.0;
-        /*double *trp_w = malloc(sizeof(double) * net->nb_hidden * net->nb_output);
-        transpose_matrix(net->w_HO, net->nb_hidden, net->nb_output, trp_w);*/
+        net->delta_H[h] = 0.0;
         for(size_t o = 0; o < net->nb_output; o++)
         {
-            sum += net->delta_b_O[o] * net->w_HO[o * net->nb_hidden + h];
-
-            net->delta_w_HO[o * net->nb_hidden + h] = net->hidden[h] * net->delta_b_O[o];
+            net->delta_H[h] += net->delta_O[o] * net->w_HO[o * net->nb_hidden + h];
         }
-        net->delta_b_H[h] = sum * sigmoid_prime(net->hidden[h]);
+        net->delta_H[h] *= sigmoid_prime(net->hidden[h]);
+    }        
+}
+
+void update_weights_bias(neural_net* net)
+{
+    //Update weights and bias for output layer
+    for(size_t o = 0; o < net->nb_output; o++)
+    {
+        net->b_O[o] += net->eta * net->delta_O[o];
+        for(size_t h = 0; h < net->nb_hidden; h++)
+        {
+            double delta =  net->eta * net->hidden[h] * net->delta_O[o];
+            net->w_HO[o * net->nb_hidden + h] += delta + net->delta_w_HO[o * net->nb_hidden + h];
+            net->delta_w_HO[o * net->nb_hidden + h] = delta;
+        }
     }
 
-    for(size_t i = 0; i < net->nb_input; i++)
+    //Update weights and bias for hidden layer
+    for (size_t h = 0; h < net->nb_hidden; h++)
+    {
+        net->b_H[h] += net->eta * net->delta_H[h];
+        for (size_t i = 0; i < net->nb_input; i++)
+        {
+            double delta = net->eta * net->input[i] * net->delta_H[h];
+            net->w_IH[h * net->nb_input + i] += delta + net->delta_w_IH[h * net->nb_input + i];
+            net->delta_w_IH[h * net->nb_input + i] = delta;
+        }        
+    }
+}
+
+void reset_deltas(neural_net *net)
+{
+    for(size_t h = 0; h < net->nb_hidden; h++)
+    {
+        for (size_t i = 0; i < net->nb_input; i++)
+        {
+            net->delta_w_IH[h * net->nb_input + i ] = 0.0;
+        }
+        net->delta_H[h] = 0;
+    }
+
+    for(size_t o = 0; o < net->nb_output; o++)
     {
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->delta_w_IH[h * net->nb_hidden + i] = net->input[i] * net->delta_b_H[h];
+            net->delta_w_HO[o * net->nb_hidden + h] = 0.0;
         }
+        net->delta_O[o] = 0.0;
     }
 }

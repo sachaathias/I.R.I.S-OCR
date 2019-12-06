@@ -5,7 +5,7 @@
 #include "tools.h"
 
 #define NB_INPUT 28*28
-#define NB_HIDDEN 40
+#define NB_HIDDEN 30
 #define NB_OUTPUT 52
 
 typedef struct
@@ -24,16 +24,16 @@ typedef struct
     double b_H[NB_HIDDEN];
     double b_O[NB_OUTPUT];
 
+    double delta_H[NB_HIDDEN];
+    double delta_O[NB_OUTPUT];
+
     double delta_w_IH[NB_INPUT * NB_HIDDEN];
     double delta_w_HO[NB_HIDDEN * NB_OUTPUT];
-
-    double delta_b_H[NB_HIDDEN];
-    double delta_b_O[NB_OUTPUT];
 
     double goal[NB_OUTPUT];
 
     double cost;
-    double learning_rate;
+    double eta;
 } neural_net;
 
 neural_net* init_net();
@@ -41,9 +41,9 @@ neural_net* init_net();
 //FORWARD PROPAGATION
 char forward(neural_net *net, double *input, char expected);
 
-//BACKWARD PROPAGATION
-void update_weights(neural_net *net);
-void update_bias(neural_net *net);
+//BACK PROPAGATION
 void backward(neural_net *net);
+void update_weights_bias(neural_net* net);
+void reset_deltas(neural_net *net);
 
 #endif

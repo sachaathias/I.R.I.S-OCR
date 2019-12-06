@@ -5,6 +5,7 @@
 
 #define RED "\033[0;31m"
 #define GREEN "\033[0;32m"
+#define DEFAULT "\033[0;0m"
 
 int main()
 {
@@ -14,21 +15,32 @@ int main()
     double *matrix = malloc(sizeof(double)*28*28);
 
     load_weight_bias(net);
-    for(size_t epoch = 0; epoch < 1000000; epoch++)
+    for(size_t epoch = 0; epoch < 10000000000; epoch++)
     {
         char goal = get_random_matrix(matrix);
         char output = forward(net, matrix, goal);
 
-        if(goal == output)
-                printf("%s%c --> %c | COST : %f\n", GREEN, goal, output, net->cost);
-        else
-            printf("%s%c --> %c | COST : %f\n", RED, goal, output, net->cost);
+        if(epoch % 10000 == 0)
+        {
+            if(goal == output)
+            printf("%s%c --> %c | COST : %f\n", GREEN, goal, output, net->cost);
+            else
+                printf("%s%c --> %c | COST : %f\n", RED, goal, output, net->cost);
+            printf("%s", DEFAULT);
+        }   
 
         backward(net);
-        update_weights(net);
-        update_bias(net);
-    }
 
+        if(epoch % 100 == 0)
+        {
+            update_weights_bias(net);
+            reset_deltas(net);
+        }
+        if(epoch % 100000 == 0)
+            save_weight_bias(net);
+           
+    }
     save_weight_bias(net);
+
     return 0;
 }
