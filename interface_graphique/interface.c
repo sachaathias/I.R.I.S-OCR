@@ -5,6 +5,9 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <ctypes.c>
 #include "../Tests/tests_functions.h"
 #include "../XOR/xor.h"
 
@@ -24,7 +27,7 @@ char* filename;
 int UI(int argc, char *argv [])
 {
     gtk_init(&argc, &argv);
-    builder = gtk_builder_new_from_file("interface.glade");
+    builder = gtk_builder_new_from_file("../interface.glade");
     window_main = GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
 
     gtk_builder_connect_signals(builder, NULL);
@@ -64,6 +67,31 @@ void on_BT_XOR_clicked(GtkButton* b)
 
 void on_BT_SHOW_clicked(GtkButton* b)
 {
+    char cmd[2048];
+    FILE *f1;
+    int j, h, v, hor = 150, ver = 1;
+
+    if(preview)
+        gtk_container_remove(GTK_CONTAINER (fixed1), preview);//remove old image
+    
+    sprintf(cmd, "identify -format %%wx%%h \"%s\"\n", filename);
+
+    f1 = popen(cmd, "r");
+
+    strcpy(cmd, "");
+    fgets(cmd, 512, f1);
+    fclose(f1);
+
+    h = v = 1;
+
+    if(strlen(cmd))
+    {
+        for(j = 0; j<strlen(cmd)-1; j++) if (cmd[j] == 'x') break;
+        if(cmd[j] == 'x')
+        {
+
+        }
+    }
 
 }
 
