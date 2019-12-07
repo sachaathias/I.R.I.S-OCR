@@ -8,8 +8,8 @@
     <property name="title" translatable="yes">OCR IRIS</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
-    <property name="default_width">1440</property>
-    <property name="default_height">640</property>
+    <property name="default_width">1660</property>
+    <property name="default_height">720</property>
     <child>
       <placeholder/>
     </child>
@@ -35,7 +35,7 @@
           <object class="GtkButton" id="BT_START">
             <property name="label" translatable="yes">START</property>
             <property name="width_request">484</property>
-            <property name="height_request">73</property>
+            <property name="height_request">156</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
@@ -89,8 +89,8 @@
             <signal name="clicked" handler="on_quit_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">73</property>
-            <property name="y">474</property>
+            <property name="x">68</property>
+            <property name="y">594</property>
           </packing>
         </child>
         <child>
@@ -128,7 +128,7 @@
             <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Image choisie</property>
+            <property name="label" translatable="yes">Image display</property>
             <attributes>
               <attribute name="font-desc" value="Liberation Mono Bold 24"/>
             </attributes>
@@ -138,47 +138,32 @@
             <property name="y">8</property>
           </packing>
         </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkWindow" id="window_results">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="default_width">720</property>
-    <property name="default_height">480</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkFixed">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <child>
-          <object class="GtkLabel">
-            <property name="width_request">140</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">RESULTS</property>
-            <attributes>
-              <attribute name="font-desc" value="DejaVu Sans Mono 25"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="x">304</property>
-            <property name="y">3</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTextView" id="textview1">
-            <property name="width_request">720</property>
-            <property name="height_request">330</property>
+          <object class="GtkTextView" id="text1">
+            <property name="width_request">370</property>
+            <property name="height_request">450</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
           </object>
           <packing>
-            <property name="x">1</property>
-            <property name="y">72</property>
+            <property name="x">1150</property>
+            <property name="y">110</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">results</property>
+            <attributes>
+              <attribute name="font-desc" value="Liberation Sans Bold 32"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="x">1181</property>
+            <property name="y">10</property>
           </packing>
         </child>
       </object>
