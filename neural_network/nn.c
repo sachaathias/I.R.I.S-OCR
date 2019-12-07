@@ -19,7 +19,7 @@ neural_net* init_net()
     net->nb_output = NB_OUTPUT;
 
     net->cost = 0.0;
-    net->eta = 0.5;
+    net->eta = 0.3;
 
     for(size_t i = 0; i < net->nb_input; i++)
     {
