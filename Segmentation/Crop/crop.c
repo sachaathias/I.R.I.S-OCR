@@ -87,11 +87,20 @@ SDL_Surface* crop_pictureLetter(SDL_Surface* image, int x, int y, int width, int
     return bb;
 }
 
+void add_BlackSlach(char str[])
+{
+    SDL_Surface *bb = load_image("white.jpg");
+    set_pixel(bb,1,1,0xFF0000);
+    printf("Black");
+    SDL_SaveBMP(bb,str);
+}
+
+
 void add_space(char str[])
 {
-    SDL_Surface *bb = SDL_CreateRGBSurface(0,
-            24,24,
-            32,1, 1,1, 1);
+    SDL_Surface *bb = load_image("white.jpg"); 
+    set_pixel(bb,1,1,0x00FF00);
+    printf("space");
     SDL_SaveBMP(bb,str);
 }
 
@@ -118,6 +127,12 @@ void crop_Lines(SDL_Surface* image, int array[],int len, int *count)
         crop_picture( image, 0,Upper_line+1, Width, Height-1,str);
         i++;
         crop_Letters(str,count );
+
+       // *count++;
+        //char Name[1000];
+        //sprintf(Name,"letter%d.bmp",*count);
+        //add_BlackSlach(Name);
+        //*count++;
     }
 }
 
@@ -132,13 +147,13 @@ int check_pixel(SDL_Surface *image,int x)
     return Bool;
 }
 
-   int IsGreenPixel(SDL_Surface* image,int x,int y)
-   {
-            Uint32 pixel = get_pixel(image,x,y);
-            if(pixel != 0x00ff00)
-                    return 0;
-            return 1;
-   }
+int IsGreenPixel(SDL_Surface* image,int x,int y)
+{
+    Uint32 pixel = get_pixel(image,x,y);
+    if(pixel != 0x00ff00)
+        return 0;
+    return 1;
+}
 
 int IsWhitePicture(SDL_Surface *Picture) {
 
@@ -181,11 +196,11 @@ void crop_Letters(char* str_,int *count)
         }
 
         if (IsGreenPixel(lines,x,0))
-            {
-                *count+=1;
-                sprintf(str,"letter%d.bmp",*count);
-                add_space(str);
-            }
+        {
+            *count+=1;
+            sprintf(str,"letter%d.bmp",*count);
+            add_space(str);
+        }
 
         firstColumn = x;
         x++;
@@ -207,7 +222,7 @@ void crop_Letters(char* str_,int *count)
                     height-1);       // heigh
 
             //if(!IsWhitePicture(Letter))
-                SDL_SaveBMP(Letter,str);
+            SDL_SaveBMP(Letter,str);
         }
     }
 }

@@ -271,42 +271,61 @@ void Segmentation(char* file)
 
         sprintf(Name,"letter%d.bmp",c);
         letter = load_image(Name);
-        SDL_Surface* new = square_picture(letter,66);
-        //screen = display_image(new);
-        struct matrix *data = newMatrix(new->h,new->w);
-        for(int i = 0; i < new->h; i++)
+
+        // if it's a space
+        if (get_pixel(letter,1,1)==0x00FF00)
         {
-            for(int j = 0; j < new->w; j++)
-            {
-                Uint32 pixel = get_pixel(new,j,i);
-
-                if(pixel == 0x000000)
-                    setElement(data , i, j, (double) 1);
-                else
-                    setElement(data , i, j, (double) 0);
-            }
+            *(Result+k) =' ';
+            k++;
+            c++;
         }
-        struct matrix *ResizeMoins = scale_down(data,28,28);
+        // if it's a \n
+        else if (get_pixel(letter,1,1)==0x0000FF)
+        {
+            *(Result+k) ='\n';
+            k++;
+            c++;
+        }
+        else
+        {
+
+            SDL_Surface* new = square_picture(letter,66);
+            //screen = display_image(new);
+            struct matrix *data = newMatrix(new->h,new->w);
+            for(int i = 0; i < new->h; i++)
+            {
+                for(int j = 0; j < new->w; j++)
+                {
+                    Uint32 pixel = get_pixel(new,j,i);
+
+                    if(pixel == 0x000000)
+                        setElement(data , i, j, (double) 1);
+                    else
+                        setElement(data , i, j, (double) 0);
+                }
+            }
+            struct matrix *ResizeMoins = scale_down(data,28,28);
 
 
-        /*
-        // PRINT DANS UN FICHIER
-        sprintf(FileName,"letter%d.txt",Numero);
-        File =fopen(FileName,"w");
-        MatrixToFile(ResizeMoins,File);
-        fclose(File);
-        Numero ++;
-        */
+            /*
+            // PRINT DANS UN FICHIER
+            sprintf(FileName,"letter%d.txt",Numero);
+            File =fopen(FileName,"w");
+            MatrixToFile(ResizeMoins,File);
+            fclose(File);
+            Numero ++;
+            */
 
 
-        // ENVOI AU RESEAU DE NEURONE
-        char result = forward(net, ResizeMoins->data, 0);
-        *(Result+k) =result;
-        k++;
-        //printf("Char: %c\n", result);
-        //printf("letter %d/%d \n",c,nbr_of_letter);
-        c++;
-        free(data);
+            // ENVOI AU RESEAU DE NEURONE
+            char result = forward(net, ResizeMoins->data, 0);
+            *(Result+k) =result;
+            k++;
+            //printf("Char: %c\n", result);
+            //printf("letter %d/%d \n",c,nbr_of_letter);
+            c++;
+            free(data);
+        }
     }
     printf("%s\n",Result);
     //system("rm -rv *.bmp");
