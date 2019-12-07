@@ -8,8 +8,8 @@
 #include "../ImageTools/image_tools.h"
 #include "../sdl/sdl_functions.h"
 
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MIN2(a,b) (((a)<(b))?(a):(b))
+#define MAX2(a,b) (((a)>(b))?(a):(b))
 
 extern void to_grey(SDL_Surface *surface);
 extern void to_black_and_white(SDL_Surface *surface);

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "../Tests/tests_functions.h"
+#include "../XOR/xor.h"
 
 GtkWidget *window_main;
 GtkWidget *btnShowImage;
@@ -20,7 +21,7 @@ GtkBuilder *builder;
 
 char* filename;
 
-int main(int argc, char *argv [])
+int UI(int argc, char *argv [])
 {
     gtk_init(&argc, &argv);
     builder = gtk_builder_new_from_file("interface.glade");
@@ -56,10 +57,9 @@ void on_BT_TRAIN_clicked(GtkButton* b)
 
 }
 
-void on_BT_SEGMENTATION_clicked(GtkButton* b)
+void on_BT_XOR_clicked(GtkButton* b)
 {
-
-
+    xor();
 }
 
 void on_BT_SHOW_clicked(GtkButton* b)
@@ -71,7 +71,7 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
 {
     filename =  gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(f));
     printf("%s\n", filename);
-    printf("folder name = %s\n", gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(f));
+    printf("folder name = %s\n", gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(f)));
 }
 
 void on_quit_clicked(GtkButton* b)

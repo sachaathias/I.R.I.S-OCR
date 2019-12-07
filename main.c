@@ -5,6 +5,7 @@
 #include "Tests/tests_functions.h"
 #include "XOR/xor.h"
 #include "neural_network/main_nn.h"
+#include "interface_graphique/interface.h"
 
 
 void help()
@@ -41,7 +42,7 @@ int main(int argc, char** argv)
             }
             else if (strcmp(arg,"--start")==0)
             {
-                //Call GUI
+                UI(argc, argv);
             }
             else if(strcmp(arg, "--XOR") == 0)
             {

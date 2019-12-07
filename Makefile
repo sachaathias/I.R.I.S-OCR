@@ -2,8 +2,9 @@
 CC = gcc -g
 
 
-CFLAGS = -Wall -Wextra -Werror -std=c99 -g -I/usr/include/SDL#-fsanitize=address
-LDLIBS =-lSDL -lSDL_image -lm -lSDL_gfx #`pkg config--libs gtk+-3.0`
+CFLAGS = `pkg-config --cflags gtk+-3.0` -Wall -Wextra -std=c99 -g -I/usr/include/SDL
+LDLIBS =`pkg-config --libs gtk+-3.0`  -lSDL -lSDL_image -lm -lSDL_gfx
+LDFLAGS = $(PTRHREAD) $(GTKLIB) -export-dynamic
 
 SRC = main.c \
       ImageOperations/binarise.c \
@@ -22,6 +23,7 @@ SRC = main.c \
 	  neural_network/tools.c\
 	  neural_network/train_tools.c\
 	  neural_network/main_nn.c\
+	  interface_graphique/interface.c\
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
