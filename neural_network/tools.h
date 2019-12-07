@@ -12,13 +12,13 @@ double sigmoid(double x);
 double sigmoid_prime(double x);
 
 //COST FUNCTION
-double cost(double* output, double *goal, size_t len);
+double cost(double output[], double goal[], size_t len);
 
 //MATRICE AND TOOLS FUNCTIONS
-void copy_matrix(double* src, double* dst, size_t len);
+void copy_matrix(double src[], double dst[], size_t len);
 
 //GOAL AND RESULT FUNCTIONS
-void make_goal_matrix(double* goal, size_t len, char c);
-char get_result(double* output, size_t len);
+void make_goal_matrix(double goal[], size_t len, char c);
+char get_result(double output[], size_t len);
 
 #endif

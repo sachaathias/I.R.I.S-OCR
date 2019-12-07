@@ -1,5 +1,16 @@
 #include "nn.h"
 
+#include <stdio.h>
+
+void print_matrix(double m1D[], size_t rows)
+{
+    for(size_t i = 0; i < rows; i++)
+    {
+        printf("%lf\n", m1D[i]);
+    }
+}
+
+
 neural_net* init_net()
 {
     neural_net *net = malloc(sizeof(neural_net));
@@ -14,8 +25,8 @@ neural_net* init_net()
     {
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->w_IH[h * net->nb_input + i] = random();
-            net->delta_w_IH[h * net->nb_input + i] = 0.0;
+            net->w_IH[i][h] = random();
+            net->delta_w_IH[i][h] = 0.0;
         }
     }
 
@@ -23,8 +34,8 @@ neural_net* init_net()
     {
         for(size_t o = 0; o < net->nb_output; o++)
         {
-            net->w_HO[o * net->nb_hidden + h] = random();
-            net->delta_w_HO[o * net->nb_hidden + h] = 0.0;
+            net->w_HO[h][o] = random();
+            net->delta_w_HO[h][o] = 0.0;
         }
         net->b_H[h] = random();
         net->delta_H[h] = 0.0;
@@ -57,7 +68,7 @@ char forward(neural_net *net, double *input, char expected)
         net->hidden[h] = net->b_H[h];
         for (size_t i = 0; i < net->nb_input; i++)
         {
-            net->hidden[h] += net->w_IH[h * net->nb_input + i] * net->input[i];
+            net->hidden[h] += net->w_IH[i][h] * net->input[i];
         }
         net->hidden[h] = sigmoid(net->hidden[h]);
     }
@@ -68,7 +79,7 @@ char forward(neural_net *net, double *input, char expected)
         net->output[o] = net->b_O[o];
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
-            net->output[o] += net->w_HO[o * net->nb_hidden + h] * net->hidden[h];
+            net->output[o] += net->w_HO[h][o] * net->hidden[h];
         }
         net->output[o] = sigmoid(net->output[o]);
     }
@@ -77,7 +88,7 @@ char forward(neural_net *net, double *input, char expected)
     if(expected != 0)
     	net->cost = cost(net->output, net->goal, net->nb_output);
     else
-	net->cost = 0;
+	    net->cost = 0;
 
     return get_result(net->output, net->nb_output);
 }
@@ -100,7 +111,7 @@ void backward(neural_net *net)
         net->delta_H[h] = 0.0;
         for(size_t o = 0; o < net->nb_output; o++)
         {
-            net->delta_H[h] += net->delta_O[o] * net->w_HO[o * net->nb_hidden + h];
+            net->delta_H[h] += net->delta_O[o] * net->w_HO[h][o];
         }
         net->delta_H[h] *= sigmoid_prime(net->hidden[h]);
     }
@@ -115,8 +126,8 @@ void update_weights_bias(neural_net* net)
         for(size_t h = 0; h < net->nb_hidden; h++)
         {
             double delta =  net->eta * net->hidden[h] * net->delta_O[o];
-            net->w_HO[o * net->nb_hidden + h] += delta + net->delta_w_HO[o * net->nb_hidden + h];
-            net->delta_w_HO[o * net->nb_hidden + h] = delta;
+            net->w_HO[h][o] += delta + net->delta_w_HO[h][o];
+            net->delta_w_HO[h][o] = delta;
         }
     }
 
@@ -127,30 +138,8 @@ void update_weights_bias(neural_net* net)
         for (size_t i = 0; i < net->nb_input; i++)
         {
             double delta = net->eta * net->input[i] * net->delta_H[h];
-            net->w_IH[h * net->nb_input + i] += delta + net->delta_w_IH[h * net->nb_input + i];
-            net->delta_w_IH[h * net->nb_input + i] = delta;
+            net->w_IH[i][h] += delta + net->delta_w_IH[i][h];
+            net->delta_w_IH[i][h] = delta;
         }        
     }
 }
-
-void reset_deltas(neural_net *net)
-{
-    for(size_t h = 0; h < net->nb_hidden; h++)
-    {
-        for (size_t i = 0; i < net->nb_input; i++)
-        {
-            net->delta_w_IH[h * net->nb_input + i ] = 0.0;
-        }
-        net->delta_H[h] = 0;
-    }
-
-    for(size_t o = 0; o < net->nb_output; o++)
-    {
-        for(size_t h = 0; h < net->nb_hidden; h++)
-        {
-            net->delta_w_HO[o * net->nb_hidden + h] = 0.0;
-        }
-        net->delta_O[o] = 0.0;
-    }
-}
-

@@ -19,7 +19,7 @@ void file_to_matrix(char* f, double *m)
         {
             for (int j = 0; j < WIDTH; j++)
             {
-                *(m + (j + i * WIDTH)) = (double)fgetc(file);
+                m[j + i * WIDTH] = (double)fgetc(file)-48;
             }
             fgetc(file);
         }

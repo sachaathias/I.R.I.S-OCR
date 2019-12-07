@@ -16,21 +16,14 @@ void train()
         if(epoch % 10000 == 0)
         {
             if(goal == output)
-            printf("%s%c --> %c | COST : %f\n", GREEN, goal, output, net->cost);
+                printf("%s%c --> %c | COST : %f%s\n", GREEN, goal, output, net->cost, DEFAULT);
             else
-                printf("%s%c --> %c | COST : %f\n", RED, goal, output, net->cost);
+                printf("%s%c --> %c | COST : %f%s\n", RED, goal, output, net->cost, DEFAULT);
             printf("%s", DEFAULT);
         }
 
         backward(net);
-
-        if(epoch % 100 == 0)
-        {
-            update_weights_bias(net);
-            reset_deltas(net);
-        }
-        if(epoch % 100000 == 0)
-            save_weight_bias(net);
+        update_weights_bias(net);
     }
     save_weight_bias(net);
 }

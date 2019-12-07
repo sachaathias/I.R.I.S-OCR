@@ -22,7 +22,7 @@ void load_weight_bias(neural_net* net)
             for(size_t h = 0; h < net->nb_hidden; h++)
             {
                 fgets(str, MAX_SIZE_LINE, file);
-                net->w_IH[h * net->nb_input + i] = atof(str);
+                net->w_IH[i][h] = atof(str);
             }
         }
 
@@ -32,7 +32,7 @@ void load_weight_bias(neural_net* net)
             for(size_t o = 0; o < net->nb_output; o++)
             {
                 fgets(str, MAX_SIZE_LINE, file);
-                net->w_HO[o * net->nb_hidden + h] = atof(str);
+                net->w_HO[h][o] = atof(str);
             }
         }
 
@@ -73,7 +73,7 @@ void save_weight_bias(neural_net* net)
         {
             for(size_t h = 0; h < net->nb_hidden; h++)
             {
-                fprintf(file, "%f\n", net->w_IH[h * net->nb_input + i]);
+                fprintf(file, "%f\n", net->w_IH[i][h]);
             }
         }
 
@@ -82,7 +82,7 @@ void save_weight_bias(neural_net* net)
         {
             for(size_t o = 0; o < net->nb_output; o++)
             {
-                fprintf(file, "%f\n", net->w_HO[o * net->nb_hidden + h]);
+                fprintf(file, "%f\n", net->w_HO[h][o]);
             }
         }
 

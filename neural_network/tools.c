@@ -2,7 +2,7 @@
 
 inline double random()
 {
-	return (double)rand()/(double)RAND_MAX;
+    return ((double)rand()) / ((double)RAND_MAX / 2) - 1;
 }
 
 //#############################################################################
@@ -23,7 +23,7 @@ inline double sigmoid_prime(double x)
 //######################### COST FUNCTION #####################################
 //#############################################################################
 
-double cost(double* output, double *goal, size_t len)
+double cost(double output[], double goal[], size_t len)
 {
     double cost = 0.0;
 
@@ -40,7 +40,7 @@ double cost(double* output, double *goal, size_t len)
 //#############################################################################
 
 //Copy src arrray into dst array
-void copy_matrix(double* src, double* dst, size_t len)
+void copy_matrix(double src[], double dst[], size_t len)
 {
     for(size_t i = 0; i < len; i++)
     {
@@ -53,19 +53,19 @@ void copy_matrix(double* src, double* dst, size_t len)
 //#############################################################################
 
 //Create a goal matrix corresponding to the expected output
-void make_goal_matrix(double* goal, size_t len, char c)
+void make_goal_matrix(double goal[], size_t len, char c)
 {
     for(size_t i = 0; i < len; i++)
         goal[i] = 0.0;
 
     if(c >= 'A' && c <= 'Z')
-        goal[c - 65] = 1;
+        goal[c - 65] = 1.0;
     else
-        goal[c - 97 + 26] = 1;
+        goal[c - 97 + 26] = 1.0;
 }
 
 //Return the char which correspond to the output
-char get_result(double* output, size_t len)
+char get_result(double output[], size_t len)
 {
     int max = 0;
     double max_value = 0.0;
