@@ -14,6 +14,7 @@ void help()
 #              Here is some commands :                           #\n");
     printf("#       %s--help%s  To picture commands                              #\n",GREEN,DEFAULT);
     printf("#       %s--XOR%s  To show the neural network for the XOR function   # \n",GREEN,DEFAULT);
+    printf("#       %s--Train%s To Train the neural network                      #\n",GREEN,DEFAULT);
     printf("#       %s--img_trt <image_path>%s To run                            #\n\
 #              binarisation and segmentation                     #\n",GREEN,DEFAULT);
     printf("#       %s--start%s  Launch GUI                                      #\n",GREEN,DEFAULT);
