@@ -5,7 +5,7 @@
 #include "Tests/tests_functions.h"
 #include "XOR/xor.h"
 #include "neural_network/main_nn.h"
-#include "interface_graphique/interface.h"
+#include "interface.h"
 
 
 void help()

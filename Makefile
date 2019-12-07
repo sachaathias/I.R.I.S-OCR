@@ -23,7 +23,7 @@ SRC = main.c \
 	  neural_network/tools.c\
 	  neural_network/train_tools.c\
 	  neural_network/main_nn.c\
-	  interface_graphique/interface.c\
+	  interface.c\
 
 OBJ = $(SRC:.c=.o)
 DEP = $(SRC:.c=.d)
