@@ -8,7 +8,7 @@ void train()
     double *matrix = malloc(sizeof(double)*28*28);
 
     load_weight_bias(net);
-    for(size_t epoch = 0; epoch < 1000000; epoch++)
+    for(size_t epoch = 0; epoch < 500000; epoch++)
     {
         char goal = get_random_matrix(matrix);
         char output = forward(net, matrix, goal);
@@ -20,7 +20,7 @@ void train()
             else
                 printf("%s%c --> %c | COST : %f%s\n", RED, goal, output, net->cost, DEFAULT);
             printf("%s", DEFAULT);
-            save_weight_bias(net);
+            //save_weight_bias(net);
         }
 
         backward(net);
