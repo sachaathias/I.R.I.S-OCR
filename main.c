@@ -64,7 +64,7 @@ int main(int argc, char** argv)
             }
             else
             {
-                printf("Unknown argument \"%s\" use --help to show commands", arg);
+                printf("Unknown argument \"%s\" use --help to show commands\n", arg);
             }
         }
         return 0;
