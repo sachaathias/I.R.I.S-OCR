@@ -13,7 +13,7 @@ void train()
         char goal = get_random_matrix(matrix);
         char output = forward(net, matrix, goal);
 
-        if(epoch % 10000 == 0)
+        if(epoch % 1 == 0)
         {
             if(goal == output)
                 printf("%s%c --> %c | COST : %f%s\n", GREEN, goal, output, net->cost, DEFAULT);
