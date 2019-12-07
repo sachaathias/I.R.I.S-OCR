@@ -21,7 +21,6 @@
 #include "../neural_network/nn.h"
 
 
-//void save_BMP_test(char* file);
-void display_image_test(char* file);
+char* display_image_test(char* file);
 
 #endif

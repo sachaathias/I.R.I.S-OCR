@@ -23,6 +23,7 @@ int setElement(struct matrix * mtx, int row, int col, double val);
 int getElement(struct matrix * mtx, int row, int col, double * val);
 int nRows(struct matrix * mtx, int * n);
 int nCols(struct matrix * mtx, int * n);
+void MatrixToFile(struct matrix * mtx,FILE* file);
 int printMatrix(struct matrix * mtx);
 int transpose(struct matrix * in, struct matrix * out);
 int sum(struct matrix * mtx1,struct  matrix * mtx2, struct matrix * sum);

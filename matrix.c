@@ -257,6 +257,22 @@ int nCols(struct matrix * mtx, int * n) {
 /* Prints the matrix to stdout.  Returns 0 if successful 
  * and -1 if mtx is NULL.
  */
+void MatrixToFile(struct matrix * mtx,FILE* file) {
+  if (!mtx) return;
+  int row, col;
+  for (row = 1; row <= mtx->rows; row++) {
+    for (col = 1; col <= mtx->cols; col++) {
+      // Print the floating-point element with
+      //  - either a - if negative or a space if positive
+      //  - at least 3 spaces before the .
+      //  - precision to the hundredths place
+      fprintf(file,"%d", (int)ELEM(mtx, row, col));
+    }
+    // separate rows by newlines
+    fprintf(file,"\n");
+  }
+}
+
 int printMatrix(struct matrix * mtx) {
   if (!mtx) return -1;
   
@@ -267,7 +283,7 @@ int printMatrix(struct matrix * mtx) {
       //  - either a - if negative or a space if positive
       //  - at least 3 spaces before the .
       //  - precision to the hundredths place
-      printf("%d ", (int)ELEM(mtx, row, col));
+      printf("%d", (int)ELEM(mtx, row, col));
     }
     // separate rows by newlines
     printf("\n");

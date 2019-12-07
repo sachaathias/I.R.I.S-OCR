@@ -125,11 +125,11 @@ void crop_Lines(SDL_Surface* image, int array[],int len, int *count)
 int check_pixel(SDL_Surface *image,int x)
 {
     int y = 0;
-    int Bool = 1;
+    int Bool = 0;
     Uint32 pixel = get_pixel(image,x,y);
     //if the pixel is different of blue
-    if(pixel != 0x0000FF )
-        Bool = 0;
+    if(pixel == 0xFF0000 )
+        Bool = 1;
     return Bool;
 }
 /*
@@ -179,7 +179,7 @@ void crop_Letters(char* str_,int *count)
     while( x < width )
     {
 
-        while(x < width && !check_pixel(lines,x))
+        while(x < width && check_pixel(lines,x))
         {
             x ++;
         }

@@ -36,5 +36,5 @@ main: $(OBJ)
 
 clean:
 	rm -f $(OBJ) $(DEP) main
-	rm -f *.bmp
+	rm -f *.bmp letter*.txt
 

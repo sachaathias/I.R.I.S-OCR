@@ -90,7 +90,7 @@ void square(SDL_Surface *image, int tableau[])
 		x_left++;
 	}
 
-	Add_column(image, x_left);
+	Add_column(image, x_left-2);
 
 	// Right edge
 	x_right = width - 1;
@@ -99,7 +99,7 @@ void square(SDL_Surface *image, int tableau[])
 		x_right--;
 	}
 
-	Add_column(image, x_right);
+	Add_column(image, x_right+4);
 
 	// Top edge
 	y_top = 0;
@@ -108,7 +108,7 @@ void square(SDL_Surface *image, int tableau[])
 		y_top++;
 	}
 
-	Add_line(image, x_left, y_top-2);
+	Add_line(image, x_left-2, y_top-2);
 
 	// Top edge
 	y_bottom = height - 1;
@@ -117,11 +117,11 @@ void square(SDL_Surface *image, int tableau[])
 		y_bottom--;
 	}
 
-	Add_line(image, x_left, y_bottom+2);
+	Add_line(image, x_left-2, y_bottom+2);
 
 	// Add the 4 corners's coordonates in the table
-	tableau[0] = x_left;
-	tableau[1] = x_right;
+	tableau[0] = x_left-2;
+	tableau[1] = x_right+4;
 	tableau[2] = y_top-2;
 	tableau[3] = y_bottom+2;
 }
