@@ -41,7 +41,7 @@ int UI(int argc, char *argv [])
 
 void on_BT_START_clicked(GtkButton *b)
 {
-    display_image_test(filename);
+    Segmentation_GUI(filename);
 
 }
 void on_BT_TRAIN_clicked(GtkButton* b)

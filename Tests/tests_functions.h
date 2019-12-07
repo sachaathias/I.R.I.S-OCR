@@ -21,6 +21,7 @@
 #include "../neural_network/nn.h"
 
 
-char* display_image_test(char* file);
+char* Segmentation_GUI(char* file);
+void  Segmentation(char* file);
 
 #endif

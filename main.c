@@ -42,6 +42,13 @@ int main(int argc, char** argv)
             }
             else if (strcmp(arg,"--start")==0)
             {
+                printf("#-----------------------------#\n");
+                printf("|                             |\n");
+                printf("|                             |\n");
+                printf("|Welcome to I.R.I.S's OCR V0.2|\n");
+                printf("|                             |\n");
+                printf("|                             |\n");
+                printf("#-----------------------------#\n");
                 UI(argc, argv);
             }
             else if(strcmp(arg, "--XOR") == 0)
@@ -60,7 +67,7 @@ int main(int argc, char** argv)
                 {
                     char* file = argv[i+1];
                     i++;
-                    display_image_test(file);
+                    Segmentation(file);
                 }
             }
             else

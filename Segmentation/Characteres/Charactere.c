@@ -80,7 +80,7 @@ void split_band(SDL_Surface *image, int y)
 
 								x++;
 
-								if(space > 10)
+								if(space > 15)
 								{
 												if(space < 100)
 												{
