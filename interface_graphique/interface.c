@@ -1,15 +1,4 @@
-#include <gtk/gtk.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <gtk/gtkx.h>
-#include <math.h>
-#include <string.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <ctypes.c>
-#include "../Tests/tests_functions.h"
-#include "../XOR/xor.h"
+#include "interface.h"
 
 GtkWidget *window_main;
 GtkWidget *btnShowImage;
