@@ -328,7 +328,7 @@ void Segmentation(char* file)
     FILE* File =NULL;
     char *FileName  = malloc(6*sizeof(char));
     //int  Numero = 0;
-    char carac = 'A';
+    char carac = '0';
 
     char *Result=malloc(nbr_of_letter*sizeof(char));
     int k =0;
