@@ -114,7 +114,7 @@ char* Segmentation_GUI(char* file)
 
 
     // -----  Picture To Matrix -------
-    while(c <= nbr_of_letter)
+    /*while(c <= nbr_of_letter)
     { 
 
         sprintf(Name,"letter%d.bmp",c);
@@ -136,14 +136,14 @@ char* Segmentation_GUI(char* file)
         struct matrix *ResizeMoins = scale_down(data,28,28);
 
 
-        /*
+        
         // PRINT DANS UN FICHIER
         sprintf(FileName,"letter%d.txt",Numero);
         File =fopen(FileName,"w");
         MatrixToFile(ResizeMoins,File);
         fclose(File);
         Numero ++;
-        */
+        
 
 
         // ENVOI AU RESEAU DE NEURONE
@@ -153,7 +153,70 @@ char* Segmentation_GUI(char* file)
         k++;
         c++;
         free(data);
+    }*/
+
+    while(c <= nbr_of_letter)
+    { 
+
+        sprintf(Name,"letter%d.bmp",c);
+        letter = load_image(Name);
+
+        // if it's a space
+        if (letter->h == 10 && letter->w == 10)
+        {
+            *(Result+k) ='\n';
+            k++;
+            c++;
+        }
+        // if it's a \n
+        else if (get_pixel(letter,1,1)==0x00FF00)
+        {
+            *(Result+k) =' ';
+            k++;
+            c++;
+        }
+        else
+        {
+
+            SDL_Surface* new = square_picture(letter,66);
+            //screen = display_image(new);
+            struct matrix *data = newMatrix(new->h,new->w);
+            for(int i = 0; i < new->h; i++)
+            {
+                for(int j = 0; j < new->w; j++)
+                {
+                    Uint32 pixel = get_pixel(new,j,i);
+
+                    if(pixel == 0x000000)
+                        setElement(data , i, j, (double) 1);
+                    else
+                        setElement(data , i, j, (double) 0);
+                }
+            }
+            struct matrix *ResizeMoins = scale_down(data,28,28);
+
+
+            /*
+            // PRINT DANS UN FICHIER
+            sprintf(FileName,"letter%d.txt",Numero);
+            File =fopen(FileName,"w");
+            MatrixToFile(ResizeMoins,File);
+            fclose(File);
+            Numero ++;
+            */
+
+
+            // ENVOI AU RESEAU DE NEURONE
+            char result = forward(net, ResizeMoins->data, 0);
+            *(Result+k) =result;
+            k++;
+            //printf("Char: %c\n", result);
+            //printf("letter %d/%d \n",c,nbr_of_letter);
+            c++;
+            free(data);
+        }
     }
+
     return Result;
 }
 
