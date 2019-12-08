@@ -97,7 +97,7 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
     printf("folder name = %s\n", gtk_file_chooser_get_current_folder (GTK_FILE_CHOOSER(f)));
     char cmd[2048];
     FILE *f1;
-    int j, h, v, hor = 150, ver = 1;
+    int j, h, v;//, hor = 150, ver = 1;
 
     if(previewImage)
         gtk_container_remove(GTK_CONTAINER (fixed_stk0), previewImage);//remove old image
@@ -114,7 +114,7 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
 
     if(strlen(cmd))
     {
-        for(j = 0; j<strlen(cmd)-1; j++) if (cmd[j] == 'x') break;
+        for(j = 0; j < (int)strlen(cmd)-1; j++) if (cmd[j] == 'x') break;
         if(cmd[j] == 'x')
         {
             cmd[j] = 0;
@@ -145,7 +145,7 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
 
     if(strlen(cmd))
     {
-        for(j = 0; j<strlen(cmd)-1; j++) if (cmd[j] == 'x') break;
+        for(j = 0; j < (int)strlen(cmd)-1; j++) if (cmd[j] == 'x') break;
         if(cmd[j] == 'x')
         {
             cmd[j] = 0;

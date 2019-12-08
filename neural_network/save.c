@@ -15,7 +15,7 @@ void load_weight_bias(neural_net* net)
     {
         
         printf("---LOAD---\n");
-        char str[MAX_SIZE_LINE] = "";
+        //char str[MAX_SIZE_LINE] = "";
         //WEIGHT_INPUT_HIDDEN
         for(size_t i = 0; i < net->nb_input; i++)
         {
