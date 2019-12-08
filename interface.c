@@ -136,6 +136,8 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
 
 void on_quit_clicked(GtkButton* b)
 {
+    system("rm -rv *.bmp");
     gtk_main_quit();
 }
+
 
