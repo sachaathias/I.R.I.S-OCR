@@ -19,7 +19,7 @@ void file_to_matrix(char* f, double *m)
         {
             for (int j = 0; j < WIDTH; j++)
             {
-                m[j + i * WIDTH] = (double)fgetc(file)-48;
+                m[i + j * WIDTH] = (double)fgetc(file)-48;
             }
             fgetc(file);
         }
@@ -35,7 +35,7 @@ void file_to_matrix(char* f, double *m)
 char get_random_matrix(double* matrix)
 {
     char* path = malloc(sizeof(char)*38);
-    char letter = (char)random_2(0, 51);
+    char letter = (char)random_2(26, 51);
 
     if(letter >= 0 && letter <= 25)
     {
@@ -45,7 +45,7 @@ char get_random_matrix(double* matrix)
     else
     {
         letter += 97 - 26;
-        sprintf(path, "neural_network/train_data/min/%c/%c%i.txt", letter, letter, (int)random_2(0, 6));
+        sprintf(path, "neural_network/train_data/min/%c/%c.txt", letter, letter);
     }
     
     file_to_matrix(path, matrix);

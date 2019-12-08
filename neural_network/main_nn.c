@@ -2,17 +2,20 @@
 
 void train()
 {
+    double win = 0;
     srand(time(NULL));
     neural_net *net = init_net();
 
     double *matrix = malloc(sizeof(double)*28*28);
 
     load_weight_bias(net);
-    for(size_t epoch = 0; epoch < 50000; epoch++)
+    for(size_t epoch = 0; epoch < 10000; epoch++)
     {
         char goal = get_random_matrix(matrix);
         char output = forward(net, matrix, goal);
-
+    
+        if(goal == output)
+            win++;
         if(epoch % 1000 == 0)
         {
             if(goal == output)
@@ -26,7 +29,8 @@ void train()
         backward(net);
         update_weights_bias(net);
     }
-
+    double lolz = win*100/10000;
+    printf("%lf \% \n", lolz);
     save_weight_bias(net);
 }
 

@@ -4,10 +4,15 @@
 
 void print_matrix(double m1D[], size_t rows)
 {
-    for(size_t i = 0; i < rows; i++)
+    for(size_t i = 0; i < 28; i++)
     {
-        printf("%lf\n", m1D[i]);
+        for(size_t j = 0; j < 28; j++)
+        {
+            printf("%d", (int)m1D[j * 28 + i]);
+        }
+        printf("\n");
     }
+    printf("\n");
 }
 
 
@@ -58,6 +63,9 @@ char forward(neural_net *net, double *input, char expected)
 {
     //Initialize input and goal (for training)
     copy_matrix(input, net->input, net->nb_input);
+
+    //print_matrix(input, net->nb_input);
+    //print_matrix(net->input, net->nb_input);
 
     if(expected != 0)
     	make_goal_matrix(net->goal, net->nb_output, expected);
