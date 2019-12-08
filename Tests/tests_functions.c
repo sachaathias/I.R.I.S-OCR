@@ -273,16 +273,16 @@ void Segmentation(char* file)
         letter = load_image(Name);
 
         // if it's a space
-        if (get_pixel(letter,1,1)==0x00FF00)
+        if (letter->h == 10 && letter->w == 10)
         {
-            *(Result+k) =' ';
+            *(Result+k) ='\n';
             k++;
             c++;
         }
         // if it's a \n
-        else if (get_pixel(letter,1,1)==0x0000FF)
+        else if (get_pixel(letter,1,1)==0x00FF00)
         {
-            *(Result+k) ='\n';
+            *(Result+k) =' ';
             k++;
             c++;
         }

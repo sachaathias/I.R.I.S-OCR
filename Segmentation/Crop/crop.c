@@ -89,9 +89,8 @@ SDL_Surface* crop_pictureLetter(SDL_Surface* image, int x, int y, int width, int
 
 void add_BlackSlach(char str[])
 {
-    SDL_Surface *bb = load_image("white.jpg");
-    set_pixel(bb,1,1,0xFF0000);
-    printf("Black");
+    SDL_Surface *bb = load_image("BlackSlash.jpg");
+    printf("BlackDick");
     SDL_SaveBMP(bb,str);
 }
 
@@ -100,7 +99,6 @@ void add_space(char str[])
 {
     SDL_Surface *bb = load_image("white.jpg"); 
     set_pixel(bb,1,1,0x00FF00);
-    printf("space");
     SDL_SaveBMP(bb,str);
 }
 
@@ -128,10 +126,10 @@ void crop_Lines(SDL_Surface* image, int array[],int len, int *count)
         i++;
         crop_Letters(str,count );
 
-       // *count++;
-        //char Name[1000];
-        //sprintf(Name,"letter%d.bmp",*count);
-        //add_BlackSlach(Name);
+       *count+=1;
+        char Name[100];
+        sprintf(Name,"letter%d.bmp",*count);
+        add_BlackSlach(Name);
         //*count++;
     }
 }
