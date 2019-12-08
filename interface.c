@@ -181,6 +181,9 @@ void on_save_clicked(GtkButton *b)
 
     text =  gtk_text_buffer_get_text(GTK_TEXT_BUFFER(TextBuffer), &begin, &end, TRUE);
     printf("-------\n%s\n--------\n", text);
+    FILE *file = fopen("results.txt", "w");
+    fprintf(file, "%s", text);
+    fclose(file);
     gtk_widget_hide(save);
 }
 void on_changed_text(GtkTextBuffer *t)
