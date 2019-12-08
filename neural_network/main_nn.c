@@ -26,6 +26,7 @@ void train()
         backward(net);
         update_weights_bias(net);
     }
+
     save_weight_bias(net);
 }
 

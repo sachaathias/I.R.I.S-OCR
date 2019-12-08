@@ -24,6 +24,7 @@ void load_weight_bias(neural_net* net)
                 //fgets(str, MAX_SIZE_LINE, file);
                 //net->w_IH[i][h] = atof(str);
 		fscanf(file, "%lf\n", &net->w_IH[i][h]);
+		//printf("%lf\n", net->w_IH[i][h]);
             }
         }
 
@@ -35,6 +36,8 @@ void load_weight_bias(neural_net* net)
                 //fgets(str, MAX_SIZE_LINE, file);
                 //net->w_HO[h][o] = atof(str);
 		fscanf(file, "%lf\n", &net->w_HO[h][o]);
+		//printf("%lf\n", net->w_HO[h][o]);
+
             }
         }
 
@@ -44,6 +47,8 @@ void load_weight_bias(neural_net* net)
             //fgets(str, MAX_SIZE_LINE, file);
             //net->b_H[h] = atof(str);
 	    fscanf(file, "%lf\n", &net->b_H[h]);
+	    //printf("%lf\n", net->b_H[h]);
+
         }
 
         //BIAS_OUTPUT
@@ -52,6 +57,8 @@ void load_weight_bias(neural_net* net)
             //fgets(str, MAX_SIZE_LINE, file);
             //net->b_O[o] = atof(str);
 	    fscanf(file, "%lf\n", &net->b_O[o]);
+	    //printf("%lf\n", net->b_O[o]);
+
         }
 
         fclose(file);
