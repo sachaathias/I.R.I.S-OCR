@@ -21,8 +21,8 @@ GtkWidget *save;
 char* filename = NULL;
 char* c = NULL;
 
-void on_save_clicked(GtkButton *b);
-void on_changed_text(GtkTextBuffer *t);
+void on_save_clicked();
+void on_changed_text();
 
 
 int UI(int argc, char *argv [])
@@ -69,7 +69,7 @@ int UI(int argc, char *argv [])
     return EXIT_SUCCESS;
 }
 
-void on_BT_START_clicked(GtkButton *b)
+void on_BT_START_clicked()
 {
     if(filename){
         c = Segmentation_GUI(filename);
@@ -79,12 +79,12 @@ void on_BT_START_clicked(GtkButton *b)
 
 
 }
-void on_BT_TRAIN_clicked(GtkButton* b)
+void on_BT_TRAIN_clicked()
 {
     train();
 }
 
-void on_BT_XOR_clicked(GtkButton* b)
+void on_BT_XOR_clicked()
 {
     xor();
 }
@@ -165,14 +165,15 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
     system("rm tmp.jpg");
 }
 
-void on_quit_clicked(GtkButton* b)
+void on_quit_clicked()
 {
     system("rm -rv *.bmp");
     gtk_main_quit();
 }
 
-void on_save_clicked(GtkButton *b)
+void on_save_clicked()
 {
+
     GtkTextIter begin, end;
     gchar *text;
 
@@ -186,7 +187,7 @@ void on_save_clicked(GtkButton *b)
     fclose(file);
     gtk_widget_hide(save);
 }
-void on_changed_text(GtkTextBuffer *t)
+void on_changed_text()
 {
     printf("*** text changed\n");
     gtk_widget_show(save);

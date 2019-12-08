@@ -30,7 +30,7 @@ void train()
         update_weights_bias(net);
     }
     double lolz = win*100/10000;
-    printf("%lf \% \n", lolz);
+    printf("%lf %% \n", lolz);
     save_weight_bias(net);
 }
 

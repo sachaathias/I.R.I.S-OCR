@@ -325,10 +325,10 @@ void Segmentation(char* file)
     SDL_Surface* letter;
     char Name[1000];
 
-    FILE* File =NULL;
-    char *FileName  = malloc(6*sizeof(char));
+    //FILE* File =NULL;
+    //char *FileName  = malloc(6*sizeof(char));
     //int  Numero = 0;
-    char carac = 'a';
+    //char carac = 'a';
 
     char *Result=malloc(nbr_of_letter*sizeof(char));
     int k =0;
