@@ -2,6 +2,7 @@
 
 char* Segmentation_GUI(char* file)
 {
+    system("rm -rv *.bmp");
     init_sdl();
 
     /////////////////////////////////////////////////////////////////////
@@ -12,16 +13,16 @@ char* Segmentation_GUI(char* file)
 
     // Load Picture
     SDL_Surface* surface = load_image(file);
-    SDL_Surface *screen = display_image(surface);
-    wait_for_keypressed();
+    //SDL_Surface *screen = display_image(surface);
+    //wait_for_keypressed();
 
     // ToGray Picture
     to_grey(surface);
-    update_surface(screen, surface);
+    //update_surface(screen, surface);
     //to_black_and_white(surface);
     Otsu(surface);
-    update_surface(screen, surface);
-    wait_for_keypressed();
+    //update_surface(screen, surface);
+    //wait_for_keypressed();
 
     /////////////////////////////////////////////////////////////////////
     //                                                                 //
@@ -40,9 +41,8 @@ char* Segmentation_GUI(char* file)
 
     // Make a square around the block text
     square(surface, corner) ;
-    update_surface(screen, surface);
-    wait_for_keypressed();
-    SDL_FreeSurface(screen);
+    //update_surface(screen, surface);
+    //wait_for_keypressed();
 
     int Upper_X = corner[0]+1;
     int Upper_Y = corner[2]+1;
@@ -54,7 +54,7 @@ char* Segmentation_GUI(char* file)
             Upper_Y,
             Width,
             Height,"first_cut.bmp");
-    update_surface(screen, surface);
+    //update_surface(screen, surface);
 
     SDL_Surface* image = load_image("first_cut.bmp");
 
@@ -76,13 +76,13 @@ char* Segmentation_GUI(char* file)
                 lenght ++;
     }
 
-    update_surface(screen, image);
+    //update_surface(screen, image);
     SDL_SaveBMP(image,"eachlines.bmp");
-    wait_for_keypressed();
+    //wait_for_keypressed();
 
     // Split Words and Characteres
     split_all_band(image, tableau);
-    update_surface(screen, image);
+    //update_surface(screen, image);
     SDL_SaveBMP(image,"eachCharacteres.bmp");
 
     // Variable count how many letter there are inside the picture
@@ -91,7 +91,7 @@ char* Segmentation_GUI(char* file)
 
     // ---Save each letter -----
     crop_Lines(image, tableau, lenght, p);
-    wait_for_keypressed();
+    //wait_for_keypressed();
 
 
     // ------ Picture To Matrix --------
@@ -107,15 +107,19 @@ char* Segmentation_GUI(char* file)
 
     char *Result=malloc(nbr_of_letter*sizeof(char));
     int k =0;
+
+
     // ----- Initialization net -------
     neural_net *net = init_net_train();
+
+
+    // -----  Picture To Matrix -------
     while(c <= nbr_of_letter)
     { 
 
         sprintf(Name,"letter%d.bmp",c);
         letter = load_image(Name);
         SDL_Surface* new = square_picture(letter,66);
-        //screen = display_image(new);
         struct matrix *data = newMatrix(new->h,new->w);
         for(int i = 0; i < new->h; i++)
         {
@@ -144,21 +148,20 @@ char* Segmentation_GUI(char* file)
 
         // ENVOI AU RESEAU DE NEURONE
         char result = forward(net, ResizeMoins->data, 0);
+
         *(Result+k) =result;
         k++;
-        //printf("Char: %c\n", result);
-        //printf("letter %d/%d \n",c,nbr_of_letter);
         c++;
         free(data);
     }
-    printf("%s\n",Result);
-    system("rm -rv *.bmp");
     return Result;
 }
 
 
 void Segmentation(char* file)
 {
+
+    system("rm -rv *.bmp");
     init_sdl();
 
     /////////////////////////////////////////////////////////////////////
@@ -174,6 +177,7 @@ void Segmentation(char* file)
 
     // ToGray Picture
     to_grey(surface);
+    //system("rm -rv *.bmp");
     update_surface(screen, surface);
     //to_black_and_white(surface);
     Otsu(surface);
@@ -328,5 +332,4 @@ void Segmentation(char* file)
         }
     }
     printf("%s\n",Result);
-    //system("rm -rv *.bmp");
 }
