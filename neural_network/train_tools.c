@@ -35,17 +35,22 @@ void file_to_matrix(char* f, double *m)
 char get_random_matrix(double* matrix)
 {
     char* path = malloc(sizeof(char)*38);
-    char letter = (char)random_2(26, 51);
+    char letter = (char)random_2(0, 61);
 
-    if(letter >= 0 && letter <= 25)
+    if(letter >= 0 && letter <= 9)
     {
-        letter = letter + 65;
-        sprintf(path, "neural_network/train_data/maj/%c/%c%i.txt", letter, letter, (int)random_2(0, 7));
+	letter += 48;
+	sprinf(path, "neural_network/train_data/nbr/%c/%c%i.txt", letter, letter, 0)
+    }
+    else if(letter >= 10 && letter <= 35)
+    {
+        letter += 65 - 10;
+        sprintf(path, "neural_network/train_data/maj/%c/%c%i.txt", letter, letter, 0);
     }
     else
     {
-        letter += 97 - 26;
-        sprintf(path, "neural_network/train_data/min/%c/%c.txt", letter, letter);
+        letter += 97 - 36;
+        sprintf(path, "neural_network/train_data/min/%c/%c.txt", letter, letter, 0);
     }
     
     file_to_matrix(path, matrix);

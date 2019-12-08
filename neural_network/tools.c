@@ -58,10 +58,18 @@ void make_goal_matrix(double goal[], size_t len, char c)
     for(size_t i = 0; i < len; i++)
         goal[i] = 0.0;
 
-    if(c >= 'A' && c <= 'Z')
+    /*if(c >= 'A' && c <= 'Z')
         goal[c - 65] = 1.0;
-    else
+    else if(c >= 'a' && c <= 'z')
         goal[c - 97 + 26] = 1.0;
+    else if(c >= '0' && c <= '9')
+	goal[c] = 1.0;*/
+    if(c >= '0' && c <= '9')
+	goal[c - 48] = 1.0;
+    else if(c >= 'A' && c <= 'Z')
+	goal[c - 65 + 10] = 1.0;
+    else/* if(c >= 'a' && c <= 'z')*/
+	goal[c - 97 + 36] = 1.0;
 }
 
 //Return the char which correspond to the output
@@ -79,8 +87,14 @@ char get_result(double output[], size_t len)
         }
     }
 
-    if(max >= 0 && max <= 25)
+    /*if(max >= 0 && max <= 25)
         return (char)(max + 65);
     else
-        return (char)(max + 97 - 26);
+        return (char)(max + 97 - 26);*/
+    if(max >= 0 && max <= 9)
+	return (char)(max + 48);
+    else if(max >= 10 && max <= 35)
+	return (char)(max + 65 - 10);
+    else/* if(max >= 36 && max <= 61)*/
+	return (char)(max + 97 - 36);
 }
