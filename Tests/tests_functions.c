@@ -221,7 +221,7 @@ void Segmentation(char* file)
 
     // Split lines
     split_eachline(image, tableau);
-    // The Boucle count how many lines are inside tableau
+    // The Loop count how many lines are inside tableau
     int lenght = 0;
     size_t range =10;
     for (size_t i = 0; i < len ; i++)

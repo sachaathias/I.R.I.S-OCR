@@ -1,7 +1,6 @@
 #include "interface.h"
 
 GtkWidget *window_main;
-GtkWidget *btnShowImage;
 GtkWidget *btnSegmentation;
 GtkWidget *btnTrain;
 GtkWidget *btnStart;
@@ -9,10 +8,22 @@ GtkWidget *btnQuit;
 GtkWidget *btnSelectFile;
 GtkWidget *textBox;
 GtkWidget *previewImage;
+GtkWidget *logo;
+GtkWidget *scrol;
 GtkWidget *fixed1;
+GtkWidget *fixed_stk0;
+GtkWidget *fixed_stk1;
 GtkBuilder *builder;
+GtkTextBuffer *TextBuffer;
+GtkWidget *viewport;
+GtkWidget *save;
 
 char* filename = NULL;
+char* c = NULL;
+
+void on_save_clicked(GtkButton *b);
+void on_changed_text(GtkTextBuffer *t);
+
 
 int UI(int argc, char *argv [])
 {
@@ -29,10 +40,27 @@ int UI(int argc, char *argv [])
     textBox = GTK_WIDGET(gtk_builder_get_object(builder, "textview1"));
     previewImage = GTK_WIDGET(gtk_builder_get_object(builder, "preview"));
     btnSelectFile = GTK_WIDGET(gtk_builder_get_object(builder, "BT_CHOOSE"));
-    btnShowImage = GTK_WIDGET(gtk_builder_get_object(builder, "BT_SHOW"));
     fixed1 = GTK_WIDGET(gtk_builder_get_object(builder, "fixed1"));
+    fixed_stk0 = GTK_WIDGET(gtk_builder_get_object(builder, "fixed_stk0"));
+    fixed_stk1 = GTK_WIDGET(gtk_builder_get_object(builder, "fixed_stk1"));
+    logo = GTK_WIDGET(gtk_builder_get_object(builder, "logo"));
+    viewport = GTK_WIDGET(gtk_builder_get_object(builder, "viewport"));
+    scrol = GTK_WIDGET(gtk_builder_get_object(builder, "scrol"));
+    save = GTK_WIDGET(gtk_builder_get_object(builder, "save"));
+
+    TextBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textBox));
+
+    g_signal_connect(TextBuffer, "changed", G_CALLBACK(on_changed_text), NULL);
+
+    gtk_widget_hide(save);
 
     g_object_unref(builder);
+
+    /*GdkColor color;
+    color.red = 0xcccc;
+    color.green = 0xcccc;
+    color.blue = 0xd900;
+    gtk_widget_override_background_color(GTK_WIDGET(window_main), GTK_STATE_NORMAL, &color);*/
 
     gtk_widget_show(window_main);
 
@@ -43,8 +71,13 @@ int UI(int argc, char *argv [])
 
 void on_BT_START_clicked(GtkButton *b)
 {
-    if(filename)
-        Segmentation_GUI(filename);
+    if(filename){
+        c = Segmentation_GUI(filename);
+        gtk_text_buffer_set_text(TextBuffer, (const gchar *) c, (gint) -1);
+    }
+
+
+
 }
 void on_BT_TRAIN_clicked(GtkButton* b)
 {
@@ -67,7 +100,7 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
     int j, h, v, hor = 150, ver = 1;
 
     if(previewImage)
-        gtk_container_remove(GTK_CONTAINER (fixed1), previewImage);//remove old image
+        gtk_container_remove(GTK_CONTAINER (fixed_stk0), previewImage);//remove old image
 
     sprintf(cmd, "identify -format %%wx%%h \"%s\"\n", filename);
 
@@ -88,8 +121,6 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
             sscanf(cmd, "%d", &h);
             sscanf(&cmd[j + 1], "%d", &v);
         }
-
-
     }
 
     if(h < 100 || v < 100)
@@ -126,10 +157,10 @@ void on_BT_CHOOSE_file_set(GtkFileChooserButton *f)
 
     previewImage = gtk_image_new_from_file("tmp.jpg");
 
-    gtk_container_add(GTK_CONTAINER(fixed1), previewImage);
+    gtk_container_add(GTK_CONTAINER(fixed_stk0), previewImage);
     gtk_widget_show(previewImage);
 
-    gtk_fixed_move(GTK_FIXED(fixed1), previewImage, 617, 81);
+    gtk_fixed_move(GTK_FIXED(fixed_stk0), previewImage, 0, 0);
 
     system("rm tmp.jpg");
 }
@@ -140,4 +171,21 @@ void on_quit_clicked(GtkButton* b)
     gtk_main_quit();
 }
 
+void on_save_clicked(GtkButton *b)
+{
+    GtkTextIter begin, end;
+    gchar *text;
+
+    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer), &begin, (gint) 0);
+    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(TextBuffer), &end, (gint) -1);
+
+    text =  gtk_text_buffer_get_text(GTK_TEXT_BUFFER(TextBuffer), &begin, &end, TRUE);
+    printf("-------\n%s\n--------\n", text);
+    gtk_widget_hide(save);
+}
+void on_changed_text(GtkTextBuffer *t)
+{
+    printf("*** text changed\n");
+    gtk_widget_show(save);
+}
 

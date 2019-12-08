@@ -8,7 +8,7 @@
     <property name="title" translatable="yes">OCR IRIS</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
-    <property name="default_width">1660</property>
+    <property name="default_width">960</property>
     <property name="default_height">720</property>
     <child>
       <placeholder/>
@@ -19,67 +19,64 @@
         <property name="can_focus">False</property>
         <child>
           <object class="GtkFileChooserButton" id="BT_CHOOSE">
-            <property name="width_request">175</property>
-            <property name="height_request">102</property>
+            <property name="width_request">257</property>
+            <property name="height_request">44</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="title" translatable="yes"/>
             <signal name="file-set" handler="on_BT_CHOOSE_file_set" swapped="no"/>
           </object>
           <packing>
-            <property name="x">77</property>
-            <property name="y">126</property>
+            <property name="x">42</property>
+            <property name="y">236</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="BT_START">
             <property name="label" translatable="yes">START</property>
-            <property name="width_request">484</property>
-            <property name="height_request">156</property>
+            <property name="width_request">102</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <signal name="clicked" handler="on_BT_START_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">72</property>
-            <property name="y">321</property>
+            <property name="x">42</property>
+            <property name="y">300</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="BT_XOR">
             <property name="label" translatable="yes">XOR</property>
-            <property name="width_request">256</property>
-            <property name="height_request">35</property>
+            <property name="width_request">95</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <signal name="clicked" handler="on_BT_XOR_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">300</property>
-            <property name="y">128</property>
+            <property name="x">42</property>
+            <property name="y">188</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="BT_TRAIN">
             <property name="label" translatable="yes">TRAIN NETWORK</property>
-            <property name="width_request">256</property>
-            <property name="height_request">35</property>
+            <property name="width_request">153</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <signal name="clicked" handler="on_BT_TRAIN_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">300</property>
-            <property name="y">164</property>
+            <property name="x">148</property>
+            <property name="y">188</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="BT_QUIT">
             <property name="label">gtk-quit</property>
-            <property name="width_request">485</property>
+            <property name="width_request">140</property>
             <property name="height_request">34</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -89,8 +86,8 @@
             <signal name="clicked" handler="on_quit_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">68</property>
-            <property name="y">594</property>
+            <property name="x">88</property>
+            <property name="y">373</property>
           </packing>
         </child>
         <child>
@@ -99,71 +96,113 @@
             <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">OCR I.R.I.S</property>
+            <property name="label" translatable="yes">OCR </property>
             <attributes>
-              <attribute name="font-desc" value="DejaVu Sans Mono 28"/>
+              <attribute name="font-desc" value="URW Gothic Semi-Bold 28"/>
             </attributes>
           </object>
           <packing>
-            <property name="x">188</property>
-            <property name="y">20</property>
+            <property name="x">202</property>
+            <property name="y">39</property>
           </packing>
         </child>
         <child>
-          <object class="GtkImage" id="preview">
-            <property name="width_request">448</property>
-            <property name="height_request">530</property>
+          <object class="GtkStack" id="stk1">
+            <property name="width_request">430</property>
+            <property name="height_request">490</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="stock">gtk-missing-image</property>
+            <child>
+              <object class="GtkFixed" id="fixed_stk0">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkImage" id="preview">
+                    <property name="width_request">448</property>
+                    <property name="height_request">530</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="stock">gtk-missing-image</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page0</property>
+                <property name="title" translatable="yes">Image preview</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="scrol">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkViewport" id="viewport">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkTextView" id="textview1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="wrap_mode">word</property>
+                        <property name="left_margin">5</property>
+                        <property name="right_margin">5</property>
+                        <property name="indent">10</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page1</property>
+                <property name="title" translatable="yes">Results</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
-            <property name="x">617</property>
-            <property name="y">81</property>
+            <property name="x">460</property>
+            <property name="y">83</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLabel">
-            <property name="width_request">247</property>
-            <property name="height_request">80</property>
+          <object class="GtkStackSwitcher" id="sw1">
+            <property name="width_request">252</property>
+            <property name="height_request">34</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Image display</property>
-            <attributes>
-              <attribute name="font-desc" value="Liberation Mono Bold 24"/>
-            </attributes>
+            <property name="stack">stk1</property>
           </object>
           <packing>
-            <property name="x">714</property>
-            <property name="y">8</property>
+            <property name="x">460</property>
+            <property name="y">48</property>
           </packing>
         </child>
         <child>
-          <object class="GtkTextView" id="text1">
-            <property name="width_request">370</property>
-            <property name="height_request">450</property>
+          <object class="GtkImage" id="logo">
+            <property name="width_request">190</property>
+            <property name="height_request">190</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixbuf">Images/logo1iris.png</property>
+          </object>
+          <packing>
+            <property name="x">35</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="save">
+            <property name="label" translatable="yes">SAVE</property>
+            <property name="width_request">116</property>
+            <property name="height_request">34</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_save_clicked" swapped="no"/>
           </object>
           <packing>
-            <property name="x">1150</property>
-            <property name="y">110</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="width_request">100</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">results</property>
-            <attributes>
-              <attribute name="font-desc" value="Liberation Sans Bold 32"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="x">1181</property>
-            <property name="y">10</property>
+            <property name="x">171</property>
+            <property name="y">300</property>
           </packing>
         </child>
       </object>
