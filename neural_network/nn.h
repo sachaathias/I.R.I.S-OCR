@@ -5,7 +5,7 @@
 #include "tools.h"
 
 #define NB_INPUT 28*28
-#define NB_HIDDEN 100
+#define NB_HIDDEN 200
 #define NB_OUTPUT 62
 
 typedef struct
