@@ -6,3 +6,4 @@ To run our project:
 		--img_trt <image_path> (to run binarisation and segmentation)
 		--Train (to train the neural network)
 		--start (to launch GUI)
+		--help (to show commands)
