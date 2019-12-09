@@ -16,7 +16,7 @@ void train()
     
         if(goal == output)
             win++;
-        if(epoch % 1000 == 0)
+        if(epoch % 100 == 0)
         {
             if(goal == output)
                 printf("%s%zu | %c --> %c | COST : %f%s\n", GREEN, epoch, goal, output, net->cost, DEFAULT);

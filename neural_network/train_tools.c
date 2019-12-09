@@ -40,17 +40,17 @@ char get_random_matrix(double* matrix)
     if(letter >= 0 && letter <= 9)
     {
 	letter += 48;
-	sprintf(path, "neural_network/train_data/nbr/%c/%c%i.txt", letter, letter, (int)random_2(0,0));
+	sprintf(path, "neural_network/train_data/nbr/%c/%c%i.txt", letter, letter, (int)random_2(0,3));
     }
     else if(letter >= 10 && letter <= 35)
     {
         letter += 65 - 10;
-        sprintf(path, "neural_network/train_data/maj/%c/%c%i.txt", letter, letter, (int)random_2(0, 0));
+        sprintf(path, "neural_network/train_data/maj/%c/%c%i.txt", letter, letter, (int)random_2(0, 3));
     }
     else
     {
         letter += 97 - 36;
-        sprintf(path, "neural_network/train_data/min/%c/%c%i.txt", letter, letter, (int)random_2(0, 0));
+        sprintf(path, "neural_network/train_data/min/%c/%c%i.txt", letter, letter, (int)random_2(0, 3));
     }
     file_to_matrix(path, matrix);
     
